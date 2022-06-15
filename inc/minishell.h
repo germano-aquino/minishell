@@ -1,0 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
+/*   Updated: 2022/06/15 02:21:36 by grenato-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHEL_H
+# define MINISHELL_H
+
+# include "libft.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+# define TOKENS "<>|&$\"\'*"
+# define FORBIDDEN_CHARS "\\;"
+
+typedef enum e_token
+{
+	Word,
+	File,
+	Dolar,
+	Pipe,
+	Double_Pipe,
+	Great,
+	Double_Great,
+	Less,
+	Double_Less,
+	Ampersand,
+	Double_Ampersand,
+	Great_Ampersand,
+	Less_Ampersand,
+	Double_Great_Ampersand,
+	Quote,
+	Double_Quote,
+	Wildcard
+}	t_token;
+
+typedef struct s_node
+{
+	char			*data;
+	t_token			tok;
+	struct s_node	*next;
+}	t_node;
+
+typedef struct s_command_table
+{
+	char	**args;
+}	t_command_table;
+
+
+typedef struct s_minishell
+{
+	t_command_table	cmd;
+	int				fd[3];
+	t_node			files[3];
+	t_node			*input;
+}	t_minishell;
+
+int	ft_is_chr_in_str(const char *str, char ch);
+int	buff_to_input(t_minishell *data, const char *str, t_token tok);
+void	tokenizer(t_minishell *data, char *buff);
+void	display_input(t_node *input);
+void	free_input(t_node **begin);
+
+#endif
