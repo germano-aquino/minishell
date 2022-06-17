@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 01:37:34 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/17 17:42:00 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_is_chr_in_str(const char *str, char ch)
+void	ft_free_2d_char_ptr(char ***ptr)
 {
-	int	i;
+	char	**temp;
+	int		i;
 
+	temp = *ptr;
 	i = 0;
-	while (str[i] != '\0')
+	while (*temp != NULL)
 	{
-		if (str[i] == ch)
-			break ;
+		free(*temp);
+		*temp = NULL;
 		i++;
+		temp = (*ptr + i);
 	}
-	if (str[i] != '\0')
-		return (1);
-	return (0);
+	free(*ptr);
+	*ptr = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 02:45:32 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:03:03 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	add_input(t_node **begin, t_node *new)
 void	display_input(t_node *input)
 {
 	int	i;
-	char const*	tokens[] = {"Word", "File", "Dolar", "Pipe", "Double_Pipe", "Great", "Double_Great", "Less", "Double_Less", "Ampersand", "Double_Ampersand", "Great_Ampersand", "Less_Ampersand", "Double_Great_Ampersand", "Quote", "Double_Quote", "Wildcard"};
+	char const	*tokens[] = {"Word", "File", "Dolar", "Pipe", "Double_Pipe", "Great", "Double_Great", "Less", "Double_Less", "Ampersand", "Double_Ampersand", "Great_Ampersand", "Less_Ampersand", "Double_Great_Ampersand", "Quote", "Double_Quote", "Wildcard"};
 
 	i = -1;
 	if (input == NULL)

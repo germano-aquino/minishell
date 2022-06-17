@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
+#    By: germano <germano@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/06/15 01:55:49 by grenato-         ###   ########.fr        #
+#    Updated: 2022/06/17 17:40:49 by germano          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ HEADERS = -I/usr/include -I$(INCLUDE) -I$(LIBFT_DIR) -I$(INCLUDE_BONUS)
 OBJ_DIR = obj
 B_OBJ_DIR = obj_bonus
 
-SOURCE_FILES = main.c tokenizer.c input.c
+SOURCE_FILES = main.c tokenizer.c input.c trie.c utils.c
 
 C_SOURCE = $(addprefix $(SRC_DIR)/, $(SOURCE_FILES))
 

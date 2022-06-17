@@ -6,7 +6,7 @@
 /*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 23:24:18 by germano          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:22:31 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	handle_token(t_minishell *data, char *buff, int *i)
 		*i += buff_to_input(data, "&", Ampersand);
 	else if (!ft_strncmp(buff + *i, "*", 1))
 		*i += buff_to_input(data, "*", Wildcard);
-	else if (ft_is_chr_in_str("\"\'", buff[*i]))
-		handle_quotes(data, buff, i);
 }
 
 void	handle_word(t_minishell *data, char *buff, int *i)
@@ -104,6 +102,8 @@ void	tokenizer(t_minishell *data, char *buff)
 		}
 		else if (ft_is_chr_in_str(TOKENS, buff[i]))
 			handle_token(data, buff, &i);
+		else if (ft_is_chr_in_str(QUOTES, buff[i]))
+			handle_quotes(data, buff, &i);
 		else
 			handle_word(data, buff, &i);
 	}
