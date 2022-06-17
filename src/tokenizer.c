@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 03:22:51 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/15 23:24:18 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	handle_quotes(t_minishell *data, char *buff, int *i)
 		(*i)++;
 		while (buff[*i] != '\'')
 			(*i)++;
+		(*i)++;
 		str = ft_substr(begin, 0, (size_t)(buff + *i - begin));
 		buff_to_input(data, str, Quote);
 		free(str);
@@ -32,6 +33,7 @@ void	handle_quotes(t_minishell *data, char *buff, int *i)
 		(*i)++;
 		while (buff[*i] != '\"')
 			(*i)++;
+		(*i)++;
 		str = ft_substr(begin, 0, (size_t)(buff + *i - begin));
 		buff_to_input(data, str, Double_Quote);
 		free(str);
