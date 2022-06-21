@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 03:22:51 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/21 20:55:30 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,10 @@ void	handle_quotes(t_minishell *data, char *buff, int *i)
 
 void	handle_token(t_minishell *data, char *buff, int *i)
 {
-	if (!ft_strncmp(buff + *i, ">>&", 3))
-		*i += buff_to_input(data, ">>&", Double_Great_Ampersand);
-	else if (!ft_strncmp(buff + *i, ">>", 2))
+	if (!ft_strncmp(buff + *i, ">>", 2))
 		*i += buff_to_input(data, ">>", Double_Great);
 	else if (!ft_strncmp(buff + *i, "<<", 2))
 		*i += buff_to_input(data, "<<", Double_Less);
-	else if (!ft_strncmp(buff + *i, ">&", 2))
-		*i += buff_to_input(data, ">&", Great_Ampersand);
-	else if (!ft_strncmp(buff + *i, "<&", 2))
-		*i += buff_to_input(data, "<&", Less_Ampersand);
 	else if (!ft_strncmp(buff + *i, "&&", 2))
 		*i += buff_to_input(data, "&&", Double_Ampersand);
 	else if (!ft_strncmp(buff + *i, "||", 2))

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 02:21:36 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/21 20:56:49 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef enum e_token
 {
 	Word,
 	File,
-	Dolar,
+	Dollar,
 	Pipe,
 	Double_Pipe,
 	Great,
@@ -34,9 +34,6 @@ typedef enum e_token
 	Double_Less,
 	Ampersand,
 	Double_Ampersand,
-	Great_Ampersand,
-	Less_Ampersand,
-	Double_Great_Ampersand,
 	Quote,
 	Double_Quote,
 	Wildcard
@@ -58,8 +55,8 @@ typedef struct s_command_table
 typedef struct s_minishell
 {
 	t_command_table	cmd;
-	int				fd[3];
-	t_node			files[3];
+	int				fd[2];
+	t_node			files[2];
 	t_node			*input;
 }	t_minishell;
 
