@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/21 20:56:49 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/23 21:37:09 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 # define TOKENS "<>|&$\"\'*"
 # define FORBIDDEN_CHARS "\\;"
+
+# define HASH_TABLE_SIZE 1031
 
 typedef enum e_token
 {
@@ -39,6 +41,18 @@ typedef enum e_token
 	Wildcard
 }	t_token;
 
+typedef struct s_hnode
+{
+	char				*key;
+	char				*value;
+	struct s_hnode	*next;
+}	t_hnode;
+
+typedef struct s_hash_table
+{
+	t_hnode	*item[HASH_TABLE_SIZE];
+}	t_hash_table;
+
 typedef struct s_node
 {
 	char			*data;
@@ -55,15 +69,31 @@ typedef struct s_command_table
 typedef struct s_minishell
 {
 	t_command_table	cmd;
+	t_hash_table	env;
 	int				fd[2];
 	t_node			files[2];
 	t_node			*input;
 }	t_minishell;
 
-int	ft_is_chr_in_str(const char *str, char ch);
-int	buff_to_input(t_minishell *data, const char *str, t_token tok);
+int		buff_to_input(t_minishell *data, const char *str, t_token tok);
 void	tokenizer(t_minishell *data, char *buff);
 void	display_input(t_node *input);
 void	free_input(t_node **begin);
+
+//Utils.c
+size_t	max_size(char *s1, char *s2);
+void	ft_free_2d_char_ptr(char ***ptr);
+
+//hash_table_utils.c
+int		hash_function(char	*key);
+t_hnode	*create_item(char *key, char *value);
+void	free_item(t_hnode *item);
+void	ht_free(t_hash_table	*table);
+void	display_htable(t_hash_table *table);
+
+//hash_table.c
+void	ht_insert(t_hash_table *table, char *key, char *value);
+char	*ht_search(t_hash_table *table, char *key);
+void	ht_delete(t_hash_table *table, char *key);
 
 #endif

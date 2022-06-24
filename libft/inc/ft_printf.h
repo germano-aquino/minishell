@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 22:10:40 by grenato-          #+#    #+#             */
-/*   Updated: 2021/11/26 07:21:13 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:19:03 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ int		ft_print_low_hex(va_list *ap, int flags);
 int		ft_print_up_hex(va_list *ap, int flags);
 
 char	*ft_get_base_num(size_t add, char *base);
+
+int		ft_is_chr_in_str(const char *str, char ch);
 
 #endif

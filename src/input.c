@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/15 02:45:32 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/23 20:08:19 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,18 @@ void	add_input(t_node **begin, t_node *new)
 void	display_input(t_node *input)
 {
 	int	i;
-	char const*	tokens[] = {"Word", "File", "Dolar", "Pipe", "Double_Pipe", "Great", "Double_Great", "Less", "Double_Less", "Ampersand", "Double_Ampersand", "Great_Ampersand", "Less_Ampersand", "Double_Great_Ampersand", "Quote", "Double_Quote", "Wildcard"};
+	char const*	tokens[] = {"Word", "File", "Dollar", "Pipe", "Double_Pipe", "Great", "Double_Great", "Less", "Double_Less", "Ampersand", "Double_Ampersand", "Quote", "Double_Quote", "Wildcard"};
 
 	i = -1;
 	if (input == NULL)
 		ft_printf("Input is empty.\n");
 	else
 	{
-		ft_printf("i: %d\n", ++i);
-		ft_printf("token: %s\ndata: %s\n\n", tokens[input->tok], input->data);
-		while (input->next != NULL)
+		while (input != NULL)
 		{
-			input = input->next;
 			ft_printf("i: %d\n", ++i);
 			ft_printf("token: %s\ndata: %s\n\n", tokens[input->tok], input->data);
+			input = input->next;
 		}
 	}
 }
