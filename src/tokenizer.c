@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/24 01:16:44 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/24 23:23:25 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	handle_token(t_minishell *data, char *buff, int *i)
 		*i += buff_to_input(data, "&", Ampersand);
 	else if (!ft_strncmp(buff + *i, "*", 1))
 		*i += buff_to_input(data, "*", Wildcard);
-	else if (ft_is_chr_in_str("\'", buff[*i]))
+	else if (ft_chr_in_str("\'", buff[*i]))
 		handle_single_quote(data, buff, i);
-	else if (ft_is_chr_in_str("\"", buff[*i]))
+	else if (ft_chr_in_str("\"", buff[*i]))
 		handle_double_quote(data, buff, i);
 	else if (!strncmp(buff + *i, "$", 1))
 		handle_dollar(data, buff, i);
@@ -107,7 +107,7 @@ void	handle_word(t_minishell *data, char *buff, int *i)
 	char	*str;
 
 	begin = buff + *i;
-	while (ft_isalnum(buff[*i]))
+	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
 		(*i)++;
 	str = ft_substr(begin, 0, (size_t)(buff + *i - begin));
 	buff_to_input(data, str, Word);
@@ -128,12 +128,12 @@ void	tokenizer(t_minishell *data, char *buff)
 	{
 		while (buff[i] == ' ' || buff[i] == '\t' || buff[i] == '\n')
 			i++;
-		if (ft_is_chr_in_str(FORBIDDEN_CHARS, buff[i]))
+		if (ft_chr_in_str(FORBIDDEN_CHARS, buff[i]))
 		{
 			handle_forbidden_chars(data, buff, &i);
 			break ;
 		}
-		else if (ft_is_chr_in_str(TOKENS, buff[i]))
+		else if (ft_chr_in_str(TOKENS, buff[i]))
 			handle_token(data, buff, &i);
 		else
 			handle_word(data, buff, &i);

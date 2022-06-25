@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/24 01:25:31 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/24 23:24:25 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	free_input(t_node **begin);
 //Utils.c
 size_t	max_size(char *s1, char *s2);
 void	ft_free_2d_char_ptr(char ***ptr);
+int		ft_chr_in_str(const char *str, char ch);
 
 //hash_table_utils.c
 int		hash_function(char	*key);
