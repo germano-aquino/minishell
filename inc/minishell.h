@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/24 23:24:25 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/28 01:28:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <fcntl.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -63,7 +64,8 @@ typedef struct s_node
 
 typedef struct s_command_table
 {
-	char	**args;
+	char	**cmd_path;
+	char	***args;
 }	t_command_table;
 
 
@@ -74,6 +76,7 @@ typedef struct s_minishell
 	int				fd[2];
 	t_node			files[2];
 	t_node			*input;
+	int				pipes_amount;
 }	t_minishell;
 
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
