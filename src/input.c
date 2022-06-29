@@ -6,13 +6,13 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/23 20:08:19 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/29 00:04:03 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_node	*create_input(const char *str, t_token tok, t_node *next)
+t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev)
 {
 	t_node	*new_input;
 
@@ -20,6 +20,11 @@ t_node	*create_input(const char *str, t_token tok, t_node *next)
 	new_input->data = ft_strdup(str);
 	new_input->tok = tok;
 	new_input->next = next;
+	if (next != NULL)
+		next->prev = new_input;
+	new_input->prev = prev;
+	if (prev != NULL)
+		prev->next = new_input;
 	return (new_input);
 }
 
@@ -29,14 +34,13 @@ void	add_input(t_node **begin, t_node *new)
 
 	if (*begin == NULL)
 		*begin = new;
-	else if ((*begin)->next == NULL)
-		(*begin)->next = new;
 	else
 	{
 		last = *begin;
 		while (last->next != NULL)
 			last = last->next;
 		last->next = new;
+		new->prev = last;
 	}
 }
 
@@ -81,7 +85,7 @@ int	buff_to_input(t_minishell *data, const char *str, t_token tok)
 	t_node	**begin;
 
 	begin = &data->input;
-	input = create_input(str, tok, NULL);
+	input = create_input(str, tok, NULL, NULL);
 	add_input(begin, input);
 	return (ft_strlen(str));
 }

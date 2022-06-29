@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/24 23:23:25 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/29 01:18:32 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	tokenizer(t_minishell *data, char *buff)
 		}
 		else if (ft_chr_in_str(TOKENS, buff[i]))
 			handle_token(data, buff, &i);
-		else
+		else if (buff[i] != '\0')
 			handle_word(data, buff, &i);
 	}
 }

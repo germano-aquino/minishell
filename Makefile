@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/06/24 23:26:31 by grenato-         ###   ########.fr        #
+#    Updated: 2022/06/29 00:35:23 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = gcc
 
 # define any compile-time flags
 #CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -g -Wall -Wextra
+CFLAGS = -g -O0 -Wall -Wextra
 
 # library flags
 LDFLAGS = -g -L. -lreadline
@@ -61,10 +61,10 @@ OBJ = $(C_SOURCE:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 #B_OBJ = $(B_SOURCE:$(BONUS_DIR)/%.c=$(B_OBJ_DIR)/%.o)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(HEADERS) -O3 -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 #$(B_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c
-	$(CC) $(CFLAGS) $(HEADERS) -O3 -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 all: $(NAME)
 

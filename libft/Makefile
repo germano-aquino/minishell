@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenato- <grenato-@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/06/07 22:51:43 by grenato-         ###   ########.fr        #
+#    Updated: 2022/06/29 00:29:41 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = gcc
 
 # define any compile-time flags
 #CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra -g -O0
 
 # library flags
 LDFLAGS = -L. -g

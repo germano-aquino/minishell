@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/28 01:28:29 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/29 00:25:45 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -60,6 +61,7 @@ typedef struct s_node
 	char			*data;
 	t_token			tok;
 	struct s_node	*next;
+	struct s_node	*prev;
 }	t_node;
 
 typedef struct s_command_table
@@ -79,12 +81,17 @@ typedef struct s_minishell
 	int				pipes_amount;
 }	t_minishell;
 
+//input.c
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
-void	tokenizer(t_minishell *data, char *buff);
+t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev);
 void	display_input(t_node *input);
 void	free_input(t_node **begin);
 
-//Utils.c
+void	tokenizer(t_minishell *data, char *buff);
+
+void	lexer(t_minishell *data);
+
+//utils.c
 size_t	max_size(char *s1, char *s2);
 void	ft_free_2d_char_ptr(char ***ptr);
 int		ft_chr_in_str(const char *str, char ch);

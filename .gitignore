@@ -3,3 +3,4 @@ obj_bonus
 requirements.txt
 valgrind-out.txt
 minishell
+pipex

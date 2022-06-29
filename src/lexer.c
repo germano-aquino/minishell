@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/28 02:17:39 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/29 01:11:30 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	alloc_number_of_commands(t_minishell *data)
 
 void	handle_pipe(t_node **input)
 {
-	*input = (*input)->next;
-	if ((*input)->tok != Word)
+	if ((*input)->prev->tok != Word)
 		ft_printf("syntax error near unexpected token \'|\'\n");
+	*input = (*input)->next;
 }
 
 int	get_args_amount(t_node *input)
@@ -109,7 +109,7 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 
 	if (!access(cmd_base, X_OK | F_OK))
 		return (ft_strdup(cmd_base));
-	temp = ht_search(data->env, "PATH");
+	temp = ht_search(&data->env, "PATH");
 	path = ft_split(temp, ':');
 	temp = ft_strjoin("/", cmd_base);
 	i = -1;
@@ -143,7 +143,70 @@ void	handle_command(t_minishell *data, t_node **input, int *cmd_pos)
 		data->cmd.args[*cmd_pos][i] = ft_strdup((*input)->data);
 		*input = (*input)->next;
 	}
-	*input = (*input)->next;
+	if (*input != NULL)
+		*input = (*input)->next;
+	(*cmd_pos)++;
+}
+
+t_node	*word_from_quote(t_node *input)
+{
+	char	*new_data;
+	t_node	*new_input;
+
+	new_data = ft_strtrim(input->data, "\'");
+	new_input = create_input(new_data, Word, input->next, input->prev);
+	free(new_data);
+	input->next = NULL;
+	free_input(&input);
+	return (new_input);
+}
+
+t_node	*word_from_double_quote(t_node *input)
+{
+	t_node	*init;
+	t_node	*new_input;
+	char	*new_data;
+	char	*old_data;
+	char	*temp;
+	int		is_single_token;
+
+	is_single_token = 0;
+	init = input;
+	if (input->data[ft_strlen(input->data) - 1] == '\"')
+		is_single_token = 1;
+	new_data = ft_strtrim(input->data, "\"");
+	while (!is_single_token)
+	{
+		input = input->next;
+		if (input->data[ft_strlen(input->data) - 1] == '\"')
+		{
+			is_single_token = 1;
+			temp = ft_strtrim(input->data, "\"");
+		}
+		else
+			temp = ft_strdup(input->data);
+		old_data = new_data;
+		new_data = ft_strjoin(new_data, temp);
+		free(old_data);
+		free(temp);
+	}
+	new_input = create_input(new_data, Word, input->next, init->prev);
+	free(new_data);
+	input->next = NULL;
+	free_input(&init);
+	return (new_input);
+}
+
+void	transform_quotes_into_word(t_node *input)
+{
+	while(input != NULL)
+	{
+		if (input->tok == Quote)
+			input = word_from_quote(input);
+		else if (input->tok == Double_Quote)
+			input = word_from_double_quote(input);
+		input = input->next;
+	}
 }
 
 void	lexer(t_minishell *data)
@@ -152,9 +215,10 @@ void	lexer(t_minishell *data)
 	int		cmd_pos;
 
 	cmd_pos = 0;
-	input = &data->input;
+	input = data->input;
 	data->pipes_amount = get_pipes_amount(input);
 	alloc_number_of_commands(data);
+	transform_quotes_into_word(input);
 	while (input != NULL)
 	{
 		if (input->tok == Less)
