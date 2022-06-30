@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 01:28:07 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/29 20:35:07 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,14 @@ int	ft_chr_in_str(const char *str, char ch)
 	if (str[i] != '\0')
 		return (1);
 	return (0);
+}
+
+char	*join_str_and_free(char *str1, char *str2)
+{
+	char	*join;
+
+	join = ft_strjoin(str1, str2);
+	free(str1);
+	free(str2);
+	return (join);
 }

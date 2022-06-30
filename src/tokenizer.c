@@ -6,72 +6,11 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 01:18:32 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/30 01:10:24 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	handle_dollar(t_minishell *data, char *buff, int *i)
-{
-	size_t	begin;
-	char	*key;
-	char	*env_var;
-
-	begin = (size_t) ++(*i);
-	env_var = NULL;
-	if (ft_isalpha(buff[*i]) || buff[*i] == '_')
-	{
-		while (ft_isalnum(buff[*i]) || buff[*i] == '_')
-			(*i)++;
-		key = ft_substr(buff, begin, (size_t)*i - begin);
-		env_var = ht_search(&data->env, key);
-		free(key);
-	}
-	buff_to_input(data, env_var, Dollar);
-}
-
-void	handle_single_quote(t_minishell *data, char *buff, int *i)
-{
-	size_t	begin;
-	char	*str;
-
-	begin = (size_t) (*i)++;
-	while (buff[*i] != '\'')
-		(*i)++;
-	(*i)++;
-	str = ft_substr(buff, begin, (size_t)*i - begin);
-	buff_to_input(data, str, Quote);
-	free(str);
-}
-
-void	handle_double_quote(t_minishell *data, char *buff, int *i)
-{
-	size_t	begin;
-	char	*str;
-
-	begin = (*i)++;
-	while (buff[*i] != '\"')
-	{
-		if (buff[*i] == '$' || buff[*i] == '\'')
-		{
-			str = ft_substr(buff, begin, (size_t)*i - begin);
-			buff_to_input(data, str, Double_Quote);
-			if (buff[*i] == '$')
-				handle_dollar(data, buff, i);
-			if (buff[*i] == '\'')
-				handle_single_quote(data, buff, i);
-			begin = (size_t)*i;
-			free(str);
-		}
-		else
-			(*i)++;
-	}
-	(*i)++;
-	str = ft_substr(buff, begin, (size_t)*i - begin);
-	buff_to_input(data, str, Double_Quote);
-	free(str);
-}
 
 void	handle_token(t_minishell *data, char *buff, int *i)
 {
@@ -101,35 +40,60 @@ void	handle_token(t_minishell *data, char *buff, int *i)
 		handle_dollar(data, buff, i);
 }
 
-void	handle_word(t_minishell *data, char *buff, int *i)
+void	escape_char_and_count(char **buff, char chr, int *count)
 {
-	char	*begin;
-	char	*str;
-
-	begin = buff + *i;
-	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
-		(*i)++;
-	str = ft_substr(begin, 0, (size_t)(buff + *i - begin));
-	buff_to_input(data, str, Word);
-	free(str);
+	(*count)++;
+	(*buff)++;
+	while (**buff != '\0' && **buff != chr)
+		(*buff)++;
+	if (**buff != '\0')
+	{
+		(*count)++;
+		(*buff)++;
+	}
 }
 
-void	handle_forbidden_chars(t_minishell *data, char *buff, int *i)
+int	check_unclosed_quotes(char *buff)
 {
-	ft_printf("Invalid Chars.\n");
+	int	single_quote;
+	int	double_quote;
+
+	single_quote = 0;
+	double_quote = 0;
+	while (*buff != '\0')
+	{
+		if (*buff == '\'')
+			escape_char_and_count(&buff, '\'', &single_quote);
+		else if (*buff == '\"')
+			escape_char_and_count(&buff, '\"', &double_quote);
+		else
+			buff++;
+	}
+	return (single_quote % 2 || double_quote % 2);
+}
+
+void	invalid_buff(t_minishell *data, char *buff)
+{
+	free_input(&data->input);
+	free_cmd_table(&data->cmd);
+	free(buff);
+	shell_loop(data);
 }
 
 void	tokenizer(t_minishell *data, char *buff)
 {
 	int	i;
+	int	err;
 
 	i = 0;
-	while (buff[i] != '\0')
+	err = check_unclosed_quotes(buff);
+	while (buff[i] != '\0' && !err)
 	{
 		while (buff[i] == ' ' || buff[i] == '\t' || buff[i] == '\n')
 			i++;
 		if (ft_chr_in_str(FORBIDDEN_CHARS, buff[i]))
 		{
+			err = 1;
 			handle_forbidden_chars(data, buff, &i);
 			break ;
 		}
@@ -138,4 +102,8 @@ void	tokenizer(t_minishell *data, char *buff)
 		else if (buff[i] != '\0')
 			handle_word(data, buff, &i);
 	}
+	if (!err)
+		transform_quotes_into_word(data->input);
+	else
+		invalid_buff(data, buff);
 }

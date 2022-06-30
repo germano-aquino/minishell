@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 01:30:25 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/06/30 01:18:53 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	display_cmd_table(t_command_table *cmd)
 	int	i;
 
 	cmd_pos = -1;
-	while(cmd->cmd_path[++cmd_pos] != NULL)
+	while (cmd->cmd_path[++cmd_pos] != NULL)
 	{
 		ft_printf("cmd_path: %s\n", cmd->cmd_path[cmd_pos]);
 		i = -1;
@@ -51,26 +51,35 @@ void	populate_env_table(t_hash_table *table, char *envp[])
 	}
 }
 
+void	shell_loop(t_minishell *data)
+{
+	char	*buff;
+
+	while (1)
+	{
+		buff = readline("MINISHELL>");
+		tokenizer(data, buff);
+		display_input(data->input);
+		lexer(data);
+		display_cmd_table(&data->cmd);
+		free_input(&data->input);
+		free_cmd_table(&data->cmd);
+		if (!strncmp(buff, "exit", 5))
+		{
+			free(buff);
+			exit(0);
+		}
+		free(buff);
+	}
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_minishell	data;
-	char		*buff;
-	int			i;
 
 	ft_init(&data);
 	populate_env_table(&data.env, envp);
-	i = -1;
-	while (++i < 1)
-	{
-		buff = readline("MINISHELL>");
-		tokenizer(&data, buff);
-		display_input(data.input);
-		lexer(&data);
-		display_input(data.input);
-		display_cmd_table(&data.cmd);
-		free_input(&data.input);
-		free(buff);
-	}
+	shell_loop(&data);
 	ht_free(&data.env);
 	return (0);
 }
