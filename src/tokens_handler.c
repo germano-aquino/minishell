@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 23:02:34 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 02:12:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 		env_var = ht_search(&data->env, key);
 		free(key);
 	}
-	buff_to_input(data, env_var, Dollar);
+	if (env_var != NULL)
+		buff_to_input(data, env_var, Dollar);
 }
 
 void	handle_single_quote(t_minishell *data, char *buff, int *i)
