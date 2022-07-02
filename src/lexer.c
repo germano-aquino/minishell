@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 17:17:06 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:30:53 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	lexer(t_minishell *data)
 		else if (input->tok == Pipe)
 			err = handle_pipe(&input);
 		else if (input->tok == Word)
-			err =handle_command(data, &input, &cmd_pos);
+			err = handle_command(data, &input, &cmd_pos);
 		if (err)
 			invalid_syntax(data);
 	}
