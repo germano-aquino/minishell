@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/06/30 00:17:28 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/02 17:01:34 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@
 CC = gcc
 
 # define any compile-time flags
-#CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -g -O0 -Wall -Wextra -fsanitize=address
+#CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -O0 -Wall -Wextra 
 
 # library flags
 LDFLAGS = -g -L. -lreadline
@@ -97,4 +97,6 @@ fclean: clean
 
 re: fclean all
 
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./minishell
 .PHONY: bonus clean fclean re

@@ -2,5 +2,6 @@ obj
 obj_bonus
 requirements.txt
 valgrind-out.txt
+local.supp
 minishell
 pipex

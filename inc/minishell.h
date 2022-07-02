@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 23:29:58 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 17:15:50 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ void	handle_double_quote(t_minishell *data, char *buff, int *i);
 void	tokenizer(t_minishell *data, char *buff);
 
 //lexer_cmd.c
-void	handle_command(t_minishell *data, t_node **input, int *cmd_pos);
+int		handle_command(t_minishell *data, t_node **input, int *cmd_pos);
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
 void	free_cmd_table(t_command_table *table);
 
 //lexer_io.c
-void	handle_redirect_input(t_minishell *data, t_node **input);
-void	handle_redirect_output(t_minishell *data, t_node **input);
-void	handle_redirect_output_append(t_minishell *data, t_node **input);
+int		handle_redirect_input(t_minishell *data, t_node **input);
+int		handle_redirect_output(t_minishell *data, t_node **input);
+int		handle_redirect_output_append(t_minishell *data, t_node **input);
 void	lexer(t_minishell *data);
 
 //utils.c

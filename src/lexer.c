@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 22:04:11 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 17:17:06 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,48 @@ int	get_pipes_amount(t_node *input)
 	return (pipes_amount);
 }
 
-void	handle_pipe(t_node **input)
+int	handle_pipe(t_node **input)
 {
-	if ((*input)->prev == NULL || (*input)->prev->tok != Word)
+	if ((*input)->prev == NULL || (*input)->prev->tok != Word \
+		|| (*input)->next == NULL || (*input)->next->tok != Word)
+	{
 		ft_printf("syntax error near unexpected token \'|\'\n");
+		return (1);
+	}
 	*input = (*input)->next;
+	return (0);
+}
+
+void	invalid_syntax(t_minishell *data)
+{
+	free_input(&data->input);
+	free_cmd_table(&data->cmd);
+	shell_loop(data);
 }
 
 void	lexer(t_minishell *data)
 {
 	t_node	*input;
 	int		cmd_pos;
+	int		err;
 
 	cmd_pos = 0;
+	err = 0;
 	input = data->input;
 	alloc_number_of_commands(data, get_pipes_amount(input) + 1);
 	while (input != NULL)
 	{
 		if (input->tok == Less)
-			handle_redirect_input(data, &input);
+			err = handle_redirect_input(data, &input);
 		else if (input->tok == Great)
-			handle_redirect_output(data, &input);
+			err = handle_redirect_output(data, &input);
 		else if (input->tok == Double_Great)
-			handle_redirect_output_append(data, &input);
+			err = handle_redirect_output_append(data, &input);
 		else if (input->tok == Pipe)
-			handle_pipe(&input);
+			err = handle_pipe(&input);
 		else if (input->tok == Word)
-			handle_command(data, &input, &cmd_pos);
+			err =handle_command(data, &input, &cmd_pos);
+		if (err)
+			invalid_syntax(data);
 	}
 }
