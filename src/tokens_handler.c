@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 02:12:36 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 22:03:31 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_word(t_minishell *data, char *buff, int *i)
 	free(str);
 }
 
-void	handle_forbidden_chars(t_minishell *data, char *buff, int *i)
+void	handle_forbidden_chars(void)
 {
 	ft_printf("Invalid Chars.\n");
 }

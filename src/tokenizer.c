@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/30 01:10:24 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 22:03:47 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	tokenizer(t_minishell *data, char *buff)
 		if (ft_chr_in_str(FORBIDDEN_CHARS, buff[i]))
 		{
 			err = 1;
-			handle_forbidden_chars(data, buff, &i);
+			handle_forbidden_chars();
 			break ;
 		}
 		else if (ft_chr_in_str(TOKENS, buff[i]))

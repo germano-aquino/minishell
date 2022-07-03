@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 17:15:50 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 22:09:28 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -64,11 +65,18 @@ typedef struct s_node
 	struct s_node	*prev;
 }	t_node;
 
+typedef struct s_workspace
+{
+	int	curr_fd;
+	int	fd[2];
+	int	i;
+}	t_workspace;
+
 typedef struct s_command_table
 {
-	int		cmds_amount;
-	char	**cmd_path;
-	char	***args;
+	int			cmds_amount;
+	char		**cmd_path;
+	char		***args;
 }	t_command_table;
 
 
@@ -76,8 +84,8 @@ typedef struct s_minishell
 {
 	t_command_table	cmd;
 	t_hash_table	env;
+	int				ext_val;
 	int				fd[2];
-	t_node			files[2];
 	t_node			*input;
 }	t_minishell;
 
@@ -94,7 +102,7 @@ void	transform_quotes_into_word(t_node *input);
 
 //tokens_handler.c
 void	handle_word(t_minishell *data, char *buff, int *i);
-void	handle_forbidden_chars(t_minishell *data, char *buff, int *i);
+void	handle_forbidden_chars(void);
 void	handle_dollar(t_minishell *data, char *buff, int *i);
 void	handle_single_quote(t_minishell *data, char *buff, int *i);
 void	handle_double_quote(t_minishell *data, char *buff, int *i);
@@ -110,6 +118,9 @@ void	free_cmd_table(t_command_table *table);
 int		handle_redirect_input(t_minishell *data, t_node **input);
 int		handle_redirect_output(t_minishell *data, t_node **input);
 int		handle_redirect_output_append(t_minishell *data, t_node **input);
+
+void	invalid_syntax(t_minishell *data);
+
 void	lexer(t_minishell *data);
 
 //utils.c
@@ -129,5 +140,7 @@ void	display_htable(t_hash_table *table);
 void	ht_insert(t_hash_table *table, char *key, char *value);
 char	*ht_search(t_hash_table *table, char *key);
 void	ht_delete(t_hash_table *table, char *key);
+
+void	exec_cmds(t_minishell *data);
 
 #endif

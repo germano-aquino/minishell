@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 17:15:22 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 21:48:55 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	handle_redirect_input(t_minishell *data, t_node **input)
 	{
 		if (!access((*input)->data, F_OK | R_OK))
 			data->fd[0] = open((*input)->data, O_RDONLY);
+		else
+			data->fd[0] = -1;
 		*input = (*input)->next;
 		return (0);
 	}

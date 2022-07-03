@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 17:13:35 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/02 22:04:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,38 @@ int	get_args_amount(t_node *input)
 	return (args_amount);
 }
 
+char	*find_absolute_cmd_path(char *cmd_base, char **path)
+{
+	int		i;
+	char	*cmd_path;
+
+	i = -1;
+	while (path[++i] != NULL)
+	{
+		cmd_path = ft_strjoin(path[i], cmd_base);
+		if (!access(cmd_path, X_OK | F_OK))
+			return (cmd_path);
+		free(cmd_path);
+	}
+	return (NULL);
+}
+
 char	*get_cmd_path(t_minishell *data, char *cmd_base)
 {
 	char	**path;
 	char	*temp;
 	char	*cmd_path;
-	int		i;
 
-	if (!access(cmd_base, X_OK | F_OK))
-		return (ft_strdup(cmd_base));
 	temp = ht_search(&data->env, "PATH");
 	path = ft_split(temp, ':');
 	temp = ft_strjoin("/", cmd_base);
-	i = -1;
-	while (path[++i] != NULL)
-	{
-		cmd_path = ft_strjoin(path[i], temp);
-		if (!access(cmd_path, X_OK | F_OK))
-		{
-			free(temp);
-			ft_free_2d_char_ptr(&path);
-			return (cmd_path);
-		}
-		free(cmd_path);
-	}
+	if (!access(cmd_base, X_OK | F_OK))
+		cmd_path = ft_strdup(cmd_base);
+	else
+		cmd_path = find_absolute_cmd_path(temp, path);
 	free(temp);
 	ft_free_2d_char_ptr(&path);
-	return (NULL);
+	return (cmd_path);
 }
 
 int	handle_command(t_minishell *data, t_node **input, int *cmd_pos)
