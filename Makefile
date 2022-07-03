@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/02 22:05:03 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/03 20:07:09 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = gcc
 
 # define any compile-time flags
 #CFLAGS = -Wall -Wextra -Werror -fsanitize=address
-CFLAGS = -g -O0 -Wall -Wextra 
+CFLAGS = -g -O0 -Wall -Wextra -fsanitize=address
 
 # library flags
 LDFLAGS = -g -L. -lreadline

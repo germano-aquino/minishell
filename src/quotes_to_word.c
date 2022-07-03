@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:33:53 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 22:15:24 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 20:38:42 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ t_node	*word_from_double_quote(t_node *input)
 
 	init = input;
 	word = ft_strtrim(input->data, "\"");
-	while (input->data[ft_strlen(input->data) - 1] != '\"')
+	while (input->data[ft_strlen(input->data) - 1] != '\"' || \
+		ft_strlen(input->data) == 1)
 	{
 		input = input->next;
 		if (input->data[ft_strlen(input->data) - 1] == '\"')

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 22:08:26 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 20:21:44 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	ft_init(t_minishell *data)
 	data->cmd.args = NULL;
 	data->fd[0] = 0;
 	data->fd[1] = 1;
+	data->files.infile = NULL;
+	data->files.outfile = NULL;
+	data->files.which_input = Stdin;
+	data->files.which_output = Stdout;
 }
 
 void	display_cmd_table(t_command_table *cmd)
@@ -76,12 +80,15 @@ void	shell_loop(t_minishell *data)
 		}
 		tokenizer(data, buff);
 		free(buff);
-		display_input(data->input);
-		lexer(data);
-		display_cmd_table(&data->cmd);
-		exec_cmds(data);
-		free_input(&data->input);
-		free_cmd_table(&data->cmd);
+		if (data->input != NULL)
+		{
+			display_input(data->input);
+			lexer(data);
+			display_cmd_table(&data->cmd);
+			exec_cmds(data);
+			free_input(&data->input);
+			free_cmd_table(&data->cmd);
+		}
 	}
 }
 

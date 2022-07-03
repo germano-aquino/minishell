@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 21:48:55 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 19:32:14 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,19 @@ int	handle_redirect_input(t_minishell *data, t_node **input)
 	if (*input != NULL && (*input)->tok == Word)
 	{
 		if (!access((*input)->data, F_OK | R_OK))
-			data->fd[0] = open((*input)->data, O_RDONLY);
+		{
+			*input = (*input)->next;
+			if (data->files.infile != NULL)
+				free(data->files.infile);
+			data->files.infile = ft_strdup((*input)->data);
+			data->files.which_input = Infile;
+			return (0);
+		}
 		else
-			data->fd[0] = -1;
-		*input = (*input)->next;
-		return (0);
+		{
+			perror((*input)->data);
+			return (1);
+		}
 	}
 	else
 	{
@@ -36,11 +44,22 @@ int	handle_redirect_output(t_minishell *data, t_node **input)
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
-		if (access((*input)->data, F_OK | W_OK) == -1)
+		if (!access((*input)->data, F_OK | W_OK))
 			unlink((*input)->data);
-		data->fd[1] = open((*input)->data, O_CREAT | O_WRONLY, 0666);
-		*input = (*input)->next;
-		return (0);
+		if (access((*input)->data, F_OK) == -1)
+		{
+			if (data->files.outfile != NULL)
+				free(data->files.outfile);
+			data->files.which_output = Overwrite;
+			data->files.outfile = ft_strdup((*input)->data);
+			*input = (*input)->next;
+			return (0);
+		}
+		else
+		{
+			perror((*input)->data);
+			return (1);
+		}
 	}
 	else
 	{
@@ -54,12 +73,20 @@ int	handle_redirect_output_append(t_minishell *data, t_node **input)
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
-		if (!access((*input)->data, F_OK))
-			data->fd[1] = open((*input)->data, O_APPEND | O_WRONLY);
+		if (!access((*input)->data, F_OK) && access((*input)->data, W_OK) == -1)
+		{
+			perror((*input)->data);
+			return (1);
+		}
 		else
-			data->fd[1] = open((*input)->data, O_CREAT | O_WRONLY, 0666);
-		*input = (*input)->next;
-		return (0);
+		{
+			if (data->files.outfile != NULL)
+				free(data->files.outfile);
+			data->files.outfile = ft_strdup((*input)->data);
+			data->files.which_output = Append;
+			*input = (*input)->next;
+			return (0);
+		}
 	}
 	else
 	{

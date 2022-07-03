@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 22:09:28 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 20:19:09 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -26,6 +27,20 @@
 # define WORD_CHARS "=-_+/()[]{}?!"
 
 # define HASH_TABLE_SIZE 1031
+
+typedef enum e_input
+{
+	Stdin,
+	Infile,
+	Heredoc
+}	t_input;
+
+typedef enum e_output
+{
+	Stdout,
+	Overwrite,
+	Append
+}	t_output;
 
 typedef enum e_token
 {
@@ -79,6 +94,13 @@ typedef struct s_command_table
 	char		***args;
 }	t_command_table;
 
+typedef struct s_files
+{
+	t_output	which_output;
+	t_input		which_input;
+	char		*infile;
+	char		*outfile;
+}	t_files;
 
 typedef struct s_minishell
 {
@@ -86,6 +108,7 @@ typedef struct s_minishell
 	t_hash_table	env;
 	int				ext_val;
 	int				fd[2];
+	t_files			files;
 	t_node			*input;
 }	t_minishell;
 

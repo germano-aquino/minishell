@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 22:04:29 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 20:05:46 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_args_amount(t_node *input)
 		args_amount++;
 		input = input->next;
 	}
-	return (args_amount);
+	return (args_amount + 1);
 }
 
 char	*find_absolute_cmd_path(char *cmd_base, char **path)
@@ -66,11 +66,12 @@ int	handle_command(t_minishell *data, t_node **input, int *cmd_pos)
 
 	args_amount = get_args_amount(*input);
 	data->cmd.args[*cmd_pos] = (char **) malloc(sizeof(char *) * \
-		(args_amount + 1));
+		(args_amount + 2));
 	data->cmd.args[*cmd_pos][args_amount] = NULL;
 	data->cmd.cmd_path[*cmd_pos] = get_cmd_path(data, (*input)->data);
+	data->cmd.args[*cmd_pos][0] = ft_strdup(data->cmd.cmd_path[*cmd_pos]);
 	*input = (*input)->next;
-	i = -1;
+	i = 0;
 	while (++i < args_amount && *input != NULL)
 	{
 		data->cmd.args[*cmd_pos][i] = ft_strdup((*input)->data);
