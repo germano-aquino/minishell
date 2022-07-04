@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 20:21:44 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 22:19:14 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ void	shell_loop(t_minishell *data)
 		{
 			free(buff);
 			rl_clear_history();
+			if (data->files.infile != NULL)
+				free(data->files.infile);
+			if (data->files.outfile != NULL)
+				free(data->files.outfile);
 			ht_free(&data->env);
 			exit(0);
 		}
@@ -82,9 +86,9 @@ void	shell_loop(t_minishell *data)
 		free(buff);
 		if (data->input != NULL)
 		{
-			display_input(data->input);
+			// display_input(data->input);
 			lexer(data);
-			display_cmd_table(&data->cmd);
+			// display_cmd_table(&data->cmd);
 			exec_cmds(data);
 			free_input(&data->input);
 			free_cmd_table(&data->cmd);

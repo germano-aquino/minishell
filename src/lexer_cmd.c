@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 20:05:46 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/03 21:15:26 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 		cmd_path = find_absolute_cmd_path(temp, path);
 	free(temp);
 	ft_free_2d_char_ptr(&path);
+	if (cmd_path == NULL)
+		ft_printf("%s: command not found.\n", cmd_base);
 	return (cmd_path);
 }
 
