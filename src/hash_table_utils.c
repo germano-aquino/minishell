@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 19:57:22 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/23 21:38:04 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:56:56 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,4 @@ void	ht_free(t_hash_table *table)
 		if (temp != NULL)
 			free_item(temp);
 	}
-}
-
-void	display_htable(t_hash_table *table)
-{
-	int		i;
-	int		count;
-	int		total;
-	t_hnode	*item;
-
-	i = -1;
-	total = 0;
-	while (++i < HASH_TABLE_SIZE)
-	{
-		item = table->item[i];
-		if (item != NULL)
-		{
-			count = 0;
-			total++;
-			ft_printf("key: %s\nvalue: %s\nindex:%d\tcount: %d\n\n", \
-				item->key, item->value, i, count);
-			while (item->next != NULL)
-			{
-				total++;
-				item = item->next;
-				count++;
-				ft_printf("key: %s\nvalue: %s\nindex:%d\tcount: %d\n\n", \
-					item->key, item->value, i, count);
-			}
-		}
-	}
-	ft_printf("total: %d\n", total);
 }

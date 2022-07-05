@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 22:19:14 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:57:00 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,6 @@ void	ft_init(t_minishell *data)
 	data->files.outfile = NULL;
 	data->files.which_input = Stdin;
 	data->files.which_output = Stdout;
-}
-
-void	display_cmd_table(t_command_table *cmd)
-{
-	int	cmd_pos;
-	int	i;
-
-	cmd_pos = -1;
-	while (++cmd_pos < cmd->cmds_amount)
-	{
-		if (cmd->cmd_path[cmd_pos] != NULL)
-			ft_printf("cmd_path: %s\n", cmd->cmd_path[cmd_pos]);
-		else
-			ft_printf("cmd_path[%d]: not found\n", cmd_pos);
-		i = -1;
-		while (cmd->args[cmd_pos][++i] != NULL)
-			ft_printf("args: %s\n\n", cmd->args[cmd_pos][i]);
-	}
 }
 
 void	populate_env_table(t_hash_table *table, char *envp[])

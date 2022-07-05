@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 00:04:03 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:56:58 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,6 @@ void	add_input(t_node **begin, t_node *new)
 			last = last->next;
 		last->next = new;
 		new->prev = last;
-	}
-}
-
-void	display_input(t_node *input)
-{
-	int	i;
-	char const*	tokens[] = {"Word", "File", "Dollar", "Pipe", "Double_Pipe", "Great", "Double_Great", "Less", "Double_Less", "Ampersand", "Double_Ampersand", "Quote", "Double_Quote", "Wildcard"};
-
-	i = -1;
-	if (input == NULL)
-		ft_printf("Input is empty.\n");
-	else
-	{
-		while (input != NULL)
-		{
-			ft_printf("i: %d\n", ++i);
-			ft_printf("token: %s\ndata: %s\n\n", tokens[input->tok], input->data);
-			input = input->next;
-		}
 	}
 }
 

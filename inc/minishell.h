@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:38:08 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:57:47 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ void	shell_loop(t_minishell *data);
 //input.c
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
 t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev);
-void	display_input(t_node *input);
 void	free_input(t_node **begin);
 
 //quotes_to_word.c
@@ -158,7 +157,6 @@ int		hash_function(char	*key);
 t_hnode	*create_item(char *key, char *value);
 void	free_item(t_hnode *item);
 void	ht_free(t_hash_table	*table);
-void	display_htable(t_hash_table *table);
 
 //hash_table.c
 void	ht_insert(t_hash_table *table, char *key, char *value);
@@ -166,5 +164,10 @@ char	*ht_search(t_hash_table *table, char *key);
 void	ht_delete(t_hash_table *table, char *key);
 
 void	exec_cmds(t_minishell *data);
+
+//display.c
+void	display_htable(t_hash_table *table);
+void	display_input(t_node *input);
+void	display_cmd_table(t_command_table *cmd);
 
 #endif
