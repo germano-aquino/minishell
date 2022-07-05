@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/05 00:20:24 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/05 00:33:01 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SOURCE_FILES = main.c tokenizer.c input.c hash_table.c utils.c hash_table_utils.
 SOURCE_FILES += lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c
 SOURCE_FILES += command_execution.c display.c free.c
 
-C_SOURCE = $(addprefix $(SRC_DIR)/, $(SOURCE_FILES))
+C_SOURCE = $(addprefix $(SRC_DIR), $(SOURCE_FILES))
 
 #BONUS_FILES = 
 

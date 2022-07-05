@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/05 00:22:17 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:33:17 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,6 @@ int	handle_pipe(t_node **input)
 	}
 	*input = (*input)->next;
 	return (0);
-}
-
-void	invalid_syntax(t_minishell *data)
-{
-	free_input(&data->input);
-	free_cmd_table(&data->cmd);
-	shell_loop(data);
 }
 
 void	lexer(t_minishell *data)
