@@ -6,13 +6,13 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:32:12 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:51:12 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int		ft_here_doc(t_minishell *data)
+int	ft_here_doc(t_minishell *data)
 {
 	char	*line;
 	int		fd[2];
@@ -26,7 +26,7 @@ int		ft_here_doc(t_minishell *data)
 	{
 		ft_printf("> ");
 		line = get_next_line(STDIN_FILENO, 0);
-		if (!ft_strncmp(line, data->files.infile, ft_strlen(line) - 1) 
+		if (!ft_strncmp(line, data->files.infile, ft_strlen(line) - 1) \
 			&& line[ft_strlen(line) - 1] == '\n')
 		{
 			close(fd[1]);
@@ -75,7 +75,8 @@ void	child_task(t_minishell *data, t_workspace *vars)
 		dup2(vars->fd[1], STDOUT_FILENO);
 		close(vars->fd[1]);
 	}
-	if (execve(data->cmd.cmd_path[vars->i], data->cmd.args[vars->i], NULL) == -1)
+	if (execve(data->cmd.cmd_path[vars->i], \
+		data->cmd.args[vars->i], NULL) == -1)
 	{
 		ft_printf("Cannot execute command.\n");
 		invalid_syntax(data);
@@ -117,7 +118,8 @@ void	exec_cmds(t_minishell *data)
 	vars.curr_fd = data->fd[0];
 	while (++vars.i < data->cmd.cmds_amount)
 	{
-		if (data->cmd.cmd_path[vars.i] != NULL && !(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
+		if (data->cmd.cmd_path[vars.i] != NULL && \
+			!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
 			exec_cmd(data, &vars);
 	}
 	close(vars.curr_fd);
