@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:51:12 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:23:44 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int	ft_here_doc(t_minishell *data)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-	{
-		ft_printf("cannot create pipe.\n");
-		invalid_syntax(data);
-	}
+		ft_exit(data, "cannot create pipe.\n", NULL, 0);
 	while (1)
 	{
 		ft_printf("> ");
@@ -77,10 +74,7 @@ void	child_task(t_minishell *data, t_workspace *vars)
 	}
 	if (execve(data->cmd.cmd_path[vars->i], \
 		data->cmd.args[vars->i], NULL) == -1)
-	{
-		ft_printf("Cannot execute command.\n");
-		invalid_syntax(data);
-	}
+		ft_exit(data, "cannot create pipe.\n", NULL, 0);
 }
 
 void	exec_cmd(t_minishell *data, \
@@ -89,10 +83,7 @@ void	exec_cmd(t_minishell *data, \
 	int	pid;
 
 	if (pipe(vars->fd) == -1)
-	{
-		ft_printf("Cannot create pipe.\n");
-		invalid_syntax(data);
-	}
+		ft_exit(data, "cannot create pipe.\n", NULL, 0);
 	if (vars->curr_fd == -1)
 		vars->curr_fd = vars->fd[0];
 	pid = fork();

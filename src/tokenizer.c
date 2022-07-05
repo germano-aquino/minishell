@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 22:03:47 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:24:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,6 @@ int	check_unclosed_quotes(char *buff)
 	return (single_quote % 2 || double_quote % 2);
 }
 
-void	invalid_buff(t_minishell *data, char *buff)
-{
-	free_input(&data->input);
-	free_cmd_table(&data->cmd);
-	free(buff);
-	shell_loop(data);
-}
-
 void	tokenizer(t_minishell *data, char *buff)
 {
 	int	i;
@@ -105,5 +97,5 @@ void	tokenizer(t_minishell *data, char *buff)
 	if (!err)
 		transform_quotes_into_word(data->input);
 	else
-		invalid_buff(data, buff);
+		ft_exit(data, NULL, buff, 0);
 }

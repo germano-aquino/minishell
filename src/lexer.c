@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:33:56 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:22:17 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	lexer(t_minishell *data)
 		else if (input->tok == Word)
 			err = handle_command(data, &input, &cmd_pos);
 		if (err)
-			invalid_syntax(data);
+			ft_exit(data, NULL, NULL, 0);
 	}
 }

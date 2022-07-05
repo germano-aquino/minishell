@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 21:15:26 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:20:22 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,29 +96,4 @@ void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
 		data->cmd.cmd_path[i] = NULL;
 		data->cmd.args[i] = NULL;
 	}
-}
-
-void	free_cmd_table(t_command_table *table)
-{
-	int	i;
-
-	i = -1;
-	while (++i < table->cmds_amount)
-	{
-		if (table->cmd_path[i] != NULL)
-			free(table->cmd_path[i]);
-		if (table->args[i] != NULL)
-			ft_free_2d_char_ptr(&table->args[i]);
-	}
-	if (table->args != NULL)
-	{
-		free(table->args);
-		table->args = NULL;
-	}
-	if (table->cmd_path != NULL)
-	{
-		free(table->cmd_path);
-		table->cmd_path = NULL;
-	}
-	table->cmds_amount = 0;
 }

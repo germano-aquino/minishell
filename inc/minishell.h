@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:57:47 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:21:01 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	shell_loop(t_minishell *data);
+void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program);
 
 //input.c
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);

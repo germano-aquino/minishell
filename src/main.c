@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:57:00 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/05 00:20:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ void	populate_env_table(t_hash_table *table, char *envp[])
 	}
 }
 
+void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)
+{
+	if (buff != NULL)
+		free(buff);
+	if (msg != NULL)
+		ft_printf(msg);
+	free_input(&data->input);
+	free_cmd_table(&data->cmd);
+	free_files(&data->files);
+	if (end_program)
+	{
+		rl_clear_history();
+		ht_free(&data->env);
+		exit(0);
+	}
+	else
+		shell_loop(data);
+}
+
 void	shell_loop(t_minishell *data)
 {
 	char	*buff;
@@ -54,16 +73,7 @@ void	shell_loop(t_minishell *data)
 		buff = readline("MINISHELL>");
 		add_history(buff);
 		if (!strncmp(buff, "exit", 5))
-		{
-			free(buff);
-			rl_clear_history();
-			if (data->files.infile != NULL)
-				free(data->files.infile);
-			if (data->files.outfile != NULL)
-				free(data->files.outfile);
-			ht_free(&data->env);
-			exit(0);
-		}
+			ft_exit(data, NULL, buff, 1);
 		tokenizer(data, buff);
 		free(buff);
 		if (data->input != NULL)
