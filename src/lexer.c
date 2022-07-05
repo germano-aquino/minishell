@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/02 20:30:53 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:33:56 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	lexer(t_minishell *data)
 			err = handle_redirect_output(data, &input);
 		else if (input->tok == Double_Great)
 			err = handle_redirect_output_append(data, &input);
+		else if (input->tok == Double_Less)
+			err = handle_heredoc(data, &input);
 		else if (input->tok == Pipe)
 			err = handle_pipe(&input);
 		else if (input->tok == Word)

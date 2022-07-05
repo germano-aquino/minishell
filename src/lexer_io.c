@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:17:26 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:44:27 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,25 @@ int	handle_redirect_output_append(t_minishell *data, t_node **input)
 	else
 	{
 		ft_printf("syntax error near unexpected token \'>>\'\n");
+		return (1);
+	}
+}
+
+int	handle_heredoc(t_minishell *data, t_node **input)
+{
+	*input = (*input)->next;
+	if (*input != NULL && (*input)->tok == Word)
+	{
+		if (data->files.infile != NULL)
+			free(data->files.infile);
+		data->files.infile = ft_strdup((*input)->data);
+		data->files.which_input = Heredoc;
+		*input = (*input)->next;
+		return (0);
+	}
+	else
+	{
+		ft_printf("syntax error near unexpected token \'<<\'\n");
 		return (1);
 	}
 }

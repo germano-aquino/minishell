@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 20:19:09 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:38:08 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	free_cmd_table(t_command_table *table);
 int		handle_redirect_input(t_minishell *data, t_node **input);
 int		handle_redirect_output(t_minishell *data, t_node **input);
 int		handle_redirect_output_append(t_minishell *data, t_node **input);
+int		handle_heredoc(t_minishell *data, t_node **input);
 
 void	invalid_syntax(t_minishell *data);
 

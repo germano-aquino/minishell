@@ -6,39 +6,39 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:20:52 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:32:12 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// int		ft_here_doc(t_commands *cmd, char *argv[], int argc)
-// {
-// 	char	*line;
-// 	int		fd[2];
+int		ft_here_doc(t_minishell *data)
+{
+	char	*line;
+	int		fd[2];
 
-// 	if (!ft_strncmp(argv[1], "here_doc", 9) && argc > 5)
-// 	{
-// 		if (pipe(fd) == -1)
-// 			ft_exit(cmd, "Cannot create pipe.\n", NULL, 1);
-// 		while (1)
-// 		{
-// 			ft_printf("> ");
-// 			line = get_next_line(STDIN_FILENO, 0);
-// 			if (!ft_strncmp(line, argv[2], ft_strlen(line) - 1) 
-// 				&& line[ft_strlen(line) - 1] == '\n')
-// 			{
-// 				close(fd[1]);
-// 				free(line);
-// 				line = get_next_line(STDIN_FILENO, 1);
-// 				return (fd[0]);
-// 			}
-// 			write(fd[1], line, ft_strlen(line));
-// 			free(line);
-// 		}
-// 	}
-// 	return (0);
-// }
+	if (pipe(fd) == -1)
+	{
+		ft_printf("cannot create pipe.\n");
+		invalid_syntax(data);
+	}
+	while (1)
+	{
+		ft_printf("> ");
+		line = get_next_line(STDIN_FILENO, 0);
+		if (!ft_strncmp(line, data->files.infile, ft_strlen(line) - 1) 
+			&& line[ft_strlen(line) - 1] == '\n')
+		{
+			close(fd[1]);
+			free(line);
+			line = get_next_line(STDIN_FILENO, 1);
+			return (fd[0]);
+		}
+		write(fd[1], line, ft_strlen(line));
+		free(line);
+	}
+	return (0);
+}
 
 void	set_input_output_fd(t_minishell *data)
 {
@@ -46,8 +46,8 @@ void	set_input_output_fd(t_minishell *data)
 		data->fd[0] = dup(STDIN_FILENO);
 	else if (data->files.which_input == Infile)
 		data->fd[0] = open(data->files.infile, O_RDONLY);
-	// else if (data->files.which_input == Heredoc)
-	// 	data->fd[0] = ft_here_doc();
+	else if (data->files.which_input == Heredoc)
+		data->fd[0] = ft_here_doc(data);
 	if (data->files.which_output == Stdout)
 		data->fd[1] = dup(STDOUT_FILENO);
 	else if (data->files.which_output == Overwrite)

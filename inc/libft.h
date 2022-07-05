@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/21 11:34:53 by grenato-          #+#    #+#             */
-/*   Updated: 2022/05/12 22:18:05 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:30:00 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void(*del)(void *));
+
+char	*get_next_line(int fd, int free_buff);
 
 #endif
