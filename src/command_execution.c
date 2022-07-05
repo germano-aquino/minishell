@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 20:19:36 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/04 23:20:52 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	exec_cmds(t_minishell *data)
 			exec_cmd(data, &vars);
 	}
 	close(vars.curr_fd);
-	close(data->fd[0]);
 	close(data->fd[1]);
 	data->ext_val = WEXITSTATUS(data->ext_val);
 }
