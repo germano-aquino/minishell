@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:56:58 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 23:38:01 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,11 @@ int	buff_to_input(t_minishell *data, const char *str, t_token tok)
 	input = create_input(str, tok, NULL, NULL);
 	add_input(begin, input);
 	return (ft_strlen(str));
+}
+
+t_node	*get_last_input(t_node *input)
+{
+	while (input != NULL && input->next != NULL)
+		input = input->next;
+	return (input);
 }

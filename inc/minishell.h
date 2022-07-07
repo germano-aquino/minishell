@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 23:08:03 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 23:50:15 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,10 @@ void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program);
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
 t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev);
 void	free_input(t_node **begin);
+t_node	*get_last_input(t_node *input);
+
+//input_utils.c
+void	remove_last_input(t_node *begin);
 
 //quotes_to_word.c
 void	transform_quotes_into_word(t_node *input);

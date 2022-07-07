@@ -6,13 +6,13 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 23:23:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 23:30:08 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	handle_token(t_minishell *data, char *buff, int *i)
+static void	handle_token(t_minishell *data, char *buff, int *i)
 {
 	if (!ft_strncmp(buff + *i, ">>", 2))
 		*i += buff_to_input(data, ">>", Double_Great);
@@ -40,7 +40,7 @@ void	handle_token(t_minishell *data, char *buff, int *i)
 		handle_dollar(data, buff, i);
 }
 
-void	escape_char_and_count(char **buff, char chr, int *count)
+static void	escape_char_and_count(char **buff, char chr, int *count)
 {
 	(*count)++;
 	(*buff)++;
@@ -53,23 +53,19 @@ void	escape_char_and_count(char **buff, char chr, int *count)
 	}
 }
 
-int	check_unclosed_quotes(char *buff)
+static int	check_unclosed_quotes(char *buff)
 {
-	int	single_quote;
-	int	double_quote;
+	int	quotes_amount;
 
-	single_quote = 0;
-	double_quote = 0;
+	quotes_amount = 0;
 	while (*buff != '\0')
 	{
-		if (*buff == '\'')
-			escape_char_and_count(&buff, '\'', &single_quote);
-		else if (*buff == '\"')
-			escape_char_and_count(&buff, '\"', &double_quote);
+		if (*buff == '\'' || *buff == '\"')
+			escape_char_and_count(&buff, *buff, &quotes_amount);
 		else
 			buff++;
 	}
-	return (single_quote % 2 || double_quote % 2);
+	return (quotes_amount % 2);
 }
 
 void	tokenizer(t_minishell *data, char *buff)

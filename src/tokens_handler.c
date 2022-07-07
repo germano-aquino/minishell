@@ -6,11 +6,23 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 23:12:10 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/07 00:30:06 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static char	*concat_to_last_input(char *str, t_node *input)
+{
+	t_node	*last;
+	char	*concat;
+
+	last = get_last_input(input);
+	concat = join_str_and_free(str, ft_strdup(last->data));
+	last->prev->next = NULL;
+	free_input(&last);
+	return (concat);
+}
 
 void	handle_word(t_minishell *data, char *buff, int *i)
 {
@@ -21,23 +33,13 @@ void	handle_word(t_minishell *data, char *buff, int *i)
 	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
 		(*i)++;
 	str = ft_substr(begin, 0, (size_t)(buff + *i - begin));
+	if (buff[*i] == '$')
+	{
+		handle_dollar(data, buff, i);
+		str = concat_to_last_input(str, data->input);
+	}
 	buff_to_input(data, str, Word);
 	free(str);
-}
-
-static void	expand_exit_status(t_minishell *data, char *buff, int *i)
-{
-	char	*status_and_word;
-	size_t	begin;
-
-	status_and_word = ft_itoa(data->ext_val);
-	begin = (size_t)(++(*i));
-	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
-		(*i)++;
-	status_and_word = join_str_and_free(status_and_word, \
-		ft_substr(buff, begin, (size_t)(*i) - begin));
-	buff_to_input(data, status_and_word, Word);
-	free(status_and_word);
 }
 
 void	handle_dollar(t_minishell *data, char *buff, int *i)
@@ -53,12 +55,19 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 		while (ft_isalnum(buff[*i]) || buff[*i] == '_')
 			(*i)++;
 		key = ft_substr(buff, begin, (size_t)(*i) - begin);
-		env_var = ht_search(&data->env, key);
+		env_var = ft_strdup(ht_search(&data->env, key));
 		free(key);
-		buff_to_input(data, env_var, Word);
 	}
-	else if (buff[*i] == '?')
-		expand_exit_status(data, buff, i);
+	else if (buff[*i] == '?' && (*i)++)
+		env_var = ft_itoa(data->ext_val);
+	if ((ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i])) \
+		&& env_var)
+	{
+		handle_word(data, buff, i);
+		env_var = concat_to_last_input(env_var, data->input);
+	}
+	buff_to_input(data, env_var, Word);
+	free(env_var);
 }
 
 void	handle_single_quote(t_minishell *data, char *buff, int *i)
