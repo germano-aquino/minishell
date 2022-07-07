@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/05 00:23:44 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:23:20 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	set_input_output_fd(t_minishell *data)
 
 void	child_task(t_minishell *data, t_workspace *vars)
 {
+	char	**envp;
+
+	envp = get_env_from_ht(&data->env);
 	dup2(vars->curr_fd, STDIN_FILENO);
 	close(vars->curr_fd);
 	close(vars->fd[0]);
@@ -73,8 +76,11 @@ void	child_task(t_minishell *data, t_workspace *vars)
 		close(vars->fd[1]);
 	}
 	if (execve(data->cmd.cmd_path[vars->i], \
-		data->cmd.args[vars->i], NULL) == -1)
-		ft_exit(data, "cannot create pipe.\n", NULL, 0);
+		data->cmd.args[vars->i], envp) == -1)
+	{
+		ft_free_2d_char_ptr(&envp);
+		ft_exit(data, "command not found.\n", NULL, 0);
+	}
 }
 
 void	exec_cmd(t_minishell *data, \

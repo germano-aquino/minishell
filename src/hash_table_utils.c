@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 19:57:22 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:56:56 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:19:23 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,66 @@ void	ht_free(t_hash_table *table)
 		if (temp != NULL)
 			free_item(temp);
 	}
+}
+
+int		get_ht_items_amount(t_hash_table *table)
+{
+	int	i;
+	int	items_amount;
+	t_hnode *tmp;
+
+	i = -1;
+	items_amount = 0;
+	while (++i < HASH_TABLE_SIZE)
+	{
+		if (table->item[i] != NULL)
+		{
+			items_amount++;
+			tmp = table->item[i]->next;
+			while (tmp != NULL)
+			{
+				items_amount++;
+				tmp = tmp->next;
+			}
+		}
+	}
+	return (items_amount);
+}
+
+char	*get_key_value_from_item(t_hnode *item)
+{
+	char	*key_value;
+
+	key_value = ft_strdup(item->key);
+	key_value = join_str_and_free(key_value, ft_strjoin("=", item->value));
+	return (key_value);
+}
+
+char	**get_env_from_ht(t_hash_table *table)
+{
+	int		i;
+	int		j;
+	int		nb_of_vars;
+	char	**env;
+	t_hnode	*tmp;
+
+	nb_of_vars = get_ht_items_amount(table);
+	env = (char **)malloc(sizeof(char *) * (nb_of_vars + 1));
+	i = -1;
+	j = 0;
+	while (++i < HASH_TABLE_SIZE)
+	{
+		if (table->item[i] != NULL)
+		{
+			env[j++] = get_key_value_from_item(table->item[i]);
+			tmp = table->item[i]->next;
+			while (tmp != NULL)
+			{
+				env[j++] = get_key_value_from_item(tmp);
+				tmp = tmp->next;
+			}
+		}
+	}
+	env[j] = NULL;
+	return (env);
 }

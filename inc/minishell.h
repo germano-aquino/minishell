@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/05 00:21:01 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:14:52 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int		hash_function(char	*key);
 t_hnode	*create_item(char *key, char *value);
 void	free_item(t_hnode *item);
 void	ht_free(t_hash_table	*table);
+char	**get_env_from_ht(t_hash_table *table);
 
 //hash_table.c
 void	ht_insert(t_hash_table *table, char *key, char *value);
@@ -170,5 +171,7 @@ void	exec_cmds(t_minishell *data);
 void	display_htable(t_hash_table *table);
 void	display_input(t_node *input);
 void	display_cmd_table(t_command_table *cmd);
+
+void	free_files(t_files *files);
 
 #endif
