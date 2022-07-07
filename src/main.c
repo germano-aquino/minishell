@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 22:21:02 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 22:39:28 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_init(t_minishell *data)
 	data->cmd.cmds_amount = 0;
 	data->cmd.cmd_path = NULL;
 	data->cmd.args = NULL;
+	data->ext_val = 0;
 	data->fd[0] = 0;
 	data->fd[1] = 1;
 	data->files.infile = NULL;

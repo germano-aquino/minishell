@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 22:35:34 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 23:12:10 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,19 @@ void	handle_word(t_minishell *data, char *buff, int *i)
 	free(str);
 }
 
-void	handle_forbidden_chars(void)
+static void	expand_exit_status(t_minishell *data, char *buff, int *i)
 {
-	ft_printf("Invalid Chars.\n");
+	char	*status_and_word;
+	size_t	begin;
+
+	status_and_word = ft_itoa(data->ext_val);
+	begin = (size_t)(++(*i));
+	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
+		(*i)++;
+	status_and_word = join_str_and_free(status_and_word, \
+		ft_substr(buff, begin, (size_t)(*i) - begin));
+	buff_to_input(data, status_and_word, Word);
+	free(status_and_word);
 }
 
 void	handle_dollar(t_minishell *data, char *buff, int *i)
@@ -45,14 +55,10 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 		key = ft_substr(buff, begin, (size_t)(*i) - begin);
 		env_var = ht_search(&data->env, key);
 		free(key);
-	}
-	if (buff[*i] == '?')
-	{
-		env_var = ft_itoa(data->ext_val);
-		(*i)++;
-	}
-	if (env_var != NULL)
 		buff_to_input(data, env_var, Word);
+	}
+	else if (buff[*i] == '?')
+		expand_exit_status(data, buff, i);
 }
 
 void	handle_single_quote(t_minishell *data, char *buff, int *i)

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 22:14:52 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/06 23:08:03 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define TOKENS "<>|&$\"\'*"
 # define FORBIDDEN_CHARS "\\;"
-# define WORD_CHARS "=-_+/()[]{}?!"
+# define WORD_CHARS "=-_+/()[]{}?!~"
 
 # define HASH_TABLE_SIZE 1031
 
@@ -125,7 +125,6 @@ void	transform_quotes_into_word(t_node *input);
 
 //tokens_handler.c
 void	handle_word(t_minishell *data, char *buff, int *i);
-void	handle_forbidden_chars(void);
 void	handle_dollar(t_minishell *data, char *buff, int *i);
 void	handle_single_quote(t_minishell *data, char *buff, int *i);
 void	handle_double_quote(t_minishell *data, char *buff, int *i);
