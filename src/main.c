@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 22:39:28 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/09 00:34:14 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,6 @@ void	ft_init(t_minishell *data)
 	data->files.outfile = NULL;
 	data->files.which_input = Stdin;
 	data->files.which_output = Stdout;
-}
-
-void	populate_env_table(t_hash_table *table, char *envp[])
-{
-	char	**key_value;
-	int		i;
-
-	i = -1;
-	while (envp[++i] != NULL)
-	{
-		key_value = ft_split(envp[i], '=');
-		ht_insert(table, key_value[0], key_value[1]);
-		ft_free_2d_char_ptr(&key_value);
-	}
 }
 
 void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)

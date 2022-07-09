@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 23:50:15 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/09 00:33:54 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,10 @@ void	exec_cmds(t_minishell *data);
 void	display_htable(t_hash_table *table);
 void	display_input(t_node *input);
 void	display_cmd_table(t_command_table *cmd);
+
+//enviroment_variables.c
+void	populate_env_table(t_hash_table *table, char *envp[]);
+
 
 void	free_files(t_files *files);
 
