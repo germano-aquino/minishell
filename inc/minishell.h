@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/09 00:33:54 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/09 22:58:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define TOKENS "<>|&$\"\'*"
 # define FORBIDDEN_CHARS "\\;"
-# define WORD_CHARS "=-_+/()[]{}?!~"
+# define WORD_CHARS "=-_+/()[]{}?!~."
 
 # define HASH_TABLE_SIZE 1031
 
