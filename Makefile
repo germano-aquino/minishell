@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/09 23:03:30 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/10 14:49:05 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,16 +52,17 @@ SOURCE_FILES = main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_
 SOURCE_FILES += lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c utils.c
 SOURCE_FILES += command_execution.c display.c free.c enviroment_variable.c
 
-C_SOURCE = $(addprefix $(SRC_DIR)/, $(SOURCE_FILES))
+VPATH = src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input
+VPATH += src/utils 
 
 #BONUS_FILES = 
 
 #B_SOURCE = $(addprefix $(BONUS_DIR)/, $(BONUS_FILES))
 
-OBJ = $(C_SOURCE:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJ = $(SOURCE_FILES:%.c=$(OBJ_DIR)/%.o)
 #B_OBJ = $(B_SOURCE:$(BONUS_DIR)/%.c=$(B_OBJ_DIR)/%.o)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 #$(B_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c
