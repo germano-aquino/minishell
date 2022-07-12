@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/09 23:00:17 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/11 23:35:09 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	shell_loop(t_minishell *data)
 
 	while (1)
 	{
+		trigger_signal(data, buff, &prompt_handler);
 		buff = readline("MINISHELL>");
-		add_history(buff);
-		if (!strncmp(buff, "exit", 5))
+		if (buff == NULL || !strncmp(buff, "exit", 5))
 			ft_exit(data, NULL, buff, 1);
-		tokenizer(data, buff);
-		free(buff);
-		if (data->input != NULL)
+		if (*buff != '\0')
 		{
+			add_history(buff);
+			tokenizer(data, buff);
 			// display_input(data->input);
 			lexer(data);
 			// display_cmd_table(&data->cmd);
@@ -72,6 +72,7 @@ void	shell_loop(t_minishell *data)
 			free_input(&data->input);
 			free_cmd_table(&data->cmd);
 		}
+		free(buff);
 	}
 }
 

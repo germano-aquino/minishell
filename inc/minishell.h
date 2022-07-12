@@ -6,12 +6,14 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/10 00:02:58 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/11 23:16:05 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHEL_H
 # define MINISHELL_H
+# define _GNU_SOURCE
+# define _POSIX_SOURCE
 
 # include "libft.h"
 # include <unistd.h>
@@ -20,6 +22,7 @@
 # include <sys/wait.h>
 # include <stdio.h>
 # include <signal.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -28,6 +31,9 @@
 # define WORD_CHARS "=-_+/()[]{}?!~."
 
 # define HASH_TABLE_SIZE 1031
+
+typedef struct sigaction	t_sigaction;
+typedef struct termios		t_termios;
 
 typedef enum e_input
 {
@@ -179,6 +185,9 @@ void	display_cmd_table(t_command_table *cmd);
 //enviroment_variables.c
 void	populate_env_table(t_hash_table *table, char *envp[]);
 
+//signal.c
+void	trigger_signal(t_minishell *data, char*buff, void *handler);
+void	prompt_handler(int signo);
 
 void	free_files(t_files *files);
 
