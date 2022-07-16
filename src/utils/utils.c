@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/29 20:35:07 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/15 21:01:03 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ size_t	max_size(char *s1, char *s2)
 		return (size1);
 	else
 		return (size2);
+}
+
+int		max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }
 
 void	ft_free_2d_char_ptr(char ***ptr)

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/05 00:18:29 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 17:19:33 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	free_files(t_files *files)
 		free(files->outfile);
 		files->outfile = NULL;
 	}
+	files->which_input = Stdin;
+	files->which_output = Stdout;
 }
 
 void	free_cmd_table(t_command_table *table)

@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/11 21:21:40 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/16 18:22:36 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ UTILS_DIR = src/utils
 
 LIBFT = libft/libft.a
 
+H_FILES = minishell.h libft.h get_next_line.h ft_printf.h
+
 HEADERS = -I/usr/include -I$(INCLUDE) -I$(LIBFT_DIR) -I$(INCLUDE_BONUS)
 
 OBJ_DIR = obj
@@ -51,9 +53,10 @@ B_OBJ_DIR = obj_bonus
 SOURCE_FILES = main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c
 SOURCE_FILES += lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c utils.c
 SOURCE_FILES += command_execution.c display.c free.c enviroment_variable.c signal.c
+SOURCE_FILES += heredoc.c
 
 VPATH = src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input
-VPATH += src/utils 
+VPATH += src/utils src/heredoc inc
 
 #BONUS_FILES = 
 
@@ -62,7 +65,7 @@ VPATH += src/utils
 OBJ = $(SOURCE_FILES:%.c=$(OBJ_DIR)/%.o)
 #B_OBJ = $(B_SOURCE:$(BONUS_DIR)/%.c=$(B_OBJ_DIR)/%.o)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c $(H_FILES)
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 #$(B_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/11 23:16:05 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 18:55:57 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define TOKENS "<>|&$\"\'*"
 # define FORBIDDEN_CHARS "\\;"
 # define WORD_CHARS "=-_+/()[]{}?!~."
+# define HEREDOC_MSG "bash: warning: here-document" \
+	" delimited by end-of-file (wanted \'%s\')\n"
 
 # define HASH_TABLE_SIZE 1031
 
@@ -162,6 +164,7 @@ size_t	max_size(char *s1, char *s2);
 void	ft_free_2d_char_ptr(char ***ptr);
 int		ft_chr_in_str(const char *str, char ch);
 char	*join_str_and_free(char *str1, char *str2);
+int		max(int a, int b);
 
 //hash_table_utils.c
 int		hash_function(char	*key);
@@ -188,6 +191,12 @@ void	populate_env_table(t_hash_table *table, char *envp[]);
 //signal.c
 void	trigger_signal(t_minishell *data, char*buff, void *handler);
 void	prompt_handler(int signo);
+void	heredoc_handler(int signo);
+int		event(void);
+
+//heredoc.c
+int		*heredoc_interruptor(int is_interrupt);
+int		ft_here_doc(t_minishell *data);
 
 void	free_files(t_files *files);
 

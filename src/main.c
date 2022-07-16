@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/11 23:35:09 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 18:24:11 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,16 @@ void	shell_loop(t_minishell *data)
 
 	while (1)
 	{
+		ft_printf("main loop\n");
 		trigger_signal(data, buff, &prompt_handler);
-		buff = readline("MINISHELL>");
-		if (buff == NULL || !strncmp(buff, "exit", 5))
+		buff = readline("MINISHELL> ");
+		if (buff == NULL)
+			ft_exit(data, "exit\n", buff, 1);
+		else if (!strncmp(buff, "exit", 5))
 			ft_exit(data, NULL, buff, 1);
-		if (*buff != '\0')
+		else if (*buff != '\0')
 		{
+			ft_printf("buff: %s\n", buff);
 			add_history(buff);
 			tokenizer(data, buff);
 			// display_input(data->input);
@@ -80,6 +84,8 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_minishell	data;
 
+	(void)argc;
+	(void)argv;
 	ft_init(&data);
 	populate_env_table(&data.env, envp);
 	shell_loop(&data);

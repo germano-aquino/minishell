@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 23:44:03 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/09 00:22:22 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/15 21:08:19 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	remove_last_input(t_node *begin)
 {
 	t_node	*last;
-	t_hnode	*last_prev;
+	t_node	*last_prev;
 
 	last = get_last_input(begin);
 	last_prev = last->prev;
