@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 19:06:10 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:19:26 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	should_close_heredoc(t_minishell *data, char *line, int *should_int)
 {
 	int	should_close;
 
-	should_close = line == NULL || *should_int;
+	should_close = (line == NULL || *should_int == 1);
 	if (!should_close)
 		should_close = !(ft_strncmp(line, data->files.infile, \
 			max_size(line, data->files.infile)));
