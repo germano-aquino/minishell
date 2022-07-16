@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 18:24:11 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:44:40 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	shell_loop(t_minishell *data)
 
 	while (1)
 	{
-		ft_printf("main loop\n");
 		trigger_signal(data, buff, &prompt_handler);
 		buff = readline("MINISHELL> ");
 		if (buff == NULL)

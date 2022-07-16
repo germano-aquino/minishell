@@ -6,11 +6,11 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 18:55:57 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:43:17 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHEL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 # define _GNU_SOURCE
 # define _POSIX_SOURCE
@@ -29,8 +29,6 @@
 # define TOKENS "<>|&$\"\'*"
 # define FORBIDDEN_CHARS "\\;"
 # define WORD_CHARS "=-_+/()[]{}?!~."
-# define HEREDOC_MSG "bash: warning: here-document" \
-	" delimited by end-of-file (wanted \'%s\')\n"
 
 # define HASH_TABLE_SIZE 1031
 
@@ -73,7 +71,7 @@ typedef struct s_hnode
 {
 	char				*key;
 	char				*value;
-	struct s_hnode	*next;
+	struct s_hnode		*next;
 }	t_hnode;
 
 typedef struct s_hash_table
@@ -122,7 +120,8 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	shell_loop(t_minishell *data);
-void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program);
+void	ft_exit(t_minishell *data, const char *msg, char *buff, \
+	int end_program);
 
 //input.c
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
