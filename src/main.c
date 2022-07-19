@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 19:44:40 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 19:47:39 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	shell_loop(t_minishell *data)
 			ft_exit(data, NULL, buff, 1);
 		else if (*buff != '\0')
 		{
-			ft_printf("buff: %s\n", buff);
 			add_history(buff);
 			tokenizer(data, buff);
 			// display_input(data->input);

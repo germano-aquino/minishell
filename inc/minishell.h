@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 19:43:17 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:25:46 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ void	populate_env_table(t_hash_table *table, char *envp[]);
 void	trigger_signal(t_minishell *data, char*buff, void *handler);
 void	prompt_handler(int signo);
 void	heredoc_handler(int signo);
+void	child_handler(int signo);
 int		event(void);
 
 //heredoc.c

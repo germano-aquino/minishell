@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 18:19:56 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:26:13 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	child_task(t_minishell *data, t_workspace *vars)
 {
 	char	**envp;
 
+	trigger_signal(data, NULL, &child_handler);
 	envp = get_env_from_ht(&data->env);
 	dup2(vars->curr_fd, STDIN_FILENO);
 	close(vars->curr_fd);

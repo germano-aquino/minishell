@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 18:55:45 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/16 20:49:28 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 int	event(void)
 {
 	return (0);
+}
+
+void	child_handler(int signo)
+{
+	write(2 ,"Enter in child handler.\n", 25);
+	if (signo == SIGINT)
+		exit(130);
+	if (signo == SIGQUIT)
+		exit(131);
 }
 
 void	heredoc_handler(int signo)
@@ -49,7 +58,7 @@ void	prompt_handler(int signo)
 void	trigger_signal(t_minishell *data, char*buff, void *handler)
 {
 	t_sigaction	act;
-	t_sigaction ign;
+	t_sigaction	ign;
 
 	sigemptyset(&ign.sa_mask);
 	ign.sa_handler = SIG_IGN;
