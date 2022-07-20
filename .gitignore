@@ -57,3 +57,4 @@ requirements.txt
 valgrind-out.txt
 minishell
 pipex
+.vscode/
