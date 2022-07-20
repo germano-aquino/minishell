@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 19:42:24 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/19 22:20:25 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ int	ft_here_doc(t_minishell *data)
 			close_heredoc(data, should_interrupt, fd, line);
 			return (fd[0]);
 		}
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
+		ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
 	return (0);
