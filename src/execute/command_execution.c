@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 17:17:26 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 19:53:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,18 @@ void	call_execve_or_builtin(
 	t_minishell *data, t_workspace *vars, char **envp)
 {
 	free(vars->pid);
-	if (data->cmd.cmd_path[vars->i])
+	if (!is_builtin(data->cmd.cmd_path[vars->i]))
 	{
 		if (execve(data->cmd.cmd_path[vars->i],
 				data->cmd.args[vars->i], envp) == -1)
 		{
 			ft_free_matrix((void *) &envp);
-			perror("execve");
+			perror("minishell: execve");
 			exit_free(data, EXIT_FAILURE);
 		}
 	}
 	ft_free_matrix((void *) &envp);
-	if (!check_builtin(data, vars->i))
-		command_not_found(data, vars);
+	check_builtin(data, vars->i);
 }
 
 void	child_task(t_minishell *data, t_workspace *vars)
@@ -93,13 +92,18 @@ void	exec_cmds(t_minishell *data)
 	vars.i = -1;
 	set_input_output_fd(data);
 	vars.curr_fd = data->fd[0];
-	vars.pid = (int *) malloc(sizeof(int) * data->cmd.cmds_amount);
+	vars.pid = (int *) ft_calloc(data->cmd.cmds_amount, sizeof(int));
 	while (++vars.i < data->cmd.cmds_amount)
-		if (!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
+	{
+		if (!data->cmd.cmd_path[vars.i])
+			command_not_found(data, &vars);
+		else if (!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
 			exec_cmd(data, &vars);
+	}
 	vars.i = -1;
 	while (++vars.i < data->cmd.cmds_amount)
-		waitpid(vars.pid[vars.i], &data->ext_val, 0);
+		if (vars.pid[vars.i])
+			waitpid(vars.pid[vars.i], &data->ext_val, 0);
 	close(vars.curr_fd);
 	close(data->fd[1]);
 	free(vars.pid);

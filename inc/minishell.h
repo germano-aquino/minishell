@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 17:17:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 19:50:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ int		*heredoc_interruptor(int is_interrupt);
 int		ft_here_doc(t_minishell *data);
 
 //builtins
+int		is_builtin(char *cmd);
 int		check_builtin(t_minishell *data, int index);
 int		builtin_exit(t_minishell *data);
 

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 13:44:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 19:52:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	temp = ht_search(&data->env, "PATH");
 	path = ft_split(temp, ':');
 	temp = ft_strjoin("/", cmd_base);
-	if (!access(cmd_base, X_OK | F_OK))
+	if (!access(cmd_base, X_OK | F_OK) || is_builtin(cmd_base))
 		cmd_path = ft_strdup(cmd_base);
 	else
 		cmd_path = find_absolute_cmd_path(temp, path);
