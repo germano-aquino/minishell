@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 16:00:11 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:17:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,10 @@ typedef struct s_node
 
 typedef struct s_workspace
 {
-	int	curr_fd;
-	int	fd[2];
-	int	i;
+	int		curr_fd;
+	int		fd[2];
+	int		i;
+	pid_t	*pid;
 }	t_workspace;
 
 typedef struct s_command_table
@@ -214,6 +215,6 @@ void	free_files(t_files *files);
 void	exit_free(t_minishell *data, t_llong exit_code);
 
 //error handling
-void	command_not_found(t_minishell *data);
+void	command_not_found(t_minishell *data, t_workspace *vars);
 
 #endif

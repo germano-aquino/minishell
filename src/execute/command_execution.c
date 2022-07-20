@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 16:25:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:17:26 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	set_input_output_fd(t_minishell *data)
 void	call_execve_or_builtin(
 	t_minishell *data, t_workspace *vars, char **envp)
 {
+	free(vars->pid);
 	if (data->cmd.cmd_path[vars->i])
 	{
 		if (execve(data->cmd.cmd_path[vars->i],
@@ -46,7 +47,7 @@ void	call_execve_or_builtin(
 	}
 	ft_free_matrix((void *) &envp);
 	if (!check_builtin(data, vars->i))
-		command_not_found(data);
+		command_not_found(data, vars);
 }
 
 void	child_task(t_minishell *data, t_workspace *vars)
@@ -69,14 +70,12 @@ void	child_task(t_minishell *data, t_workspace *vars)
 
 void	exec_cmd(t_minishell *data, t_workspace *vars)
 {
-	int	pid;
-
 	if (pipe(vars->fd) == -1)
 		ft_exit(data, "cannot create pipe.\n", NULL, 0);
 	if (vars->curr_fd == -1)
 		vars->curr_fd = vars->fd[0];
-	pid = fork();
-	if (pid == 0)
+	vars->pid[vars->i] = fork();
+	if (vars->pid[vars->i] == 0)
 		child_task(data, vars);
 	else
 	{
@@ -84,8 +83,6 @@ void	exec_cmd(t_minishell *data, t_workspace *vars)
 		dup2(vars->fd[0], vars->curr_fd);
 		close(vars->fd[0]);
 		close(vars->fd[1]);
-		if (vars->i == data->cmd.cmds_amount - 1)
-			waitpid(pid, &data->ext_val, 0);
 	}
 }
 
@@ -96,12 +93,15 @@ void	exec_cmds(t_minishell *data)
 	vars.i = -1;
 	set_input_output_fd(data);
 	vars.curr_fd = data->fd[0];
+	vars.pid = (int *) malloc(sizeof(int) * data->cmd.cmds_amount);
 	while (++vars.i < data->cmd.cmds_amount)
-	{
 		if (!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
 			exec_cmd(data, &vars);
-	}
+	vars.i = -1;
+	while (++vars.i < data->cmd.cmds_amount)
+		waitpid(vars.pid[vars.i], &data->ext_val, 0);
 	close(vars.curr_fd);
 	close(data->fd[1]);
+	free(vars.pid);
 	data->ext_val = WEXITSTATUS(data->ext_val);
 }
