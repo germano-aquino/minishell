@@ -3,105 +3,63 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
+#    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/16 18:22:36 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/19 22:04:44 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME				= minishell
 
-# define the C compiler
-#CC = clang
-CC = gcc
+CC					= gcc
+CFLAGS				= -g3 -O0 -Wall -Wextra #-Werror
+LDFLAGS				= -lreadline
+REMOVE				= rm -rf
 
-# define any compile-time flags
-#CFLAGS = -Wall -Wextra -Werror -fsanitize=address
-CFLAGS = -g -O0 -Wall -Wextra
+HEADER_PATH			= inc
+HEADER				= minishell.h
 
-# library flags
-LDFLAGS = -g -L. -lreadline
+SOURCE_PATH			= src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input \
+					src/utils src/heredoc
+SOURCE_FILES		= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c \
+					lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c utils.c \
+					command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c
 
-# name of the project
-NAME = minishell
+LIBFT_PATH			= libft
+LIBFT				= libft/libft.a
 
-B_NAME = minishell
+OBJ_PATH			= obj
+OBJ					= $(SOURCE_FILES:%.c=$(OBJ_PATH)/%.o)
 
-# name of include folder
-INCLUDE = inc
+vpath				%.c $(SOURCE_PATH)
+vpath				%.h $(HEADER_PATH)
 
-INCLUDE_BONUS = inc_bonus
+all:				$(NAME)
 
-# name of source folder
-SRC_DIR = src
+$(OBJ_PATH)/%.o:	%.c $(HEADER) Makefile | $(OBJ_PATH)
+					$(CC) $(CFLAGS) -I $(HEADER_PATH) -c $< -o $@
 
-BONUS_DIR = src_bonus
-# name of libft folder
-LIBFT_DIR = libft
-
-UTILS_DIR = src/utils
-
-LIBFT = libft/libft.a
-
-H_FILES = minishell.h libft.h get_next_line.h ft_printf.h
-
-HEADERS = -I/usr/include -I$(INCLUDE) -I$(LIBFT_DIR) -I$(INCLUDE_BONUS)
-
-OBJ_DIR = obj
-B_OBJ_DIR = obj_bonus
-
-SOURCE_FILES = main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c
-SOURCE_FILES += lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c utils.c
-SOURCE_FILES += command_execution.c display.c free.c enviroment_variable.c signal.c
-SOURCE_FILES += heredoc.c
-
-VPATH = src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input
-VPATH += src/utils src/heredoc inc
-
-#BONUS_FILES = 
-
-#B_SOURCE = $(addprefix $(BONUS_DIR)/, $(BONUS_FILES))
-
-OBJ = $(SOURCE_FILES:%.c=$(OBJ_DIR)/%.o)
-#B_OBJ = $(B_SOURCE:$(BONUS_DIR)/%.c=$(B_OBJ_DIR)/%.o)
-
-$(OBJ_DIR)/%.o: %.c $(H_FILES)
-	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
-
-#$(B_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c
-	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
-
-all: $(NAME)
-
-$(NAME): $(OBJ_DIR) $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADERS) $(OBJ) -o $(NAME) $(LIBFT) $(LDFLAGS)
+$(NAME):			$(OBJ_PATH) $(LIBFT) $(OBJ)
+					$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDFLAGS) -o $@
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+					$(MAKE) -C $(LIBFT_PATH)
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-$(B_OBJ_DIR):
-	mkdir -p $(B_OBJ_DIR)
-
-bonus: $(B_NAME)
-
-#$(B_NAME): $(B_OBJ_DIR) $(LIBFT) $(B_OBJ)
-#	$(CC) $(CFLAGS) $(HEADERS) $(B_OBJ) -o $(B_NAME) $(LIBFT) $(LDFLAGS)
+$(OBJ_PATH):
+					mkdir -p $(OBJ_PATH)
 
 clean:
-	rm -rf $(OBJ)
-	rm -rf $(B_OBJ)
-	$(MAKE) -C ${LIBFT_DIR} clean
+					$(REMOVE) $(OBJ)
+					$(MAKE) -C ${LIBFT_PATH} clean
 
-fclean: clean
-	rm -rf $(NAME)
-	rm -rf $(B_NAME)
-	$(MAKE) -C $(LIBFT_DIR) fclean
+fclean:				clean
+					$(REMOVE) $(NAME)
+					$(MAKE) -C $(LIBFT_PATH) fclean
 
-re: fclean all
+re:					fclean all
 
-valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./minishell
-.PHONY: bonus clean fclean re
+vg:					all
+					valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes ./minishell
+
+.PHONY:				all clean fclean re vg
