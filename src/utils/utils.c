@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/15 21:01:03 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 00:48:34 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ size_t	max_size(char *s1, char *s2)
 		return (size1);
 	else
 		return (size2);
-}
-
-int		max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
 }
 
 void	ft_free_2d_char_ptr(char ***ptr)
@@ -70,8 +63,23 @@ char	*join_str_and_free(char *str1, char *str2)
 {
 	char	*join;
 
-	join = ft_strjoin(str1, str2);
-	free(str1);
-	free(str2);
+	if (str1 != NULL && str2 != NULL)
+	{
+		join = ft_strjoin(str1, str2);
+		free(str1);
+		free(str2);
+	}
+	else if (str1 == NULL && str2 != NULL)
+	{
+		join = ft_strdup(str2);
+		free(str2);
+	}
+	else if (str1 != NULL && str2 == NULL)
+	{
+		join = ft_strdup(str1);
+		free(str1);
+	}
+	else
+		join = ft_strdup("");
 	return (join);
 }
