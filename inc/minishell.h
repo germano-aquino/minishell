@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/19 21:56:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:00:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@
 
 typedef struct sigaction	t_sigaction;
 typedef struct termios		t_termios;
+
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+}	t_bool;
 
 typedef enum e_input
 {
@@ -164,6 +170,7 @@ void	ft_free_2d_char_ptr(char ***ptr);
 int		ft_chr_in_str(const char *str, char ch);
 char	*join_str_and_free(char *str1, char *str2);
 int		max(int a, int b);
+int		ft_is_number_str(const char *str);
 
 //hash_table_utils.c
 int		hash_function(char	*key);
@@ -198,6 +205,15 @@ int		event(void);
 int		*heredoc_interruptor(int is_interrupt);
 int		ft_here_doc(t_minishell *data);
 
+//builtins
+int		check_builtin(t_minishell *data, int index);
+int		builtin_exit(t_minishell *data);
+
+//garbage collecting
 void	free_files(t_files *files);
+void	exit_free(t_minishell *data, t_llong exit_code);
+
+//error handling
+void	command_not_found(t_minishell *data);
 
 #endif

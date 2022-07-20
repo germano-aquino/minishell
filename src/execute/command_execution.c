@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 20:26:13 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:25:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,24 @@ void	set_input_output_fd(t_minishell *data)
 	data->files.which_output = Stdout;
 }
 
+void	call_execve_or_builtin(
+	t_minishell *data, t_workspace *vars, char **envp)
+{
+	if (data->cmd.cmd_path[vars->i])
+	{
+		if (execve(data->cmd.cmd_path[vars->i],
+				data->cmd.args[vars->i], envp) == -1)
+		{
+			ft_free_matrix((void *) &envp);
+			perror("execve");
+			exit_free(data, EXIT_FAILURE);
+		}
+	}
+	ft_free_matrix((void *) &envp);
+	if (!check_builtin(data, vars->i))
+		command_not_found(data);
+}
+
 void	child_task(t_minishell *data, t_workspace *vars)
 {
 	char	**envp;
@@ -38,29 +56,18 @@ void	child_task(t_minishell *data, t_workspace *vars)
 	trigger_signal(data, NULL, &child_handler);
 	envp = get_env_from_ht(&data->env);
 	dup2(vars->curr_fd, STDIN_FILENO);
+	if (vars->i == data->cmd.cmds_amount - 1)
+		dup2(data->fd[1], STDOUT_FILENO);
+	else
+		dup2(vars->fd[1], STDOUT_FILENO);
 	close(vars->curr_fd);
 	close(vars->fd[0]);
-	if (vars->i == data->cmd.cmds_amount - 1)
-	{
-		close(vars->fd[1]);
-		dup2(data->fd[1], STDOUT_FILENO);
-		close(data->fd[1]);
-	}
-	else
-	{
-		dup2(vars->fd[1], STDOUT_FILENO);
-		close(vars->fd[1]);
-	}
-	if (execve(data->cmd.cmd_path[vars->i], \
-		data->cmd.args[vars->i], envp) == -1)
-	{
-		ft_free_2d_char_ptr(&envp);
-		ft_exit(data, "command not found.\n", NULL, 0);
-	}
+	close(vars->fd[1]);
+	close(data->fd[1]);
+	call_execve_or_builtin(data, vars, envp);
 }
 
-void	exec_cmd(t_minishell *data, \
-			t_workspace *vars)
+void	exec_cmd(t_minishell *data, t_workspace *vars)
 {
 	int	pid;
 
@@ -91,8 +98,7 @@ void	exec_cmds(t_minishell *data)
 	vars.curr_fd = data->fd[0];
 	while (++vars.i < data->cmd.cmds_amount)
 	{
-		if (data->cmd.cmd_path[vars.i] != NULL && \
-			!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
+		if (!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
 			exec_cmd(data, &vars);
 	}
 	close(vars.curr_fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 17:19:33 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:29:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,14 @@ void	free_cmd_table(t_command_table *table)
 		table->cmd_path = NULL;
 	}
 	table->cmds_amount = 0;
+}
+
+void	exit_free(t_minishell *data, t_llong exit_code)
+{
+	rl_clear_history();
+	free_input(&data->input);
+	free_cmd_table(&data->cmd);
+	free_files(&data->files);
+	ht_free(&data->env);
+	exit(exit_code);
 }

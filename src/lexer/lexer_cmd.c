@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/19 20:55:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 13:44:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 		cmd_path = find_absolute_cmd_path(temp, path);
 	free(temp);
 	ft_free_2d_char_ptr(&path);
-	if (cmd_path == NULL)
-		ft_printf("%s: command not found.\n", cmd_base);
 	return (cmd_path);
 }
 

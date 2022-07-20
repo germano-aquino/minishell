@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/19 22:03:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:05:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,17 @@ void	shell_loop(t_minishell *data)
 		buff = readline("MINISHELL> ");
 		if (buff == NULL)
 			ft_exit(data, "exit\n", buff, 1);
-		else if (!strncmp(buff, "exit", 5))
-			ft_exit(data, NULL, buff, 1);
 		else if (*buff != '\0')
 		{
 			add_history(buff);
 			tokenizer(data, buff);
-			// display_input(data->input);
+			ft_memfree((void *) &buff);
 			lexer(data);
-			// display_cmd_table(&data->cmd);
-			exec_cmds(data);
+			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0))
+				exec_cmds(data);
 			free_input(&data->input);
 			free_cmd_table(&data->cmd);
 		}
-		free(buff);
 	}
 }
 
