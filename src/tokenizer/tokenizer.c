@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/06 23:30:08 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 00:07:47 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,18 @@ static void	handle_token(t_minishell *data, char *buff, int *i)
 		*i += buff_to_input(data, "&", Ampersand);
 	else if (!ft_strncmp(buff + *i, "*", 1))
 		*i += buff_to_input(data, "*", Wildcard);
-	else if (ft_chr_in_str("\'", buff[*i]))
+}
+
+void	handle_parser(t_minishell *data, char *buff, int *i)
+{
+	if (ft_chr_in_str("\'", buff[*i]))
 		handle_single_quote(data, buff, i);
 	else if (ft_chr_in_str("\"", buff[*i]))
 		handle_double_quote(data, buff, i);
 	else if (!strncmp(buff + *i, "$", 1))
 		handle_dollar(data, buff, i);
+	else
+		handle_word(data, buff, i);
 }
 
 static void	escape_char_and_count(char **buff, char chr, int *count)
@@ -81,10 +87,9 @@ void	tokenizer(t_minishell *data, char *buff)
 			i++;
 		if (ft_chr_in_str(FORBIDDEN_CHARS, buff[i]))
 			ft_exit(data, "There is at least one invalid char.\n", buff, 0);
-		else if (ft_chr_in_str(TOKENS, buff[i]))
+		else if (ft_chr_in_str(REGULAR_TOKENS, buff[i]))
 			handle_token(data, buff, &i);
 		else if (buff[i] != '\0')
-			handle_word(data, buff, &i);
+			handle_parser(data, buff, &i);
 	}
-	transform_quotes_into_word(data->input);
 }

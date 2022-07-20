@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/19 21:56:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/20 00:48:42 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define TOKENS "<>|&$\"\'*"
+# define REGULAR_TOKENS "<>|&*"
+# define PARSER_TOKENS "$\'\""
 # define FORBIDDEN_CHARS "\\;"
 # define WORD_CHARS "=-_+/()[]{}?!~."
 
@@ -131,17 +132,23 @@ t_node	*get_last_input(t_node *input);
 
 //input_utils.c
 void	remove_last_input(t_node *begin);
+char	*concat_and_delete_last_input(char *str, t_node *input);
 
 //quotes_to_word.c
 void	transform_quotes_into_word(t_node *input);
 
+//dollar_handler.c
+char	*get_dollar_value(t_minishell *data, char *buff, int *i);
+void	handle_dollar(t_minishell *data, char *buff, int *i);
+
 //tokens_handler.c
 void	handle_word(t_minishell *data, char *buff, int *i);
-void	handle_dollar(t_minishell *data, char *buff, int *i);
 void	handle_single_quote(t_minishell *data, char *buff, int *i);
 void	handle_double_quote(t_minishell *data, char *buff, int *i);
 
+//tokenizer.c
 void	tokenizer(t_minishell *data, char *buff);
+void	handle_parser(t_minishell *data, char *buff, int *i);
 
 //lexer_cmd.c
 int		handle_command(t_minishell *data, t_node **input, int *cmd_pos);
@@ -163,7 +170,6 @@ size_t	max_size(char *s1, char *s2);
 void	ft_free_2d_char_ptr(char ***ptr);
 int		ft_chr_in_str(const char *str, char ch);
 char	*join_str_and_free(char *str1, char *str2);
-int		max(int a, int b);
 
 //hash_table_utils.c
 int		hash_function(char	*key);
