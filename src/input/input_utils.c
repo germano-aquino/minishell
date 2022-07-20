@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 23:44:03 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/15 21:08:19 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 00:41:19 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,16 @@ void	remove_last_input(t_node *begin)
 	last_prev = last->prev;
 	last_prev->next = NULL;
 	free_input(&last);
+}
+
+char	*concat_and_delete_last_input(char *str, t_node *input)
+{
+	t_node	*last;
+	char	*concat;
+
+	last = get_last_input(input);
+	concat = join_str_and_free(str, ft_strdup(last->data));
+	last->prev->next = NULL;
+	free_input(&last);
+	return (concat);
 }
