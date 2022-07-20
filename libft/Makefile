@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
+#    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/06/29 00:29:41 by grenato-         ###   ########.fr        #
+#    Updated: 2022/07/19 21:43:41 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,11 @@ SOURCES =	src/ft_atoi.c\
 			src/ft_lstnew.c\
 			src/ft_lstsize.c\
 			src/get_next_line.c\
+			src/ft_atoll.c\
+			src/ft_memfree.c\
+			src/ft_free_matrix.c\
+			src/ft_isspace.c\
+			src/ft_strcmp.c\
 			ft_printf/ft_printf.c\
 			ft_printf/print_address.c\
 			ft_printf/print_number.c\

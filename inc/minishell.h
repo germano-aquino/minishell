@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 20:25:46 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/19 21:56:20 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define _GNU_SOURCE
 # define _POSIX_SOURCE
 
-# include "libft.h"
+# include "../libft/inc/libft.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/types.h>

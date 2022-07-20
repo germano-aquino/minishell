@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/21 11:34:53 by grenato-          #+#    #+#             */
-/*   Updated: 2022/04/20 22:29:09 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/19 21:44:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <stddef.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
 
+typedef long long	t_llong;
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}				t_list;
+}	t_list;
 
 void	ft_bzero(void *block, size_t size);
 
@@ -33,6 +33,8 @@ int		ft_isascii(int c);
 int		ft_isdigit(int c);
 
 int		ft_isprint(int c);
+
+int		ft_isspace(int c);
 
 char	*ft_itoa(int n);
 
@@ -64,6 +66,8 @@ char	*ft_strdup(const char *str);
 
 char	*ft_strjoin(const char *s1, const char *s2);
 
+int		ft_strcmp(const char *s1, const char *s2);
+
 int		ft_strncmp(const char *s1, const char *s2, size_t size);
 
 char	*ft_strnstr(const char *big, const char *little, size_t size);
@@ -88,6 +92,8 @@ int		ft_toupper(int c);
 
 int		ft_atoi(const char *str);
 
+t_llong	ft_atoll(const char *nptr);
+
 void	*ft_calloc(size_t count, size_t eltsize);
 
 char	**ft_split(char const *s, char c);
@@ -111,5 +117,9 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void(*del)(void *));
 
 char	*get_next_line(int fd, int free_buff);
+
+void	ft_free_matrix(void ***matrix);
+
+void	ft_memfree(void	**ptr);
 
 #endif

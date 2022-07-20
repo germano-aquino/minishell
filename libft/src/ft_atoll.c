@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 23:17:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/18 17:50:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:50:43 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+t_llong	ft_atoll(const char *nptr)
 {
-	int	is_neg;
-	int	result;
+	int		is_neg;
+	t_llong	result;
 
 	while (ft_isspace(*nptr))
 		nptr++;
