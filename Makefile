@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/19 22:04:44 by maolivei         ###   ########.fr        #
+#    Updated: 2022/07/20 00:45:19 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ HEADER				= minishell.h
 SOURCE_PATH			= src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input \
 					src/utils src/heredoc
 SOURCE_FILES		= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c \
-					lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c utils.c \
+					lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.c utils.c \
 					command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c
 
 LIBFT_PATH			= libft
