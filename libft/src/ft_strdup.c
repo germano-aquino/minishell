@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/21 11:34:02 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/03 21:10:24 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/22 18:36:58 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*ft_strdup(const char *str)
 	char	*new_str;
 	int		length;
 
-	if (str == NULL)
-		return (ft_strdup(""));
 	length = 0;
 	while (str[length] != '\0')
 		length++;
