@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_table_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 19:57:22 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/09 00:33:52 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/22 19:04:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ t_hnode	*create_item(char *key, char *value)
 {
 	t_hnode	*item;
 
-	item = (t_hnode *)malloc(sizeof(t_hnode));
-	item->key = ft_strdup(key);
-	item->value = ft_strdup(value);
-	item->next = NULL;
+	item = (t_hnode *) ft_calloc(1, sizeof(t_hnode));
+	if (key)
+		item->key = ft_strdup(key);
+	if (value)
+		item->value = ft_strdup(value);
 	return (item);
 }
 
