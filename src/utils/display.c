@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 23:55:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:56:49 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:51:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,56 @@ void	display_cmd_table(t_command_table *cmd)
 	}
 }
 
+// void	display_htable(t_hash_table *table)
+// {
+// 	int		i;
+// 	int		count;
+// 	int		total;
+// 	t_hnode	*item;
+
+// 	i = -1;
+// 	total = 0;
+// 	while (++i < HASH_TABLE_SIZE)
+// 	{
+// 		item = table->item[i];
+// 		if (item != NULL)
+// 		{
+// 			count = 0;
+// 			total++;
+// 			ft_printf("key: %s\nvalue: %s\nindex:%d\tcount: %d\n\n", \
+// 				item->key, item->value, i, count);
+// 			while (item->next != NULL)
+// 			{
+// 				total++;
+// 				item = item->next;
+// 				count++;
+// 				ft_printf("key: %s\nvalue: %s\nindex:%d\tcount: %d\n\n", \
+// 					item->key, item->value, i, count);
+// 			}
+// 		}
+// 	}
+// 	ft_printf("total: %d\n", total);
+// }
+
 void	display_htable(t_hash_table *table)
 {
 	int		i;
-	int		count;
-	int		total;
 	t_hnode	*item;
 
 	i = -1;
-	total = 0;
 	while (++i < HASH_TABLE_SIZE)
 	{
 		item = table->item[i];
 		if (item != NULL)
 		{
-			count = 0;
-			total++;
-			ft_printf("key: %s\nvalue: %s\nindex:%d\tcount: %d\n\n", \
-				item->key, item->value, i, count);
+			ft_printf("%s=%s\n", item->key, item->value);
 			while (item->next != NULL)
 			{
-				total++;
 				item = item->next;
-				count++;
-				ft_printf("key: %s\nvalue: %s\nindex:%d\tcount: %d\n\n", \
-					item->key, item->value, i, count);
+				ft_printf("%s=%s\n", item->key, item->value);
 			}
 		}
 	}
-	ft_printf("total: %d\n", total);
 }
 
 void	display_input(t_node *input)

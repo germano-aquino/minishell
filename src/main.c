@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 18:30:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:57:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	shell_loop(t_minishell *data)
 			tokenizer(data, buff);
 			ft_memfree((void *) &buff);
 			lexer(data);
-			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0))
+			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0, FALSE))
 				exec_cmds(data);
 			free_input(&data->input);
 			free_cmd_table(&data->cmd);

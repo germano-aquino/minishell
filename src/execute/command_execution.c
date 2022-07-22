@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 19:53:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:56:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	call_execve_or_builtin(
 		}
 	}
 	ft_free_matrix((void *) &envp);
-	check_builtin(data, vars->i);
+	check_builtin(data, vars->i, TRUE);
 }
 
 void	child_task(t_minishell *data, t_workspace *vars)

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/20 16:35:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:58:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	numeric_argument_required(t_minishell *data)
 	exit_free(data, 2);
 }
 
-int	builtin_exit(t_minishell *data)
+int	builtin_exit(t_minishell *data, t_bool is_child)
 {
 	t_llong	exit_code;
 
@@ -53,6 +53,8 @@ int	builtin_exit(t_minishell *data)
 		else if (data->cmd.args[0][2])
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+			if (is_child)
+				exit_free(data, EXIT_FAILURE);
 			return (TRUE);
 		}
 		else

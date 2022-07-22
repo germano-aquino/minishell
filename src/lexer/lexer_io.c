@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:48:32 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/20 21:48:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ int	handle_redirect_input(t_minishell *data, t_node **input)
 		}
 		else
 		{
-			*input = (*input)->next;
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			perror((*input)->data);
-			return (1);
+			*input = (*input)->next;
+			return (0);
 		}
 	}
 	else

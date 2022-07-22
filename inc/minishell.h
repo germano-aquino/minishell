@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 19:50:48 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:03:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,8 @@ int		ft_here_doc(t_minishell *data);
 
 //builtins
 int		is_builtin(char *cmd);
-int		check_builtin(t_minishell *data, int index);
-int		builtin_exit(t_minishell *data);
+int		check_builtin(t_minishell *data, int index, t_bool is_child);
+int		builtin_exit(t_minishell *data, t_bool is_child);
 
 //garbage collecting
 void	free_files(t_files *files);

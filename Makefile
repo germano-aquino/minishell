@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/20 15:32:14 by maolivei         ###   ########.fr        #
+#    Updated: 2022/07/20 20:19:43 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SOURCE_PATH			= src src/hash_table src/tokenizer src/lexer src/execute src/signa
 SOURCE_FILES		= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c \
 					lexer.c lexer_io.c lexer_cmd.c quotes_to_word.c tokens_handler.c utils.c \
 					command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c \
-					error.c builtin_utils.c builtin_exit.c
+					error.c builtin_utils.c builtin_exit.c builtin_export.c
 
 LIBFT_PATH			= libft
 LIBFT				= libft/libft.a
