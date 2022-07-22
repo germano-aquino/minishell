@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/22 13:02:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:15:43 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_is_number_str(const char *str)
 int	check_builtin(t_minishell *data, int index, t_bool is_child)
 {
 	if (ft_strcmp(*data->cmd.args[index], "exit") == 0)
-		return (builtin_exit(data, is_child));
+		return (builtin_exit(data, index, is_child));
 	return (FALSE);
 }
 
