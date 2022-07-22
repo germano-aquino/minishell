@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/22 13:12:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 15:28:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 {
 	t_llong	exit_code;
 
-	exit_code = 0;
+	exit_code = data->ext_val;
 	if (data->cmd.cmds_amount == 1)
 		ft_putendl_fd("exit", STDOUT_FILENO);
 	if (data->cmd.args[index][1])
@@ -55,6 +55,7 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 			if (is_child)
 				exit_free(data, EXIT_FAILURE);
+			data->ext_val = EXIT_FAILURE;
 			return (TRUE);
 		}
 		else

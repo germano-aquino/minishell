@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 12:56:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:36:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,6 @@ void	exec_cmds(t_minishell *data)
 	close(data->fd[1]);
 	free(vars.pid);
 	data->ext_val = WEXITSTATUS(data->ext_val);
+	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
+		data->ext_val = 127;
 }
