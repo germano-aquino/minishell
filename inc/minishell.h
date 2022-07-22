@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 15:28:39 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 19:24:23 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int		ft_chr_in_str(const char *str, char ch);
 char	*join_str_and_free(char *str1, char *str2);
 int		max(int a, int b);
 int		ft_is_number_str(const char *str);
+int		ft_is_word_str(const char *str);
 
 //hash_table_utils.c
 int		hash_function(char	*key);
@@ -211,6 +212,7 @@ int		is_builtin(char *cmd);
 int		check_builtin(t_minishell *data, int index, t_bool is_child);
 int		builtin_exit(t_minishell *data, int index, t_bool is_child);
 int		builtin_echo(t_minishell *data, int index, t_bool is_child);
+int		builtin_export(t_minishell *data, int index, t_bool is_child);
 
 //garbage collecting
 void	free_files(t_files *files);
