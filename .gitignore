@@ -58,3 +58,4 @@ valgrind-out.txt
 minishell
 pipex
 .vscode/
+minishell_tester/
