@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:26:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,19 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	char	*temp;
 	char	*cmd_path;
 
-	temp = ht_search(&data->env, "PATH");
-	path = ft_split(temp, ':');
-	temp = ft_strjoin("/", cmd_base);
 	if (!access(cmd_base, X_OK | F_OK) || is_builtin(cmd_base))
 		cmd_path = ft_strdup(cmd_base);
 	else
+	{
+		temp = ht_search(&data->env, "PATH");
+		if (!temp)
+			return (NULL);
+		path = ft_split(temp, ':');
+		temp = ft_strjoin("/", cmd_base);
 		cmd_path = find_absolute_cmd_path(temp, path);
-	free(temp);
-	ft_free_2d_char_ptr(&path);
+		free(temp);
+		ft_free_2d_char_ptr(&path);
+	}
 	return (cmd_path);
 }
 
