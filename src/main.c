@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:45:55 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	shell_loop(t_minishell *data)
 		trigger_signal(data, buff, &prompt_handler);
 		buff = readline("MINISHELL> ");
 		if (buff == NULL)
-			ft_exit(data, "exit\n", buff, 1);
+			builtin_exit(data, 0, FALSE);
 		else if (*buff != '\0')
 		{
 			add_history(buff);

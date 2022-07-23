@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/22 15:28:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:45:42 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 	t_llong	exit_code;
 
 	exit_code = data->ext_val;
-	if (data->cmd.cmds_amount == 1)
+	if (data->cmd.cmds_amount <= 1)
 		ft_putendl_fd("exit", STDOUT_FILENO);
-	if (data->cmd.args[index][1])
+	if (data->cmd.args && data->cmd.args[index][1])
 	{
 		if (out_llong_range(data->cmd.args[index][1])
 			|| !ft_is_number_str(data->cmd.args[index][1]))
