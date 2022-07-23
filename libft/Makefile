@@ -1,113 +1,64 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/19 21:43:41 by maolivei         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME				= libft.a
+SO					= ${NAME:.a=.so}
 
-# $(NAME), all, clean, fclean and re.
-# define the C compiler
-#CC = clang
-CC = gcc
+SRCS				= ft_atoi.c ft_calloc.c ft_bzero.c ft_isalnum.c \
+					ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c \
+					ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c \
+					ft_memset.c ft_strchr.c ft_strdup.c ft_strlcat.c \
+					ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c \
+					ft_strrchr.c ft_tolower.c ft_toupper.c ft_substr.c \
+					ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
+					ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
+					ft_putendl_fd.c ft_putnbr_fd.c ft_itoa_base.c \
+					ft_gnl.c ft_gnl_multifd.c ft_printf.c ft_printf_handlers.c \
+					ft_strjoin_free.c ft_free_matrix.c ft_isspace.c \
+					ft_strnlen.c ft_memfree.c ft_utoa.c ft_atoll.c ft_strcmp.c \
+					ft_skip_chars.c
+OBJ_FILES			= ${SRCS:.c=.o}
+OBJS				= ${addprefix ${OBJS_PATH}/, ${OBJ_FILES}}
 
-# define any compile-time flags
-#CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -Wall -Wextra -g -O0
+BONUS_SRCS			= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
+					ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
+					ft_lstclear.c ft_lstiter.c ft_lstmap.c
+BONUS_OBJ_FILES		= ${BONUS_SRCS:.c=.o}
+BONUS_OBJS			= ${addprefix ${OBJS_PATH}/, ${BONUS_OBJ_FILES}}
 
-# library flags
-LDFLAGS = -L. -g
+OBJS_PATH			= objects
 
-# name of the project
-NAME = libft.a
+HEAD				= libft.h
+CC					= cc -g3 -Wall -Wextra -Werror
+RM					= rm -rf
 
-# name of include folder
-INCLUDE = inc
+all:				${NAME}
 
-# name of source folder
-SRC_DIR = src ft_printf
+${NAME}:			${OBJS_PATH} ${OBJS}
+					@ar -rcs ${NAME} ${OBJS}
+					@echo [SUCCESS] Library creation done!
 
-HEADERS = -I/usr/include -I$(INCLUDE)
+bonus:				${NAME} ${BONUS_OBJS}
+					@ar -rcs ${NAME} ${BONUS_OBJS}
+					@echo [SUCCESS] Bonus library creation done!
 
-OBJ_DIR = obj
+${OBJS_PATH}/%.o:	%.c ${HEAD} Makefile | ${OBJS_PATH}
+					@${CC} -I . -c $< -o $@
+					@echo [SUCCESS] ${@:objects/%=%} object created!
 
-SOURCES =	src/ft_atoi.c\
-			src/ft_bzero.c\
-			src/ft_calloc.c\
-			src/ft_isalnum.c\
-			src/ft_isalpha.c\
-			src/ft_isascii.c\
-			src/ft_isdigit.c\
-			src/ft_isprint.c\
-			src/ft_itoa.c\
-			src/ft_memccpy.c\
-			src/ft_memchr.c\
-			src/ft_memcmp.c\
-			src/ft_memcpy.c\
-			src/ft_memmove.c\
-			src/ft_memset.c\
-			src/ft_putchar_fd.c\
-			src/ft_putendl_fd.c\
-			src/ft_putnbr_fd.c\
-			src/ft_putstr_fd.c\
-			src/ft_split.c\
-			src/ft_strchr.c\
-			src/ft_strdup.c\
-			src/ft_striteri.c\
-			src/ft_strjoin.c\
-			src/ft_strlcat.c\
-			src/ft_strlcpy.c\
-			src/ft_strlen.c\
-			src/ft_strmapi.c\
-			src/ft_strncmp.c\
-			src/ft_strnstr.c\
-			src/ft_strrchr.c\
-			src/ft_strtrim.c\
-			src/ft_substr.c\
-			src/ft_tolower.c\
-			src/ft_toupper.c\
-			src/ft_lstadd_back.c\
-			src/ft_lstadd_front.c\
-			src/ft_lstclear.c\
-			src/ft_lstdelone.c\
-			src/ft_lstiter.c\
-			src/ft_lstlast.c\
-			src/ft_lstmap.c\
-			src/ft_lstnew.c\
-			src/ft_lstsize.c\
-			src/get_next_line.c\
-			src/ft_atoll.c\
-			src/ft_memfree.c\
-			src/ft_free_matrix.c\
-			src/ft_isspace.c\
-			src/ft_strcmp.c\
-			ft_printf/ft_printf.c\
-			ft_printf/print_address.c\
-			ft_printf/print_number.c\
-			ft_printf/print_words.c
-
-OBJECTS = $(addprefix $(OBJ_DIR)/, $(notdir $(SOURCES:%.c=%.o)))
-
-$(OBJ_DIR)/%.o: */%.c $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(HEADERS) -O3 -c $< -o $@
-
-all: $(NAME)
-
-$(NAME): $(OBJ_DIR) $(OBJECTS)
-	ar rcs $(NAME) $(OBJECTS)
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-	mkdir -p $(OBJ_DIR)/ft_printf
+${OBJS_PATH}:
+					@mkdir -p $@
+					@echo [SUCCESS] Objects directory created!
 
 clean:
-	rm -rf $(OBJECTS)
+					@${RM} ${OBJS_PATH}
+					@echo [SUCCESS] Objects removal done!
 
-fclean: clean
-	rm -rf ${NAME}
+fclean:				clean
+					@${RM} ${NAME} ${SO}
+					@echo [SUCCESS] Library removal done!
 
-re: fclean all
+re:					fclean all
+
+so:
+					${CC} -nostartfiles -fPIC  ${SRCS} ${BONUS_SRCS}
+					gcc -nostartfiles -shared -o ${SO} ${OBJS} ${BONUS_OBJS}
+
+.PHONY:				all clean fclean re bonus so
