@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 19:24:23 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/22 21:35:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define _GNU_SOURCE
 # define _POSIX_SOURCE
 
-# include "../libft/inc/libft.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/types.h>
@@ -34,12 +34,6 @@
 
 typedef struct sigaction	t_sigaction;
 typedef struct termios		t_termios;
-
-typedef enum e_bool
-{
-	FALSE,
-	TRUE
-}	t_bool;
 
 typedef enum e_input
 {
