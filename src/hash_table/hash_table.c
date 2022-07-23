@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:57:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:18:47 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,15 @@ void	ht_delete(t_hash_table *table, char *key)
 
 	index = hash_function(key);
 	item = table->item[index];
-	if (!ft_strncmp(key, item->key, max_size(key, item->key)))
+	if (item)
 	{
-		table->item[index] = item->next;
-		item->next = NULL;
-		free_item(item);
+		if (!ft_strncmp(key, item->key, max_size(key, item->key)))
+		{
+			table->item[index] = item->next;
+			item->next = NULL;
+			free_item(item);
+		}
+		else
+			delete_colliding_item(item, key);
 	}
-	else
-		delete_colliding_item(item, key);
 }
