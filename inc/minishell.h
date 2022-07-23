@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/23 19:01:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:08:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ int		check_builtin(t_minishell *data, int index, t_bool is_child);
 int		builtin_exit(t_minishell *data, int index, t_bool is_child);
 int		builtin_echo(t_minishell *data, int index, t_bool is_child);
 int		builtin_export(t_minishell *data, int index, t_bool is_child);
+int		builtin_unset(t_minishell *data, int index, t_bool is_child);
 int		builtin_env(t_minishell *data, t_bool is_child);
 
 //garbage collecting
