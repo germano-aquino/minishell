@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/22 20:12:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/23 18:46:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	display_export(t_hash_table *table)
 			if (item->value)
 				printf("declare -x %s=\"%s\"\n", item->key, item->value);
 			else
-				printf("declare -x %s=\"\"\n", item->key);
+				printf("declare -x %s\n", item->key);
 			item = item->next;
 		}
 		++index;
