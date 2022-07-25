@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:57:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/25 11:12:25 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:43:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ void	ht_insert(t_hash_table *table, char *key, char *value)
 		table->item[index] = create_item(key, value);
 	else if (!ft_strncmp(key, curr_item->key, max_size(key, curr_item->key)))
 	{
-		ft_memfree((void *) &curr_item->value);
 		if (value)
+		{
+			free(curr_item->value);
 			curr_item->value = ft_strdup(value);
+		}
 	}
 	else
 		insert_colliding_item(curr_item, key, value);
