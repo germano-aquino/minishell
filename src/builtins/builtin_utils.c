@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/25 09:25:43 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/25 09:28:56 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	check_builtin(t_minishell *data, int index, t_bool is_child)
 		return (builtin_env(data, is_child));
 	else if (ft_strcmp(*data->cmd.args[index], "unset") == 0)
 		return (builtin_unset(data, index, is_child));
+	else if (ft_strcmp(*data->cmd.args[index], "cd") == 0)
+		return (builtin_cd(data, index, is_child));
 	else if (ft_strcmp(*data->cmd.args[index], "pwd") == 0)
 		return (builtin_pwd(data, is_child));
 	return (FALSE);
@@ -62,5 +64,6 @@ int	is_builtin(char *cmd)
 		|| ft_strcmp(cmd, "env") == 0
 		|| ft_strcmp(cmd, "unset") == 0
 		|| ft_strcmp(cmd, "pwd") == 0
+		|| ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "export") == 0);
 }
