@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/23 18:46:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:24:27 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,17 @@ static void	display_export(t_hash_table *table)
 }
 
 static void	invalid_identifier(
-	t_minishell *data, int index, int i, t_bool is_child)
+	t_minishell *data, char *key, char *value, t_bool is_child)
 {
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(data->cmd.args[index][i], STDERR_FILENO);
+	ft_putstr_fd(key, STDERR_FILENO);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	if (is_child)
+	{
+		ft_memfree((void *) &key);
+		ft_memfree((void *) &value);
 		exit_free(data, EXIT_FAILURE);
+	}
 	data->ext_val = EXIT_FAILURE;
 }
 
@@ -64,7 +68,7 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 		}
 		data->ext_val = EXIT_SUCCESS;
 		if (!ft_is_word_str(key))
-			invalid_identifier(data, index, i, is_child);
+			invalid_identifier(data, key, value, is_child);
 		else
 			ht_insert(&data->env, key, value);
 		ft_memfree((void *) &key);
