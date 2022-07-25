@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:08:57 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/22 13:43:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:46:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int	builtin_echo(t_minishell *data, int index, t_bool is_child)
 		ft_putendl_fd("", STDOUT_FILENO);
 	if (is_child)
 		exit_free(data, EXIT_SUCCESS);
+	data->ext_val = EXIT_SUCCESS;
 	return (TRUE);
 }
