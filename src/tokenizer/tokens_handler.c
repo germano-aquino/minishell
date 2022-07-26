@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 00:45:44 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/26 01:25:52 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_double_quote(t_minishell *data, char *buff, int *i)
 	{
 		if (buff[*i] == '$')
 		{
-			str = ft_substr(buff, begin, (size_t)(*i) - begin);
+			str = join_str_and_free(str, ft_substr(buff, begin, (size_t)(*i) - begin));
 			str = join_str_and_free(str, get_dollar_value(data, buff, i));
 			begin = (size_t)(*i);
 		}
