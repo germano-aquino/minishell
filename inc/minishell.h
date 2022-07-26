@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/25 09:29:29 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/25 23:54:24 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define TOKENS "<>|&$\"\'*"
+# define REGULAR_TOKENS "<>|&*"
+# define PARSER_TOKENS "$\'\""
 # define FORBIDDEN_CHARS "\\;"
 # define WORD_CHARS "=-_+/()[]{}?!~."
 
@@ -131,6 +132,7 @@ void	free_input(t_node **begin);
 t_node	*get_last_input(t_node *input);
 
 //input_utils.c
+char	*concat_and_delete_last_input(char *str, t_node *input);
 void	remove_last_input(t_node *begin);
 
 //quotes_to_word.c
