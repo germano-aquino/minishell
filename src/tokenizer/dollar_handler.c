@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/20 00:49:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/26 00:27:16 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ char	*get_dollar_value(t_minishell *data, char *buff, int *i)
 		while (ft_isalnum(buff[*i]) || buff[*i] == '_')
 			(*i)++;
 		key = ft_substr(buff, begin, (size_t)(*i) - begin);
-		env_var = ft_strdup(ht_search(&data->env, key));
+		env_var = ht_search(&data->env, key);
+		if (env_var)
+			env_var = ft_strdup(env_var);
 		free(key);
 	}
 	else if (buff[*i] == '?')
@@ -33,6 +35,8 @@ char	*get_dollar_value(t_minishell *data, char *buff, int *i)
 		(*i)++;
 		env_var = ft_itoa(data->ext_val);
 	}
+	else if (ft_isspace(buff[*i]) || buff[*i] == '\0')
+		env_var = ft_strdup("$");
 	return (env_var);
 }
 
@@ -41,6 +45,8 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 	char	*env_var;
 
 	env_var = get_dollar_value(data, buff, i);
+	if (env_var == NULL)
+		return ;
 	if ((buff[*i] && buff[*i] != ' ' && \
 	!ft_chr_in_str(REGULAR_TOKENS, buff[*i])) && env_var)
 	{

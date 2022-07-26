@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/25 23:54:24 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/26 00:22:23 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,12 @@ void	handle_dollar(t_minishell *data, char *buff, int *i);
 void	handle_single_quote(t_minishell *data, char *buff, int *i);
 void	handle_double_quote(t_minishell *data, char *buff, int *i);
 
+//tokenizer.c
 void	tokenizer(t_minishell *data, char *buff);
+void	handle_parser(t_minishell *data, char *buff, int *i);
+
+//dollar_handler.c
+char	*get_dollar_value(t_minishell *data, char *buff, int *i);
 
 //lexer_cmd.c
 int		handle_command(t_minishell *data, t_node **input, int *cmd_pos);
