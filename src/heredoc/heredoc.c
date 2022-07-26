@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 19:06:10 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 int	*heredoc_interruptor(int is_interrupt)
 {
@@ -34,6 +34,8 @@ int	*init_heredoc_signal(t_minishell *data)
 
 void	close_heredoc(t_minishell *data, int *should_int, int fd[2], char *line)
 {
+	char	*str;
+
 	close(fd[1]);
 	if (*should_int)
 	{
@@ -44,14 +46,19 @@ void	close_heredoc(t_minishell *data, int *should_int, int fd[2], char *line)
 	else if (line != NULL)
 		free(line);
 	else
-		ft_printf(HEREDOC_MSG, data->files.infile);
+	{
+		str = ft_strdup("bash: warning: here-document" \
+			" delimited by end-of-file (wanted \'%s\')\n");
+		ft_printf(str, data->files.infile);
+		free(str);
+	}
 }
 
 int	should_close_heredoc(t_minishell *data, char *line, int *should_int)
 {
 	int	should_close;
 
-	should_close = line == NULL || *should_int;
+	should_close = (line == NULL || *should_int == 1);
 	if (!should_close)
 		should_close = !(ft_strncmp(line, data->files.infile, \
 			max_size(line, data->files.infile)));

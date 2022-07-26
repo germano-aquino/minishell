@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 18:55:57 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/25 09:29:29 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHEL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 # define _GNU_SOURCE
 # define _POSIX_SOURCE
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/types.h>
@@ -29,8 +29,6 @@
 # define TOKENS "<>|&$\"\'*"
 # define FORBIDDEN_CHARS "\\;"
 # define WORD_CHARS "=-_+/()[]{}?!~."
-# define HEREDOC_MSG "bash: warning: here-document" \
-	" delimited by end-of-file (wanted \'%s\')\n"
 
 # define HASH_TABLE_SIZE 1031
 
@@ -73,7 +71,7 @@ typedef struct s_hnode
 {
 	char				*key;
 	char				*value;
-	struct s_hnode	*next;
+	struct s_hnode		*next;
 }	t_hnode;
 
 typedef struct s_hash_table
@@ -91,9 +89,10 @@ typedef struct s_node
 
 typedef struct s_workspace
 {
-	int	curr_fd;
-	int	fd[2];
-	int	i;
+	int		curr_fd;
+	int		fd[2];
+	int		i;
+	pid_t	*pid;
 }	t_workspace;
 
 typedef struct s_command_table
@@ -122,7 +121,8 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	shell_loop(t_minishell *data);
-void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program);
+void	ft_exit(t_minishell *data, const char *msg, char *buff, \
+	int end_program);
 
 //input.c
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
@@ -165,6 +165,8 @@ void	ft_free_2d_char_ptr(char ***ptr);
 int		ft_chr_in_str(const char *str, char ch);
 char	*join_str_and_free(char *str1, char *str2);
 int		max(int a, int b);
+int		ft_is_number_str(const char *str);
+int		ft_is_word_str(const char *str);
 
 //hash_table_utils.c
 int		hash_function(char	*key);
@@ -192,12 +194,29 @@ void	populate_env_table(t_hash_table *table, char *envp[]);
 void	trigger_signal(t_minishell *data, char*buff, void *handler);
 void	prompt_handler(int signo);
 void	heredoc_handler(int signo);
+void	child_handler(int signo);
 int		event(void);
 
 //heredoc.c
 int		*heredoc_interruptor(int is_interrupt);
 int		ft_here_doc(t_minishell *data);
 
+//builtins
+int		is_builtin(char *cmd);
+int		check_builtin(t_minishell *data, int index, t_bool is_child);
+int		builtin_exit(t_minishell *data, int index, t_bool is_child);
+int		builtin_echo(t_minishell *data, int index, t_bool is_child);
+int		builtin_export(t_minishell *data, int index, t_bool is_child);
+int		builtin_unset(t_minishell *data, int index, t_bool is_child);
+int		builtin_cd(t_minishell *data, int index, t_bool is_child);
+int		builtin_pwd(t_minishell *data, t_bool is_child);
+int		builtin_env(t_minishell *data, t_bool is_child);
+
+//garbage collecting
 void	free_files(t_files *files);
+void	exit_free(t_minishell *data, t_llong exit_code);
+
+//error handling
+void	command_not_found(t_minishell *data, t_workspace *vars);
 
 #endif

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hash_table.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:57:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/06/23 21:29:46 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:43:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	insert_colliding_item(t_hnode *curr_item, char *key, char *value)
 {
@@ -38,8 +38,11 @@ void	ht_insert(t_hash_table *table, char *key, char *value)
 		table->item[index] = create_item(key, value);
 	else if (!ft_strncmp(key, curr_item->key, max_size(key, curr_item->key)))
 	{
-		free(curr_item->value);
-		curr_item->value = ft_strdup(value);
+		if (value)
+		{
+			free(curr_item->value);
+			curr_item->value = ft_strdup(value);
+		}
 	}
 	else
 		insert_colliding_item(curr_item, key, value);
@@ -93,12 +96,15 @@ void	ht_delete(t_hash_table *table, char *key)
 
 	index = hash_function(key);
 	item = table->item[index];
-	if (!ft_strncmp(key, item->key, max_size(key, item->key)))
+	if (item)
 	{
-		table->item[index] = item->next;
-		item->next = NULL;
-		free_item(item);
+		if (!ft_strncmp(key, item->key, max_size(key, item->key)))
+		{
+			table->item[index] = item->next;
+			item->next = NULL;
+			free_item(item);
+		}
+		else
+			delete_colliding_item(item, key);
 	}
-	else
-		delete_colliding_item(item, key);
 }

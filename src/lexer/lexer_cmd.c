@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/05 00:20:22 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:26:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 int	get_args_amount(t_node *input)
 {
@@ -47,17 +47,19 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	char	*temp;
 	char	*cmd_path;
 
-	temp = ht_search(&data->env, "PATH");
-	path = ft_split(temp, ':');
-	temp = ft_strjoin("/", cmd_base);
-	if (!access(cmd_base, X_OK | F_OK))
+	if (!access(cmd_base, X_OK | F_OK) || is_builtin(cmd_base))
 		cmd_path = ft_strdup(cmd_base);
 	else
+	{
+		temp = ht_search(&data->env, "PATH");
+		if (!temp)
+			return (NULL);
+		path = ft_split(temp, ':');
+		temp = ft_strjoin("/", cmd_base);
 		cmd_path = find_absolute_cmd_path(temp, path);
-	free(temp);
-	ft_free_2d_char_ptr(&path);
-	if (cmd_path == NULL)
-		ft_printf("%s: command not found.\n", cmd_base);
+		free(temp);
+		ft_free_2d_char_ptr(&path);
+	}
 	return (cmd_path);
 }
 
@@ -71,7 +73,7 @@ int	handle_command(t_minishell *data, t_node **input, int *cmd_pos)
 		(args_amount + 2));
 	data->cmd.args[*cmd_pos][args_amount] = NULL;
 	data->cmd.cmd_path[*cmd_pos] = get_cmd_path(data, (*input)->data);
-	data->cmd.args[*cmd_pos][0] = ft_strdup(data->cmd.cmd_path[*cmd_pos]);
+	data->cmd.args[*cmd_pos][0] = ft_strdup((*input)->data);
 	*input = (*input)->next;
 	i = 0;
 	while (++i < args_amount && *input != NULL)
@@ -85,15 +87,7 @@ int	handle_command(t_minishell *data, t_node **input, int *cmd_pos)
 
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
 {
-	int	i;
-
 	data->cmd.cmds_amount = cmds_amount;
-	data->cmd.cmd_path = (char **)malloc(sizeof(char *) * (cmds_amount + 1));
-	data->cmd.args = (char ***)malloc(sizeof(char **) * (cmds_amount + 1));
-	i = -1;
-	while (++i <= cmds_amount)
-	{
-		data->cmd.cmd_path[i] = NULL;
-		data->cmd.args[i] = NULL;
-	}
+	data->cmd.cmd_path = (char **)ft_calloc((cmds_amount + 1), sizeof(char *));
+	data->cmd.args = (char ***)ft_calloc((cmds_amount + 1), sizeof(char **));
 }

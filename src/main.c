@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/16 18:24:11 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:45:55 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_init(t_minishell *data)
 {
@@ -55,28 +55,24 @@ void	shell_loop(t_minishell *data)
 {
 	char	*buff;
 
+	buff = NULL;
 	while (1)
 	{
-		ft_printf("main loop\n");
 		trigger_signal(data, buff, &prompt_handler);
 		buff = readline("MINISHELL> ");
 		if (buff == NULL)
-			ft_exit(data, "exit\n", buff, 1);
-		else if (!strncmp(buff, "exit", 5))
-			ft_exit(data, NULL, buff, 1);
+			builtin_exit(data, 0, FALSE);
 		else if (*buff != '\0')
 		{
-			ft_printf("buff: %s\n", buff);
 			add_history(buff);
 			tokenizer(data, buff);
-			// display_input(data->input);
+			ft_memfree((void *) &buff);
 			lexer(data);
-			// display_cmd_table(&data->cmd);
-			exec_cmds(data);
+			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0, FALSE))
+				exec_cmds(data);
 			free_input(&data->input);
 			free_cmd_table(&data->cmd);
 		}
-		free(buff);
 	}
 }
 

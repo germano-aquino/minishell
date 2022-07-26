@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/04 23:48:32 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 int	handle_redirect_input(t_minishell *data, t_node **input)
 {
