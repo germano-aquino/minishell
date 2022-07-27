@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:58:40 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void	set_input_output_fd(t_minishell *data)
 	if (data->files.which_output == Stdout)
 		data->fd[1] = dup(STDOUT_FILENO);
 	else if (data->files.which_output == Overwrite)
-		data->fd[1] = open(data->files.outfile, O_CREAT | O_WRONLY, 0666);
+		data->fd[1] = open(
+				data->files.outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else
-		data->fd[1] = open(data->files.outfile, O_CREAT | O_APPEND \
-		| O_WRONLY, 0666);
+		data->fd[1] = open(
+				data->files.outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	data->files.which_input = Stdin;
 	data->files.which_output = Stdout;
 }
