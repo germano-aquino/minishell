@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/26 00:47:07 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:52:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ int		builtin_unset(t_minishell *data, int index, t_bool is_child);
 int		builtin_cd(t_minishell *data, int index, t_bool is_child);
 int		builtin_pwd(t_minishell *data, t_bool is_child);
 int		builtin_env(t_minishell *data, t_bool is_child);
+void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code);
 
 //garbage collecting
 void	free_files(t_files *files);

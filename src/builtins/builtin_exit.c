@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/23 19:45:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:54:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ static int	out_llong_range(char *str)
 	return (FALSE);
 }
 
+static int	too_many_arguments(t_minishell *data, t_bool is_child)
+{
+	ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+	set_exit_value(data, is_child, EXIT_FAILURE);
+	return (TRUE);
+}
+
 static void	numeric_argument_required(t_minishell *data, int index)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
@@ -51,13 +58,7 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 			|| !ft_is_number_str(data->cmd.args[index][1]))
 			numeric_argument_required(data, index);
 		else if (data->cmd.args[index][2])
-		{
-			ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
-			if (is_child)
-				exit_free(data, EXIT_FAILURE);
-			data->ext_val = EXIT_FAILURE;
-			return (TRUE);
-		}
+			return (too_many_arguments(data, is_child));
 		else
 			exit_code = ft_atoll(data->cmd.args[index][1]);
 	}

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 09:29:02 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/25 15:03:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:53:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	cd_error(t_minishell *data, t_bool is_child, char *err_msg, char *dir)
 		ft_putendl_fd(err_msg, STDERR_FILENO);
 	else
 		perror(dir);
-	if (is_child)
-		exit_free(data, EXIT_FAILURE);
-	data->ext_val = EXIT_FAILURE;
+	set_exit_value(data, is_child, EXIT_FAILURE);
 	return (TRUE);
 }
 
@@ -63,8 +61,6 @@ int	builtin_cd(t_minishell *data, int index, t_bool is_child)
 		return (cd_error(data, is_child, NULL, dir));
 	}
 	set_env_pwd_and_oldpwd(data, oldpwd);
-	if (is_child)
-		exit_free(data, EXIT_SUCCESS);
-	data->ext_val = EXIT_SUCCESS;
+	set_exit_value(data, is_child, EXIT_SUCCESS);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/25 09:28:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:52:29 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ int	ft_is_word_str(const char *str)
 		if (!ft_isalpha(str[index++]))
 			return (FALSE);
 	return (TRUE);
+}
+
+void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code)
+{
+	if (is_child)
+		exit_free(data, exit_code);
+	data->ext_val = exit_code;
 }
 
 int	check_builtin(t_minishell *data, int index, t_bool is_child)

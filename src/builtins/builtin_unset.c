@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 19:08:27 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/23 19:15:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:55:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	builtin_unset(t_minishell *data, int index, t_bool is_child)
 		ht_delete(&data->env, data->cmd.args[index][i]);
 		++i;
 	}
-	if (is_child)
-		exit_free(data, EXIT_SUCCESS);
-	data->ext_val = EXIT_SUCCESS;
+	set_exit_value(data, is_child, EXIT_SUCCESS);
 	return (TRUE);
 }
