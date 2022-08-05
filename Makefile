@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
+#    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/07/25 23:52:28 by grenato-         ###   ########.fr        #
+#    Updated: 2022/08/05 17:33:54 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,9 @@ $(LIBFT):
 
 $(OBJ_PATH):
 					mkdir -p $(OBJ_PATH)
+
+run:				all
+					./$(NAME)
 
 clean:
 					$(REMOVE) $(OBJ)
