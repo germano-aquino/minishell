@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/04 22:18:28 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	create_file(char *file, int is_append)
+{
+	int	fd;
+
+	if (is_append)
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	close(fd);
+}
 
 int	handle_redirect_input(t_minishell *data, t_node **input)
 {
@@ -45,22 +56,13 @@ int	handle_redirect_output(t_minishell *data, t_node **input)
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
-		if (!access((*input)->data, F_OK | W_OK))
-			unlink((*input)->data);
-		if (access((*input)->data, F_OK) == -1)
-		{
-			if (data->files.outfile != NULL)
-				free(data->files.outfile);
-			data->files.which_output = Overwrite;
-			data->files.outfile = ft_strdup((*input)->data);
-			*input = (*input)->next;
-			return (0);
-		}
-		else
-		{
-			perror((*input)->data);
-			return (1);
-		}
+		if (data->files.outfile != NULL)
+			ft_memfree((void *)&data->files.outfile);
+		data->files.which_output = Overwrite;
+		data->files.outfile = ft_strdup((*input)->data);
+		create_file((*input)->data, FALSE);
+		*input = (*input)->next;
+		return (0);
 	}
 	else
 	{
@@ -82,9 +84,10 @@ int	handle_redirect_output_append(t_minishell *data, t_node **input)
 		else
 		{
 			if (data->files.outfile != NULL)
-				free(data->files.outfile);
+				ft_memfree((void *)&data->files.outfile);
 			data->files.outfile = ft_strdup((*input)->data);
 			data->files.which_output = Append;
+			create_file((*input)->data, TRUE);
 			*input = (*input)->next;
 			return (0);
 		}
