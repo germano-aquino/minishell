@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/26 20:52:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:49:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef enum e_output
 	Append
 }	t_output;
 
+typedef struct s_files
+{
+	t_output	which_output;
+	t_input		which_input;
+	char		*infile;
+	char		*outfile;
+}	t_files;
+
 typedef enum e_token
 {
 	Word,
@@ -90,9 +98,7 @@ typedef struct s_node
 
 typedef struct s_workspace
 {
-	int		curr_fd;
-	int		fd[2];
-	int		i;
+	int		**fd;
 	pid_t	*pid;
 }	t_workspace;
 
@@ -101,23 +107,14 @@ typedef struct s_command_table
 	int			cmds_amount;
 	char		**cmd_path;
 	char		***args;
+	t_files		*files;
 }	t_command_table;
-
-typedef struct s_files
-{
-	t_output	which_output;
-	t_input		which_input;
-	char		*infile;
-	char		*outfile;
-}	t_files;
 
 typedef struct s_minishell
 {
 	t_command_table	cmd;
 	t_hash_table	env;
 	int				ext_val;
-	int				fd[2];
-	t_files			files;
 	t_node			*input;
 }	t_minishell;
 
@@ -152,15 +149,16 @@ void	handle_parser(t_minishell *data, char *buff, int *i);
 char	*get_dollar_value(t_minishell *data, char *buff, int *i);
 
 //lexer_cmd.c
-int		handle_command(t_minishell *data, t_node **input, int *cmd_pos);
+int		handle_command(t_minishell *data, t_node **input, int cmd_pos);
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
 void	free_cmd_table(t_command_table *table);
 
 //lexer_io.c
-int		handle_redirect_input(t_minishell *data, t_node **input);
-int		handle_redirect_output(t_minishell *data, t_node **input);
-int		handle_redirect_output_append(t_minishell *data, t_node **input);
-int		handle_heredoc(t_minishell *data, t_node **input);
+int		handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos);
+int		handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos);
+int		handle_redirect_output_append(
+			t_minishell *data, t_node **input, int cmd_pos);
+int		handle_heredoc(t_minishell *data, t_node **input, int cmd_pos);
 
 void	invalid_syntax(t_minishell *data);
 
@@ -221,10 +219,9 @@ int		builtin_env(t_minishell *data, t_bool is_child);
 void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code);
 
 //garbage collecting
-void	free_files(t_files *files);
 void	exit_free(t_minishell *data, t_llong exit_code);
 
 //error handling
-void	command_not_found(t_minishell *data, t_workspace *vars);
+void	command_not_found(t_minishell *data, int index);
 
 #endif

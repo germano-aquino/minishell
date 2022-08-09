@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/23 19:45:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:47:26 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,8 @@ void	ft_init(t_minishell *data)
 	data->cmd.cmds_amount = 0;
 	data->cmd.cmd_path = NULL;
 	data->cmd.args = NULL;
+	data->cmd.files = NULL;
 	data->ext_val = 0;
-	data->fd[0] = 0;
-	data->fd[1] = 1;
-	data->files.infile = NULL;
-	data->files.outfile = NULL;
-	data->files.which_input = Stdin;
-	data->files.which_output = Stdout;
 }
 
 void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)
@@ -40,12 +35,12 @@ void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)
 		ft_printf(msg);
 	free_input(&data->input);
 	free_cmd_table(&data->cmd);
-	free_files(&data->files);
+	data->ext_val = EXIT_FAILURE;
 	if (end_program)
 	{
 		rl_clear_history();
 		ht_free(&data->env);
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 	else
 		shell_loop(data);

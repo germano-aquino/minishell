@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:51:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	close_heredoc(t_minishell *data, int *should_int, int fd[2], char *line)
 	{
 		str = ft_strdup("bash: warning: here-document" \
 			" delimited by end-of-file (wanted \'%s\')\n");
-		ft_printf(str, data->files.infile);
 		free(str);
 	}
 }
@@ -59,9 +58,9 @@ int	should_close_heredoc(t_minishell *data, char *line, int *should_int)
 	int	should_close;
 
 	should_close = (line == NULL || *should_int == 1);
-	if (!should_close)
-		should_close = !(ft_strncmp(line, data->files.infile, \
-			max_size(line, data->files.infile)));
+	// if (!should_close)
+	// 	should_close = !(ft_strncmp(line, data->files.infile, \
+	// 		max_size(line, data->files.infile)));	ARRUMAR!!!
 	return (should_close);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/04 22:25:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:45:08 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,23 @@ void	create_file(char *file, int is_append)
 	close(fd);
 }
 
-int	handle_redirect_input(t_minishell *data, t_node **input)
+int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 {
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
 		if (!access((*input)->data, F_OK | R_OK))
 		{
-			if (data->files.infile != NULL)
-				ft_memfree((void *) &data->files.infile);
-			data->files.infile = ft_strdup((*input)->data);
-			data->files.which_input = Infile;
+			if (data->cmd.files[cmd_pos].infile != NULL)
+				ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
+			data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
+			data->cmd.files[cmd_pos].which_input = Infile;
 			*input = (*input)->next;
 			return (0);
 		}
 		else
 		{
+			ft_putstr_fd("minishell: ", STDERR);
 			perror((*input)->data);
 			*input = (*input)->next;
 			return (1);
@@ -51,15 +52,15 @@ int	handle_redirect_input(t_minishell *data, t_node **input)
 	}
 }
 
-int	handle_redirect_output(t_minishell *data, t_node **input)
+int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 {
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
-		if (data->files.outfile != NULL)
-			ft_memfree((void *)&data->files.outfile);
-		data->files.which_output = Overwrite;
-		data->files.outfile = ft_strdup((*input)->data);
+		if (data->cmd.files[cmd_pos].outfile != NULL)
+			ft_memfree((void *)&data->cmd.files[cmd_pos].outfile);
+		data->cmd.files[cmd_pos].which_output = Overwrite;
+		data->cmd.files[cmd_pos].outfile = ft_strdup((*input)->data);
 		create_file((*input)->data, FALSE);
 		*input = (*input)->next;
 		return (0);
@@ -71,22 +72,24 @@ int	handle_redirect_output(t_minishell *data, t_node **input)
 	}
 }
 
-int	handle_redirect_output_append(t_minishell *data, t_node **input)
+int	handle_redirect_output_append(
+	t_minishell *data, t_node **input, int cmd_pos)
 {
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
 		if (!access((*input)->data, F_OK) && access((*input)->data, W_OK) == -1)
 		{
+			ft_putstr_fd("minishell: ", STDERR);
 			perror((*input)->data);
 			return (1);
 		}
 		else
 		{
-			if (data->files.outfile != NULL)
-				ft_memfree((void *)&data->files.outfile);
-			data->files.outfile = ft_strdup((*input)->data);
-			data->files.which_output = Append;
+			if (data->cmd.files[cmd_pos].outfile != NULL)
+				ft_memfree((void *)&data->cmd.files[cmd_pos].outfile);
+			data->cmd.files[cmd_pos].outfile = ft_strdup((*input)->data);
+			data->cmd.files[cmd_pos].which_output = Append;
 			create_file((*input)->data, TRUE);
 			*input = (*input)->next;
 			return (0);
@@ -99,15 +102,15 @@ int	handle_redirect_output_append(t_minishell *data, t_node **input)
 	}
 }
 
-int	handle_heredoc(t_minishell *data, t_node **input)
+int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 {
 	*input = (*input)->next;
 	if (*input != NULL && (*input)->tok == Word)
 	{
-		if (data->files.infile != NULL)
-			ft_memfree((void *) &data->files.infile);
-		data->files.infile = ft_strdup((*input)->data);
-		data->files.which_input = Heredoc;
+		if (data->cmd.files[cmd_pos].infile != NULL)
+			ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
+		data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
+		data->cmd.files[cmd_pos].which_input = Heredoc;
 		*input = (*input)->next;
 		return (0);
 	}

@@ -6,40 +6,80 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/26 19:58:40 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:59:53 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_input_output_fd(t_minishell *data)
+void	build_pipeline(t_minishell *data, t_workspace *vars)
 {
-	if (data->files.which_input == Stdin)
-		data->fd[0] = dup(STDIN_FILENO);
-	else if (data->files.which_input == Infile)
-		data->fd[0] = open(data->files.infile, O_RDONLY);
-	else if (data->files.which_input == Heredoc)
-		data->fd[0] = ft_here_doc(data);
-	if (data->files.which_output == Stdout)
-		data->fd[1] = dup(STDOUT_FILENO);
-	else if (data->files.which_output == Overwrite)
-		data->fd[1] = open(
-				data->files.outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else
-		data->fd[1] = open(
-				data->files.outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	data->files.which_input = Stdin;
-	data->files.which_output = Stdout;
+	int	index;
+
+	if (data->cmd.cmds_amount > 1)
+	{
+		close(vars->fd[0][1]);
+		index = -1;
+		while (++index < (data->cmd.cmds_amount - 1))
+			dup2(vars->fd[index + 1][1], vars->fd[index][1]);
+	}
+}
+
+void	dup42(int fd_1, int *fd_2)
+{
+	close(*fd_2);
+	*fd_2 = fd_1;
+}
+
+void	initialize_pipes_and_pid(int cmds_amount, t_workspace *vars)
+{
+	int	index;
+
+	index = -1;
+	vars->fd = (int **) malloc(sizeof(int *) * cmds_amount);
+	while (++index < cmds_amount)
+	{
+		vars->fd[index] = (int *) malloc(sizeof(int) * 2);
+		pipe(vars->fd[index]);
+	}
+	vars->pid = (int *) ft_calloc(cmds_amount, sizeof(int));
+}
+
+void	set_input_output_fd(t_minishell *data, t_workspace *vars)
+{
+	int	index;
+
+	build_pipeline(data, vars);
+	index = -1;
+	while (++index < data->cmd.cmds_amount)
+	{
+		if (data->cmd.files[index].which_input == Stdin && index == 0)
+			dup42(dup(STDIN), &vars->fd[index][0]);
+		else if (data->cmd.files[index].which_input == Infile)
+			dup42(open(data->cmd.files[index].infile, O_RDONLY),
+				&vars->fd[index][0]);
+		else if (data->cmd.files[index].which_input == Heredoc)
+			dup42(ft_here_doc(data), &vars->fd[index][0]);
+		if (data->cmd.files[index].which_output == Stdout
+			&& index == data->cmd.cmds_amount - 1)
+			dup42(dup(STDOUT), &vars->fd[index][1]);
+		else if (data->cmd.files[index].which_output == Overwrite)
+			dup42(open(data->cmd.files[index].outfile,
+					O_CREAT | O_WRONLY | O_TRUNC, 0644), &vars->fd[index][1]);
+		else if (data->cmd.files[index].which_output == Append)
+			dup42(open(data->cmd.files[index].outfile,
+					O_CREAT | O_WRONLY | O_APPEND, 0644), &vars->fd[index][1]);
+	}
 }
 
 void	call_execve_or_builtin(
-	t_minishell *data, t_workspace *vars, char **envp)
+	t_minishell *data, t_workspace *vars, char **envp, int index)
 {
 	free(vars->pid);
-	if (!is_builtin(data->cmd.cmd_path[vars->i]))
+	if (!is_builtin(data->cmd.cmd_path[index]))
 	{
-		if (execve(data->cmd.cmd_path[vars->i],
-				data->cmd.args[vars->i], envp) == -1)
+		if (execve(data->cmd.cmd_path[index],
+				data->cmd.args[index], envp) == -1)
 		{
 			ft_free_matrix((void *) &envp);
 			perror("minishell: execve");
@@ -47,68 +87,59 @@ void	call_execve_or_builtin(
 		}
 	}
 	ft_free_matrix((void *) &envp);
-	check_builtin(data, vars->i, TRUE);
+	check_builtin(data, index, TRUE);
 }
 
-void	child_task(t_minishell *data, t_workspace *vars)
+void	child_task(t_minishell *data, t_workspace *vars, int index)
 {
 	char	**envp;
 
 	trigger_signal(data, NULL, &child_handler);
 	envp = get_env_from_ht(&data->env);
-	dup2(vars->curr_fd, STDIN_FILENO);
-	if (vars->i == data->cmd.cmds_amount - 1)
-		dup2(data->fd[1], STDOUT_FILENO);
-	else
-		dup2(vars->fd[1], STDOUT_FILENO);
-	close(vars->curr_fd);
-	close(vars->fd[0]);
-	close(vars->fd[1]);
-	close(data->fd[1]);
-	call_execve_or_builtin(data, vars, envp);
+	dup2(vars->fd[index][0], STDIN);
+	dup2(vars->fd[index][1], STDOUT);
+	close(vars->fd[index][0]);
+	close(vars->fd[index][1]);
+	call_execve_or_builtin(data, vars, envp, index);
 }
 
-void	exec_cmd(t_minishell *data, t_workspace *vars)
+void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
 {
-	if (pipe(vars->fd) == -1)
-		ft_exit(data, "cannot create pipe.\n", NULL, 0);
-	if (vars->curr_fd == -1)
-		vars->curr_fd = vars->fd[0];
-	vars->pid[vars->i] = fork();
-	if (vars->pid[vars->i] == 0)
-		child_task(data, vars);
+	vars->pid[index] = fork();
+	if (vars->pid[index] == 0)
+		child_task(data, vars, index);
 	else
 	{
-		close(vars->curr_fd);
-		dup2(vars->fd[0], vars->curr_fd);
-		close(vars->fd[0]);
-		close(vars->fd[1]);
+		close(vars->fd[index][0]);
+		close(vars->fd[index][1]);
 	}
 }
 
 void	exec_cmds(t_minishell *data)
 {
 	t_workspace	vars;
+	int			index;
 
-	vars.i = -1;
-	set_input_output_fd(data);
-	vars.curr_fd = data->fd[0];
-	vars.pid = (int *) ft_calloc(data->cmd.cmds_amount, sizeof(int));
-	while (++vars.i < data->cmd.cmds_amount)
+	initialize_pipes_and_pid(data->cmd.cmds_amount, &vars);
+	set_input_output_fd(data, &vars);
+	index = -1;
+	while (++index < data->cmd.cmds_amount)
 	{
-		if (!data->cmd.cmd_path[vars.i])
-			command_not_found(data, &vars);
-		else if (!(vars.i == (data->cmd.cmds_amount - 1) && data->fd[1] == -1))
-			exec_cmd(data, &vars);
+		if (!data->cmd.cmd_path[index])
+			command_not_found(data, index);
+		else
+			exec_cmd(data, &vars, index);
 	}
-	vars.i = -1;
-	while (++vars.i < data->cmd.cmds_amount)
-		if (vars.pid[vars.i])
-			waitpid(vars.pid[vars.i], &data->ext_val, 0);
-	close(vars.curr_fd);
-	close(data->fd[1]);
+	index = -1;
+	while (++index < data->cmd.cmds_amount)
+	{
+		if (vars.pid[index])
+		{
+			waitpid(vars.pid[index], &data->ext_val, 0);
+			data->ext_val = WEXITSTATUS(data->ext_val);
+		}
+	}
 	free(vars.pid);
-	data->ext_val = WEXITSTATUS(data->ext_val);
 	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
 		data->ext_val = 127;
 }

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:45:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_pipes_amount(t_node *input)
 	return (pipes_amount);
 }
 
-int	handle_pipe(t_node **input)
+int	handle_pipe(t_node **input, int *cmd_pos)
 {
 	if ((*input)->prev == NULL || (*input)->prev->tok != Word \
 		|| (*input)->next == NULL || (*input)->next->tok != Word)
@@ -35,6 +35,7 @@ int	handle_pipe(t_node **input)
 		return (1);
 	}
 	*input = (*input)->next;
+	(*cmd_pos)++;
 	return (0);
 }
 
@@ -51,17 +52,17 @@ void	lexer(t_minishell *data)
 	while (input != NULL)
 	{
 		if (input->tok == Less)
-			err = handle_redirect_input(data, &input);
+			err = handle_redirect_input(data, &input, cmd_pos);
 		else if (input->tok == Great)
-			err = handle_redirect_output(data, &input);
+			err = handle_redirect_output(data, &input, cmd_pos);
 		else if (input->tok == Double_Great)
-			err = handle_redirect_output_append(data, &input);
+			err = handle_redirect_output_append(data, &input, cmd_pos);
 		else if (input->tok == Double_Less)
-			err = handle_heredoc(data, &input);
+			err = handle_heredoc(data, &input, cmd_pos);
 		else if (input->tok == Pipe)
-			err = handle_pipe(&input);
+			err = handle_pipe(&input, &cmd_pos);
 		else if (input->tok == Word)
-			err = handle_command(data, &input, &cmd_pos);
+			err = handle_command(data, &input, cmd_pos);
 		if (err)
 			ft_exit(data, NULL, NULL, 0);
 	}

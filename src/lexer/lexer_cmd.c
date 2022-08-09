@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/23 19:26:44 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/08 23:43:42 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ int	get_args_amount(t_node *input)
 	int	args_amount;
 
 	args_amount = -1;
-	while (input != NULL && input->tok == Word)
+	while (input != NULL)
 	{
-		args_amount++;
+		if (input->tok == Pipe)
+			break ;
+		if (input->tok == Word)
+			args_amount++;
+		else if (input->tok == Less || input->tok == Double_Less
+			|| input->tok == Great || input->tok == Double_Great)
+			input = input->next;
 		input = input->next;
 	}
 	return (args_amount + 1);
@@ -63,25 +69,30 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	return (cmd_path);
 }
 
-int	handle_command(t_minishell *data, t_node **input, int *cmd_pos)
+int	handle_command(t_minishell *data, t_node **input, int cmd_pos)
 {
 	int	args_amount;
 	int	i;
 
 	args_amount = get_args_amount(*input);
-	data->cmd.args[*cmd_pos] = (char **) malloc(sizeof(char *) * \
+	data->cmd.args[cmd_pos] = (char **) malloc(sizeof(char *) * \
 		(args_amount + 2));
-	data->cmd.args[*cmd_pos][args_amount] = NULL;
-	data->cmd.cmd_path[*cmd_pos] = get_cmd_path(data, (*input)->data);
-	data->cmd.args[*cmd_pos][0] = ft_strdup((*input)->data);
+	data->cmd.args[cmd_pos][args_amount] = NULL;
+	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
+	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
 	*input = (*input)->next;
 	i = 0;
 	while (++i < args_amount && *input != NULL)
 	{
-		data->cmd.args[*cmd_pos][i] = ft_strdup((*input)->data);
+		if ((*input)->tok == Word)
+			data->cmd.args[cmd_pos][i] = ft_strdup((*input)->data);
+		else
+		{
+			*input = (*input)->next;
+			--i;
+		}
 		*input = (*input)->next;
 	}
-	(*cmd_pos)++;
 	return (0);
 }
 
@@ -90,4 +101,5 @@ void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
 	data->cmd.cmds_amount = cmds_amount;
 	data->cmd.cmd_path = (char **)ft_calloc((cmds_amount + 1), sizeof(char *));
 	data->cmd.args = (char ***)ft_calloc((cmds_amount + 1), sizeof(char **));
+	data->cmd.files = (t_files *)ft_calloc((cmds_amount + 1), sizeof(t_files));
 }
