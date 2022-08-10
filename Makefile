@@ -6,34 +6,38 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/10 17:16:22 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/10 20:11:44 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				= minishell
+NAME				:= minishell
 
-CC					= gcc
-CFLAGS				= -g3 -O0 -Wall -Wextra #-Werror
-LDFLAGS				= -lreadline
-REMOVE				= rm -rf
+HEADER_PATH			:= inc
+HEADER				:= minishell.h
 
-HEADER_PATH			= inc
-HEADER				= minishell.h
+SOURCE_PATH			:= src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input
+SOURCE_PATH			+= src/utils src/heredoc src/builtins
+SOURCE_FILES		:= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c
+SOURCE_FILES		+= lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.c utils.c
+SOURCE_FILES		+= command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c
+SOURCE_FILES		+= error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_export.c
+SOURCE_FILES		+= builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c
+SOURCE_FILES		+= builtin_single_io.c pipes_and_pid.c
 
-SOURCE_PATH			= src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input \
-					src/utils src/heredoc src/builtins
-SOURCE_FILES		= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c \
-					lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.c utils.c \
-					command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c \
-					error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_export.c \
-					builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c \
-					builtin_single_io.c pipes_and_pid.c
+LIBFT_PATH			:= libft
+LIBFT				:= libft/libft.a
 
-LIBFT_PATH			= libft
-LIBFT				= libft/libft.a
+OBJ_PATH			:= obj
+OBJ					:= $(SOURCE_FILES:%.c=$(OBJ_PATH)/%.o)
 
-OBJ_PATH			= obj
-OBJ					= $(SOURCE_FILES:%.c=$(OBJ_PATH)/%.o)
+CC					:= gcc
+CFLAGS				:= -g3 -O0 -Wall -Wextra #-Werror
+REMOVE				:= rm -rf
+VALGRIND			:= valgrind
+LDFLAGS				:= -L $(LIBFT_PATH) -lft -lreadline
+IFLAGS				:= -I $(HEADER_PATH)
+VGFLAGS				:= --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes
+VGSUPRESS			:= --suppressions=readline.supp
 
 vpath				%.c $(SOURCE_PATH)
 vpath				%.h $(HEADER_PATH)
@@ -41,16 +45,16 @@ vpath				%.h $(HEADER_PATH)
 all:				$(NAME)
 
 $(OBJ_PATH)/%.o:	%.c $(HEADER) Makefile | $(OBJ_PATH)
-					$(CC) $(CFLAGS) -I $(HEADER_PATH) -c $< -o $@
+					$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(NAME):			$(OBJ_PATH) $(LIBFT) $(OBJ)
-					$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDFLAGS) -o $@
+					$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS)
 
 $(LIBFT):
 					$(MAKE) -C $(LIBFT_PATH)
 
 $(OBJ_PATH):
-					mkdir -p $(OBJ_PATH)
+					mkdir -p $@
 
 run:				all
 					./$(NAME)
@@ -66,6 +70,6 @@ fclean:				clean
 re:					fclean all
 
 vg:					all
-					valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes ./minishell
+					$(VALGRIND) $(VGSUPRESS) $(VGFLAGS) ./$(NAME)
 
 .PHONY:				all clean fclean re vg
