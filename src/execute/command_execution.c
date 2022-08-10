@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/09 22:09:17 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 15:29:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,19 @@ void	dup42(int fd_1, int *fd_2)
 	*fd_2 = fd_1;
 }
 
-void	initialize_pipes_and_pid(int cmds_amount, t_workspace *vars)
+void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars)
 {
 	int	index;
 
 	index = -1;
-	vars->fd = (int **) ft_calloc((cmds_amount + 1), sizeof(int *));
-	while (++index < cmds_amount)
+	vars->fd = (int **) ft_calloc((data->cmd.cmds_amount + 1), sizeof(int *));
+	while (++index < data->cmd.cmds_amount)
 	{
 		vars->fd[index] = (int *) malloc(sizeof(int) * 2);
 		pipe(vars->fd[index]);
 	}
-	vars->pid = (int *) ft_calloc(cmds_amount, sizeof(int));
+	vars->pid = (int *) ft_calloc(data->cmd.cmds_amount, sizeof(int));
+	set_input_output_fd(data, vars);
 }
 
 void	set_input_output_fd(t_minishell *data, t_workspace *vars)
@@ -126,8 +127,7 @@ void	exec_cmds(t_minishell *data)
 	t_workspace	vars;
 	int			index;
 
-	initialize_pipes_and_pid(data->cmd.cmds_amount, &vars);
-	set_input_output_fd(data, &vars);
+	initialize_pipes_and_pid(data, &vars);
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
 	{
@@ -140,7 +140,7 @@ void	exec_cmds(t_minishell *data)
 	while (++index < data->cmd.cmds_amount)
 		if (vars.pid[index])
 			waitpid(vars.pid[index], &data->ext_val, 0);
-	free(vars.pid);
+	ft_memfree((void *)&vars.pid);
 	ft_free_matrix((void *)&vars.fd);
 	data->ext_val = WEXITSTATUS(data->ext_val);
 	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])

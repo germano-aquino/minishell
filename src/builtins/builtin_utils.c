@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 00:50:05 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 15:28:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_is_word_str(const char *str)
 	if (!ft_strlen(str))
 		return (FALSE);
 	if (str[0] != '_' && !ft_isalpha(str[0]))
-			return (FALSE);
+		return (FALSE);
 	index = 1;
 	while (str[index])
 	{
@@ -84,10 +84,11 @@ int	check_builtin(t_minishell *data, int index, t_bool is_child)
 	{
 		std_io[0] = dup(STDIN);
 		std_io[1] = dup(STDOUT);
-		initialize_pipes_and_pid(data->cmd.cmds_amount, &vars);
-		set_input_output_fd(data, &vars);
+		initialize_pipes_and_pid(data, &vars);
 		dup2(vars.fd[0][0], STDIN);
 		dup2(vars.fd[0][1], STDOUT);
+		close(vars.fd[0][0]);
+		close(vars.fd[0][1]);
 	}
 	status = exec_builtin(data, index, is_child);
 	if (is_child == FALSE)
@@ -96,6 +97,8 @@ int	check_builtin(t_minishell *data, int index, t_bool is_child)
 		dup2(std_io[1], STDOUT);
 		close(std_io[0]);
 		close(std_io[1]);
+		ft_memfree((void *)&vars.pid);
+		ft_free_matrix((void *)&vars.fd);
 	}
 	return (status);
 }

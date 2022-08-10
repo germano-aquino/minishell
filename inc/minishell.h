@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 01:25:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 15:28:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,8 @@ void	invalid_syntax(t_minishell *data);
 
 //lexer.c
 void	lexer(t_minishell *data);
-int		handle_input_output(t_minishell *data, t_node **input, int cmd_pos, int err);
+int		handle_input_output(
+			t_minishell *data, t_node **input, int cmd_pos, int err);
 
 //utils.c
 size_t	max_size(char *s1, char *s2);
@@ -190,7 +191,7 @@ void	ht_delete(t_hash_table *table, char *key);
 //commands_execution.c
 void	exec_cmds(t_minishell *data);
 void	set_input_output_fd(t_minishell *data, t_workspace *vars);
-void	initialize_pipes_and_pid(int cmds_amount, t_workspace *vars);
+void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars);
 
 //display.c
 void	display_htable(t_hash_table *table);
