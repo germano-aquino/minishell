@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 17:40:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:51:57 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,6 @@ void	free_cmd_table(t_command_table *table);
 //lexer_io.c
 int		handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos);
 int		handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos);
-int		handle_redirect_output_append(
-			t_minishell *data, t_node **input, int cmd_pos);
 int		handle_heredoc(t_minishell *data, t_node **input, int cmd_pos);
 
 void	invalid_syntax(t_minishell *data);

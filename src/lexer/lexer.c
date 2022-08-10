@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 01:28:25 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:51:42 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ int	handle_input_output(t_minishell *data, t_node **input, int cmd_pos, int err)
 {
 	if (*input != NULL && (*input)->tok == Less)
 		err = handle_redirect_input(data, input, cmd_pos);
-	else if (*input != NULL && (*input)->tok == Great)
+	else if (*input != NULL
+		&& ((*input)->tok == Great || (*input)->tok == Double_Great))
 		err = handle_redirect_output(data, input, cmd_pos);
-	else if (*input != NULL && (*input)->tok == Double_Great)
-		err = handle_redirect_output_append(data, input, cmd_pos);
 	else if (*input != NULL && (*input)->tok == Double_Less)
 		err = handle_heredoc(data, input, cmd_pos);
 	return (err);
