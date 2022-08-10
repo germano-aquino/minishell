@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/08 23:59:53 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/09 21:52:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	initialize_pipes_and_pid(int cmds_amount, t_workspace *vars)
 	int	index;
 
 	index = -1;
-	vars->fd = (int **) malloc(sizeof(int *) * cmds_amount);
+	vars->fd = (int **) ft_calloc((cmds_amount + 1), sizeof(int *));
 	while (++index < cmds_amount)
 	{
 		vars->fd[index] = (int *) malloc(sizeof(int) * 2);
@@ -93,13 +93,19 @@ void	call_execve_or_builtin(
 void	child_task(t_minishell *data, t_workspace *vars, int index)
 {
 	char	**envp;
+	int		i;
 
 	trigger_signal(data, NULL, &child_handler);
 	envp = get_env_from_ht(&data->env);
 	dup2(vars->fd[index][0], STDIN);
 	dup2(vars->fd[index][1], STDOUT);
-	close(vars->fd[index][0]);
-	close(vars->fd[index][1]);
+	i = -1;
+	while (++i < data->cmd.cmds_amount)
+	{
+		close(vars->fd[i][0]);
+		close(vars->fd[i][1]);
+	}
+	free(vars->fd);
 	call_execve_or_builtin(data, vars, envp, index);
 }
 
@@ -132,14 +138,11 @@ void	exec_cmds(t_minishell *data)
 	}
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
-	{
 		if (vars.pid[index])
-		{
 			waitpid(vars.pid[index], &data->ext_val, 0);
-			data->ext_val = WEXITSTATUS(data->ext_val);
-		}
-	}
 	free(vars.pid);
+	ft_free_matrix((void *)&vars.fd);
+	data->ext_val = WEXITSTATUS(data->ext_val);
 	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
 		data->ext_val = 127;
 }
