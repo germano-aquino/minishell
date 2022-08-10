@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_variable.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:29:27 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 01:07:49 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,19 @@ static int	get_ht_size(t_hash_table *table)
 
 void	populate_env_table(t_hash_table *table, char *envp[])
 {
-	char	**key_value;
+	char	*key_value[2];
+	char	*aux;
 	int		i;
 
 	i = -1;
 	while (envp[++i] != NULL)
 	{
-		key_value = ft_split(envp[i], '=');
+		aux = ft_strchr(envp[i], '=');
+		key_value[0] = ft_substr(envp[i], 0, aux - envp[i]);
+		key_value[1] = ft_substr(aux, 1, ft_strlen(aux) - 1);
 		ht_insert(table, key_value[0], key_value[1]);
-		ft_free_2d_char_ptr(&key_value);
+		ft_memfree((void *) &key_value[0]);
+		ft_memfree((void *) &key_value[1]);
 	}
 }
 

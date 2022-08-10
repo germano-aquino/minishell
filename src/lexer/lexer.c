@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/08 23:45:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 00:08:00 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ int	handle_pipe(t_node **input, int *cmd_pos)
 	return (0);
 }
 
+int	handle_input_output(t_minishell *data, t_node **input, int cmd_pos)
+{
+	int err;
+
+	err = 0;
+	if ((*input)->tok == Less)
+		err = handle_redirect_input(data, input, cmd_pos);
+	else if ((*input)->tok == Great)
+		err = handle_redirect_output(data, input, cmd_pos);
+	else if ((*input)->tok == Double_Great)
+		err = handle_redirect_output_append(data, input, cmd_pos);
+	else if ((*input)->tok == Double_Less)
+		err = handle_heredoc(data, input, cmd_pos);
+	return (err);
+}
+
 void	lexer(t_minishell *data)
 {
 	t_node	*input;
@@ -51,18 +67,12 @@ void	lexer(t_minishell *data)
 	alloc_number_of_commands(data, get_pipes_amount(input) + 1);
 	while (input != NULL)
 	{
-		if (input->tok == Less)
-			err = handle_redirect_input(data, &input, cmd_pos);
-		else if (input->tok == Great)
-			err = handle_redirect_output(data, &input, cmd_pos);
-		else if (input->tok == Double_Great)
-			err = handle_redirect_output_append(data, &input, cmd_pos);
-		else if (input->tok == Double_Less)
-			err = handle_heredoc(data, &input, cmd_pos);
-		else if (input->tok == Pipe)
+		if (input->tok == Pipe)
 			err = handle_pipe(&input, &cmd_pos);
 		else if (input->tok == Word)
 			err = handle_command(data, &input, cmd_pos);
+		else if (input != NULL)
+			err = handle_input_output(data, &input, cmd_pos);
 		if (err)
 			ft_exit(data, NULL, NULL, 0);
 	}

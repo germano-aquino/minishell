@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/08 23:49:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 00:44:23 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define REGULAR_TOKENS "<>|&*"
 # define PARSER_TOKENS "$\'\""
 # define FORBIDDEN_CHARS "\\;"
-# define WORD_CHARS "=-_+/()[]{}?!~.#@^\%`´"
+# define WORD_CHARS "=-_+/()[]{}?!~.#@^\%`´:"
 
 # define HASH_TABLE_SIZE 1031
 
@@ -162,7 +162,9 @@ int		handle_heredoc(t_minishell *data, t_node **input, int cmd_pos);
 
 void	invalid_syntax(t_minishell *data);
 
+//lexer.c
 void	lexer(t_minishell *data);
+int		handle_input_output(t_minishell *data, t_node **input, int cmd_pos);
 
 //utils.c
 size_t	max_size(char *s1, char *s2);
@@ -185,7 +187,10 @@ void	ht_insert(t_hash_table *table, char *key, char *value);
 char	*ht_search(t_hash_table *table, char *key);
 void	ht_delete(t_hash_table *table, char *key);
 
+//commands_execution.c
 void	exec_cmds(t_minishell *data);
+void	set_input_output_fd(t_minishell *data, t_workspace *vars);
+void	initialize_pipes_and_pid(int cmds_amount, t_workspace *vars);
 
 //display.c
 void	display_htable(t_hash_table *table);
