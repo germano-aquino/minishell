@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 00:44:23 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 01:25:30 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	handle_parser(t_minishell *data, char *buff, int *i);
 char	*get_dollar_value(t_minishell *data, char *buff, int *i);
 
 //lexer_cmd.c
-int		handle_command(t_minishell *data, t_node **input, int cmd_pos);
+int		handle_command(t_minishell *data, t_node **input, int cmd_pos, int err);
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
 void	free_cmd_table(t_command_table *table);
 
@@ -164,7 +164,7 @@ void	invalid_syntax(t_minishell *data);
 
 //lexer.c
 void	lexer(t_minishell *data);
-int		handle_input_output(t_minishell *data, t_node **input, int cmd_pos);
+int		handle_input_output(t_minishell *data, t_node **input, int cmd_pos, int err);
 
 //utils.c
 size_t	max_size(char *s1, char *s2);

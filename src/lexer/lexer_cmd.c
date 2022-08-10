@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/09 23:37:22 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 01:25:39 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	return (cmd_path);
 }
 
-int	handle_command(t_minishell *data, t_node **input, int cmd_pos)
+int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 {
 	int	args_amount;
 	int	i;
@@ -91,10 +91,12 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos)
 		}
 		else
 		{
-			handle_input_output(data, input, cmd_pos);
+			err = handle_input_output(data, input, cmd_pos, err);
 			--i;
 		}
 	}
+	if (err)
+		data->cmd.cmd_path[cmd_pos] = NULL;
 	return (0);
 }
 

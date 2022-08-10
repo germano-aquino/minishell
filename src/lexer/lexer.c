@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 00:08:00 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 01:28:25 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,15 @@ int	handle_pipe(t_node **input, int *cmd_pos)
 	return (0);
 }
 
-int	handle_input_output(t_minishell *data, t_node **input, int cmd_pos)
+int	handle_input_output(t_minishell *data, t_node **input, int cmd_pos, int err)
 {
-	int err;
-
-	err = 0;
-	if ((*input)->tok == Less)
+	if (*input != NULL && (*input)->tok == Less)
 		err = handle_redirect_input(data, input, cmd_pos);
-	else if ((*input)->tok == Great)
+	else if (*input != NULL && (*input)->tok == Great)
 		err = handle_redirect_output(data, input, cmd_pos);
-	else if ((*input)->tok == Double_Great)
+	else if (*input != NULL && (*input)->tok == Double_Great)
 		err = handle_redirect_output_append(data, input, cmd_pos);
-	else if ((*input)->tok == Double_Less)
+	else if (*input != NULL && (*input)->tok == Double_Less)
 		err = handle_heredoc(data, input, cmd_pos);
 	return (err);
 }
@@ -70,10 +67,8 @@ void	lexer(t_minishell *data)
 		if (input->tok == Pipe)
 			err = handle_pipe(&input, &cmd_pos);
 		else if (input->tok == Word)
-			err = handle_command(data, &input, cmd_pos);
+			err = handle_command(data, &input, cmd_pos, err);
 		else if (input != NULL)
-			err = handle_input_output(data, &input, cmd_pos);
-		if (err)
-			ft_exit(data, NULL, NULL, 0);
+			err = handle_input_output(data, &input, cmd_pos, err);
 	}
 }
