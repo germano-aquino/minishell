@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/09 21:52:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/09 22:09:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	child_task(t_minishell *data, t_workspace *vars, int index)
 		close(vars->fd[i][0]);
 		close(vars->fd[i][1]);
 	}
-	free(vars->fd);
+	ft_free_matrix((void *)&vars->fd);
 	call_execve_or_builtin(data, vars, envp, index);
 }
 
