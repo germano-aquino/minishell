@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/26 01:45:23 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:32:40 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ char	*get_env_var(t_hash_table *env, char *buff, int *i)
 {
 	size_t	begin;
 	char	*key;
-	char *env_var;
+	char	*env_var;
 
-	begin = (size_t) *i;
+	begin = (size_t)(*i);
 	while (ft_isalnum(buff[*i]) || buff[*i] == '_')
 		(*i)++;
 	key = ft_substr(buff, begin, (size_t)(*i) - begin);
@@ -64,7 +64,7 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 
 	env_var = get_dollar_value(data, buff, i);
 	if (env_var == NULL)
-		env_var = ft_strdup("") ;
+		env_var = ft_strdup("");
 	if ((buff[*i] && buff[*i] != ' ' && \
 	!ft_chr_in_str(REGULAR_TOKENS, buff[*i])) && env_var)
 	{

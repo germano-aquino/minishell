@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/26 01:25:52 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:37:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	handle_single_quote(t_minishell *data, char *buff, int *i)
 	begin = (size_t)(++(*i));
 	while (buff[*i] != '\'')
 		(*i)++;
-	str = ft_substr(buff, begin, (size_t)(*i) - begin);
+	str = ft_substr(buff, begin, ((*i) - begin));
 	(*i)++;
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
 	{
@@ -60,14 +60,14 @@ void	handle_double_quote(t_minishell *data, char *buff, int *i)
 	{
 		if (buff[*i] == '$')
 		{
-			str = join_str_and_free(str, ft_substr(buff, begin, (size_t)(*i) - begin));
-			str = join_str_and_free(str, get_dollar_value(data, buff, i));
+			str = join_free(str, ft_substr(buff, begin, ((*i) - begin)));
+			str = join_free(str, get_dollar_value(data, buff, i));
 			begin = (size_t)(*i);
 		}
 		else
 			(*i)++;
 	}
-	str = join_str_and_free(str, ft_substr(buff, begin, (size_t)(*i) - begin));
+	str = join_free(str, ft_substr(buff, begin, ((*i) - begin)));
 	(*i)++;
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
 	{

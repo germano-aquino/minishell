@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 23:44:03 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/25 23:54:10 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:35:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*concat_and_delete_last_input(char *str, t_node *input)
 	char	*concat;
 
 	last = get_last_input(input);
-	concat = join_str_and_free(str, ft_strdup(last->data));
+	concat = join_free(str, ft_strdup(last->data));
 	last->prev->next = NULL;
 	free_input(&last);
 	return (concat);

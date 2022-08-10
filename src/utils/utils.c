@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:34:40 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	max_size(char *s1, char *s2)
 		return (size2);
 }
 
-int		max(int a, int b)
+int	max(int a, int b)
 {
 	if (a > b)
 		return (a);
@@ -66,7 +66,7 @@ int	ft_chr_in_str(const char *str, char ch)
 	return (0);
 }
 
-char	*join_str_and_free(char *str1, char *str2)
+char	*join_free(char *str1, char *str2)
 {
 	char	*join;
 

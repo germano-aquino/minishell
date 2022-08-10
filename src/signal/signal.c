@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:38:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	event(void)
 
 void	child_handler(int signo)
 {
-	write(2 ,"Enter in child handler.\n", 25);
+	write(STDERR, "Enter in child handler.\n", 25);
 	if (signo == SIGINT)
 		exit(130);
 	if (signo == SIGQUIT)
@@ -66,8 +66,8 @@ void	trigger_signal(t_minishell *data, char*buff, void *handler)
 	sigemptyset(&act.sa_mask);
 	act.sa_handler = handler;
 	act.sa_flags = SA_RESTART;
-	if (sigaction(SIGINT, &act, NULL) == -1 ||
-		sigaction(SIGQUIT, &ign, NULL) == -1)
+	if (sigaction(SIGINT, &act, NULL) == -1
+		|| sigaction(SIGQUIT, &ign, NULL) == -1)
 	{
 		perror("sigaction");
 		ft_exit(data, NULL, buff, 1);

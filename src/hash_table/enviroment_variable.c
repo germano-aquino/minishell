@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment_variable.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:29:27 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 01:07:49 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:35:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_key_value_from_item(t_hnode *item)
 	char	*key_value;
 
 	key_value = ft_strdup(item->key);
-	key_value = join_str_and_free(key_value, ft_strjoin("=", item->value));
+	key_value = join_free(key_value, ft_strjoin("=", item->value));
 	return (key_value);
 }
 

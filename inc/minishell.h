@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 17:51:57 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 19:34:53 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int		handle_input_output(
 size_t	max_size(char *s1, char *s2);
 void	ft_free_2d_char_ptr(char ***ptr);
 int		ft_chr_in_str(const char *str, char ch);
-char	*join_str_and_free(char *str1, char *str2);
+char	*join_free(char *str1, char *str2);
 int		max(int a, int b);
 int		ft_is_number_str(const char *str);
 int		ft_is_word_str(const char *str);
