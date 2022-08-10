@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 15:28:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:40:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,16 @@ typedef enum e_input
 {
 	Stdin,
 	Infile,
-	Heredoc
+	Heredoc,
+	Invalid_In
 }	t_input;
 
 typedef enum e_output
 {
 	Stdout,
 	Overwrite,
-	Append
+	Append,
+	Invalid_Out
 }	t_output;
 
 typedef struct s_files
@@ -190,8 +192,11 @@ void	ht_delete(t_hash_table *table, char *key);
 
 //commands_execution.c
 void	exec_cmds(t_minishell *data);
+void	build_pipeline(t_minishell *data, t_workspace *vars);
 void	set_input_output_fd(t_minishell *data, t_workspace *vars);
 void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars);
+int		check_builtin(t_minishell *data, int index, t_bool is_child);
+int		exec_builtin(t_minishell *data, int index, t_bool is_child);
 
 //display.c
 void	display_htable(t_hash_table *table);
@@ -223,6 +228,8 @@ int		builtin_cd(t_minishell *data, int index, t_bool is_child);
 int		builtin_pwd(t_minishell *data, t_bool is_child);
 int		builtin_env(t_minishell *data, t_bool is_child);
 void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code);
+void	set_io_builtin(t_minishell *data, t_workspace *vars, int *std_io);
+void	reset_io_builtin(t_workspace *vars, int *std_io);
 
 //garbage collecting
 void	exit_free(t_minishell *data, t_llong exit_code);

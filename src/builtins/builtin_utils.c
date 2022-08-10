@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 15:28:48 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:05:33 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,59 +48,6 @@ void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code)
 	if (is_child)
 		exit_free(data, exit_code);
 	data->ext_val = exit_code;
-}
-
-int	exec_builtin(t_minishell *data, int index, t_bool is_child)
-{
-	t_bool	status;
-
-	status = FALSE;
-	if (!data->cmd.args[index])
-		return (TRUE);
-	else if (ft_strcmp(*data->cmd.args[index], "exit") == 0)
-		status = builtin_exit(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "echo") == 0)
-		status = builtin_echo(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "export") == 0)
-		status = builtin_export(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "env") == 0)
-		status = builtin_env(data, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "unset") == 0)
-		status = builtin_unset(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "cd") == 0)
-		status = builtin_cd(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "pwd") == 0)
-		status = builtin_pwd(data, is_child);
-	return (status);
-}
-
-int	check_builtin(t_minishell *data, int index, t_bool is_child)
-{
-	t_workspace	vars;
-	t_bool		status;
-	int			std_io[2];
-
-	if (is_child == FALSE)
-	{
-		std_io[0] = dup(STDIN);
-		std_io[1] = dup(STDOUT);
-		initialize_pipes_and_pid(data, &vars);
-		dup2(vars.fd[0][0], STDIN);
-		dup2(vars.fd[0][1], STDOUT);
-		close(vars.fd[0][0]);
-		close(vars.fd[0][1]);
-	}
-	status = exec_builtin(data, index, is_child);
-	if (is_child == FALSE)
-	{
-		dup2(std_io[0], STDIN);
-		dup2(std_io[1], STDOUT);
-		close(std_io[0]);
-		close(std_io[1]);
-		ft_memfree((void *)&vars.pid);
-		ft_free_matrix((void *)&vars.fd);
-	}
-	return (status);
 }
 
 int	is_builtin(char *cmd)
