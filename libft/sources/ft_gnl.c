@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gnl_multifd.c                                   :+:      :+:    :+:   */
+/*   ft_gnl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:52:03 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/29 14:06:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/01 19:57:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,20 @@ static char	*ft_read_line(int fd, char *buffer)
 			break ;
 		}
 		aux[read_ret] = '\0';
-		buffer = ft_strjoin_free(&buffer, &aux);
+		buffer = ft_strjoin_free_null(&buffer, &aux);
 	}
 	if (!*buffer)
 		ft_memfree((void *) &buffer);
 	return (buffer);
 }
 
-char	*ft_gnl_multifd(int fd)
+char	*ft_gnl(int fd)
 {
-	static char	*cache[MAX_FD_VALUE];
+	static char	cache[BUFFER_SIZE + 1];
 	char		*buffer;
 
 	if (fd < 0 || fd >= MAX_FD_VALUE || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!cache[fd])
-		cache[fd] = (char *) ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	if (!cache[fd])
-		return (NULL);
-	buffer = ft_read_line(fd, ft_strdup(cache[fd]));
-	if (!buffer)
-		ft_memfree((void *) &cache[fd]);
-	return (ft_extract_line(buffer, cache[fd]));
+	buffer = ft_read_line(fd, ft_strdup(cache));
+	return (ft_extract_line(buffer, cache));
 }

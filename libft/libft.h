@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:43:19 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/20 00:57:53 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/07 20:39:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_list
 /*
 
 
-PART 1 - LIBC FUNCTIONS
+	PART 1 - LIBC FUNCTIONS
 
 
 */
@@ -237,7 +237,8 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 * @param s Memory area to scan.
 * @param c Character to scan for.
 * @param n Number of bytes to scan.
-* @return
+* @return A pointer to the matching byte, or NULL if
+* the character c does not occur in the given memory area.
 */
 void	*ft_memchr(const void *s, int c, size_t n);
 
@@ -290,7 +291,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 /*
 
 
-PART 2 - ADDITIONAL FUNCTIONS
+	PART 2 - ADDITIONAL FUNCTIONS
 
 
 */
@@ -314,17 +315,6 @@ char	*ft_itoa(int n);
 * @return A pointer to the created string or NULL on error.
 */
 char	*ft_strjoin(char const *s1, char const *s2);
-
-/**
-* @brief Creates a new string, which is the result
-* of the concatenation of s1 and s2, then free()s both s1 and s2.
-* Memory for the new string is obtained with malloc(),
-* and can be freed with free().
-* @param s1 First string.
-* @param s2 Second string.
-* @return A pointer to the created string or NULL on error.
-*/
-char	*ft_strjoin_free(char **s1, char **s2);
 
 /**
 * @brief Creates a copy of s1 with the characters specified in set
@@ -424,7 +414,7 @@ void	ft_putnbr_fd(int n, int fd);
 /*
 
 
-BONUS PART
+	BONUS PART
 
 
 */
@@ -518,7 +508,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 /*
 
 
-ADDED LATER
+	ADDED LATER
 
 
 */
@@ -607,10 +597,69 @@ int		ft_strcmp(const char *s1, const char *s2);
 */
 void	ft_skip_chars(char *str, int (*f)(int));
 
+/**
+* @brief Creates a copy of s1 with the characters specified in set
+* removed from the beginning and the end of the string, then
+* free()s s1.
+* Memory for the new string is obtained with malloc(),
+* and can be freed with free().
+* @param s1 String to trim from.
+* @param set Set of characters to trim.
+* @return A pointer to the trimmed string or NULL on error.
+*/
+char	*ft_strtrim_free(char **s1, char const *set);
+
+/**
+* @brief Creates a new string, which is the result
+* of the concatenation of s1 and s2, then free()s both s1 and s2.
+* Memory for the new string is obtained with malloc(),
+* and can be freed with free().
+* @param s1 First string.
+* @param s2 Second string.
+* @return A pointer to the created string or NULL on error.
+*/
+char	*ft_strjoin_free(char *s1, char *s2);
+
+/**
+* @brief Creates a new string, which is the result
+* of the concatenation of s1 and s2, then free()s and points
+* both s1 and s2 to NULL.
+* Memory for the new string is obtained with malloc(),
+* and can be freed with free().
+* @param s1 First string.
+* @param s2 Second string.
+* @return A pointer to the created string or NULL on error.
+*/
+char	*ft_strjoin_free_null(char **s1, char **s2);
+
+/**
+* @brief The ft_mempcpy() function is nearly identical to the ft_memcpy()
+* function. It copies n bytes from the object beginning at src into the
+* object pointed to by dest. But instead of returning the value of dest,
+* it returns a pointer to the byte following the last written byte.
+* @param dest Destination memory area.
+* @param src Source memory area.
+* @param n Number of bytes to copy.
+* @return dest + n (a pointer to the byte following the last written byte).
+*/
+void	*ft_mempcpy(void *dest, const void *src, size_t n);
+
+/**
+* @brief Copies no more than n bytes from memory area src to
+* memory area dest, stopping when the character c is found.
+* @param dest Destination memory area.
+* @param src Source memory area.
+* @param c Stopping character.
+* @param n Number of bytes to copy.
+* @return A pointer to the next character in dest after c,
+* or NULL if c was not found in the first n characters of src.
+*/
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n);
+
 /*
 
 
-GET_NEXT_LINE & FT_PRINTF
+	GET_NEXT_LINE & FT_PRINTF
 
 
 */
@@ -635,9 +684,9 @@ char	*ft_gnl(int fd);
 char	*ft_gnl_multifd(int fd);
 
 /**
-* @brief Print an output to the standard output stream (terminal),
+* @brief Print an output to the standard output file descriptor (terminal),
 * according to a format specified as a parameter
-* (accepted arguments: cspdiuxX%).
+* (accepted specifiers: cspdiuxX%).
 * @param format Desired output formatting.
 * @param ... Variadic arguments.
 * @return The number of characters printed.

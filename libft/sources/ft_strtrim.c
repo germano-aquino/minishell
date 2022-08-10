@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 12:44:48 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/03 03:27:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/07/24 20:18:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	s1_len;
 
-	if (!s1 || !set)
+	if (s1 && !set)
+		return (ft_strdup(s1));
+	if (!s1)
 		return (NULL);
 	while (*s1 && ft_strchr(set, *s1))
 		s1++;
