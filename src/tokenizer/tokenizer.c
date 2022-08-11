@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 17:39:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:29:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	handle_token(t_minishell *data, char *buff, int *i)
 	else if (!ft_strncmp(buff + *i, "<<", 2))
 		*i += buff_to_input(data, "<<", Double_Less);
 	else if (!ft_strncmp(buff + *i, "&&", 2))
-		*i += buff_to_input(data, "&&", Double_Ampersand);
+		*i += buff_to_input(data, "&&", Word);
 	else if (!ft_strncmp(buff + *i, "||", 2))
-		*i += buff_to_input(data, "||", Double_Pipe);
+		*i += buff_to_input(data, "||", Word);
 	else if (!ft_strncmp(buff + *i, ">", 1))
 		*i += buff_to_input(data, ">", Great);
 	else if (!ft_strncmp(buff + *i, "<", 1))
@@ -29,7 +29,7 @@ static void	handle_token(t_minishell *data, char *buff, int *i)
 	else if (!ft_strncmp(buff + *i, "|", 1))
 		*i += buff_to_input(data, "|", Pipe);
 	else if (!ft_strncmp(buff + *i, "&", 1))
-		*i += buff_to_input(data, "&", Ampersand);
+		*i += buff_to_input(data, "&", Word);
 	else if (!ft_strncmp(buff + *i, "*", 1))
 		*i += buff_to_input(data, "*", Wildcard);
 }

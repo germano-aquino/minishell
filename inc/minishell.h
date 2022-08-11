@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 17:46:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:28:26 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define HASH_TABLE_SIZE 1031
 
 typedef struct sigaction	t_sigaction;
-typedef struct termios		t_termios;
 typedef struct stat			t_stat;
 
 typedef enum e_input
