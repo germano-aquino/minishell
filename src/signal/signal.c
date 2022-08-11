@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 19:38:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:45:05 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ int	event(void)
 
 void	child_handler(int signo)
 {
-	write(STDERR, "Enter in child handler.\n", 25);
 	if (signo == SIGINT)
 		exit(130);
 	if (signo == SIGQUIT)
+	{
+		ft_putstr_fd("Quit\n", 2);
 		exit(131);
+	}
 }
 
 void	heredoc_handler(int signo)
@@ -38,6 +40,20 @@ void	heredoc_handler(int signo)
 	}
 	else if (signo == SIGQUIT)
 		return ;
+}
+
+void	cmd_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		ft_printf("\n");
+		rl_replace_line("", 1);
+		rl_on_new_line();
+	}
+	else if (signo == SIGQUIT)
+	{
+		printf("Quit\n");
+	}
 }
 
 void	prompt_handler(int signo)
@@ -55,7 +71,7 @@ void	prompt_handler(int signo)
 	}
 }
 
-void	trigger_signal(t_minishell *data, char*buff, void *handler)
+void	trigger_signal(int ignore_sigquit, void *handler)
 {
 	t_sigaction	act;
 	t_sigaction	ign;
@@ -66,10 +82,9 @@ void	trigger_signal(t_minishell *data, char*buff, void *handler)
 	sigemptyset(&act.sa_mask);
 	act.sa_handler = handler;
 	act.sa_flags = SA_RESTART;
-	if (sigaction(SIGINT, &act, NULL) == -1
-		|| sigaction(SIGQUIT, &ign, NULL) == -1)
-	{
-		perror("sigaction");
-		ft_exit(data, NULL, buff, 1);
-	}
+	sigaction(SIGINT, &act, NULL);
+	if (ignore_sigquit)
+		sigaction(SIGQUIT, &ign, NULL);
+	else
+		sigaction(SIGQUIT, &act, NULL);
 }

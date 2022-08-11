@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 22:17:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:45:52 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	shell_loop(t_minishell *data)
 	buff = NULL;
 	while (1)
 	{
-		trigger_signal(data, buff, &prompt_handler);
+		trigger_signal(1, &prompt_handler);
 		buff = readline("MINISHELL> ");
 		if (buff == NULL)
 			builtin_exit(data, 0, FALSE);

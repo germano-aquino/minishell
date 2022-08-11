@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_and_pid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:15:32 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 17:15:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:52:32 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	set_input_output_fd(t_minishell *data, t_workspace *vars)
 			dup2(open(data->cmd.files[index].infile, O_RDONLY),
 				vars->fd[index][0]);
 		else if (data->cmd.files[index].which_input == Heredoc)
-			dup2(ft_here_doc(data), vars->fd[index][0]);
+			dup2(ft_here_doc(data, index), vars->fd[index][0]);
 		if (data->cmd.files[index].which_output == Stdout
 			&& index == data->cmd.cmds_amount - 1)
 			dup2(dup(STDOUT), vars->fd[index][1]);

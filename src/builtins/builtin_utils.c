@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 17:05:33 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:29:12 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code)
 
 int	is_builtin(char *cmd)
 {
+	if (cmd == NULL)
+		return (0);
 	return (ft_strcmp(cmd, "exit") == 0
 		|| ft_strcmp(cmd, "echo") == 0
 		|| ft_strcmp(cmd, "env") == 0

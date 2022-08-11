@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/08 23:51:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:52:42 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	*heredoc_interruptor(int is_interrupt)
 	return (&should_interrupt);
 }
 
-int	*init_heredoc_signal(t_minishell *data)
+int	*init_heredoc_signal()
 {
 	int	*should_interrupt;
 
 	rl_event_hook = event;
 	should_interrupt = heredoc_interruptor(0);
-	trigger_signal(data, NULL, &heredoc_handler);
+	trigger_signal(1, &heredoc_handler);
 	return (should_interrupt);
 }
 
@@ -64,7 +64,7 @@ int	should_close_heredoc(t_minishell *data, char *line, int *should_int)
 	return (should_close);
 }
 
-int	ft_here_doc(t_minishell *data)
+int	ft_here_doc(t_minishell *data, int index)
 {
 	char	*line;
 	int		fd[2];

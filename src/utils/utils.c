@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 19:34:40 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 00:09:52 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,6 @@ int	max(int a, int b)
 	if (a > b)
 		return (a);
 	return (b);
-}
-
-void	ft_free_2d_char_ptr(char ***ptr)
-{
-	char	**temp;
-	int		i;
-
-	temp = *ptr;
-	i = 0;
-	while (*temp != NULL)
-	{
-		free(*temp);
-		*temp = NULL;
-		i++;
-		temp = (*ptr + i);
-	}
-	free(*ptr);
-	*ptr = NULL;
 }
 
 int	ft_chr_in_str(const char *str, char ch)

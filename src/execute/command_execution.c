@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 22:21:39 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 23:45:51 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	child_task(t_minishell *data, t_workspace *vars, int index)
 	char	**envp;
 	int		i;
 
-	trigger_signal(data, NULL, &child_handler);
+	trigger_signal(0, &child_handler);
 	envp = get_env_from_ht(&data->env);
 	dup2(vars->fd[index][0], STDIN);
 	dup2(vars->fd[index][1], STDOUT);
@@ -73,6 +73,7 @@ void	exec_cmds(t_minishell *data)
 	t_workspace	vars;
 	int			index;
 
+	trigger_signal(0, &cmd_handler);
 	initialize_pipes_and_pid(data, &vars);
 	index = -1;
 	while (++index < data->cmd.cmds_amount)

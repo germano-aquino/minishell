@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 22:17:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 00:03:38 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_minishell
 {
 	t_command_table	cmd;
 	t_hash_table	env;
-	int				ext_val;
+	int				*ext_val;
 	int				child_exit_code;
 	t_node			*input;
 }	t_minishell;
@@ -206,15 +206,16 @@ void	display_cmd_table(t_command_table *cmd);
 void	populate_env_table(t_hash_table *table, char *envp[]);
 
 //signal.c
-void	trigger_signal(t_minishell *data, char*buff, void *handler);
+void	trigger_signal(int ignore_sigquit, void *handler);
 void	prompt_handler(int signo);
 void	heredoc_handler(int signo);
+void	cmd_handler(int signo);
 void	child_handler(int signo);
 int		event(void);
 
 //heredoc.c
 int		*heredoc_interruptor(int is_interrupt);
-int		ft_here_doc(t_minishell *data);
+int	ft_here_doc(t_minishell *data, int index);
 
 //builtins
 int		is_builtin(char *cmd);
