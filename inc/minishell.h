@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 20:41:19 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:47:40 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define WORD_CHARS "=-_+/()[]{}?!~.#@^\\\%`´:;"
 # define EXIT_NOT_EXECUTABLE 126
 # define EXIT_NOT_FOUND 127
+# define EXIT_SIGINT 130
+# define EXIT_SIGQUIT 131
+
 # define HASH_TABLE_SIZE 1031
 
 typedef struct sigaction	t_sigaction;

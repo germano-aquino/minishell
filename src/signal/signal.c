@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 23:45:05 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:51:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	event(void)
 void	child_handler(int signo)
 {
 	if (signo == SIGINT)
-		exit(130);
+		exit(EXIT_SIGINT);
 	if (signo == SIGQUIT)
 	{
 		ft_putstr_fd("Quit\n", 2);
-		exit(131);
+		exit(EXIT_SIGQUIT);
 	}
 }
 
@@ -37,9 +37,8 @@ void	heredoc_handler(int signo)
 		rl_on_new_line();
 		heredoc_interruptor(1);
 		rl_done = 1;
+		g_ext_val = EXIT_SIGINT;
 	}
-	else if (signo == SIGQUIT)
-		return ;
 }
 
 void	cmd_handler(int signo)
@@ -49,10 +48,12 @@ void	cmd_handler(int signo)
 		ft_printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
+		g_ext_val = EXIT_SIGINT;
 	}
 	else if (signo == SIGQUIT)
 	{
 		printf("Quit\n");
+		g_ext_val = EXIT_SIGQUIT;
 	}
 }
 
@@ -64,10 +65,7 @@ void	prompt_handler(int signo)
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
-	}
-	else if (signo == SIGQUIT)
-	{
-		return ;
+		g_ext_val = EXIT_SIGINT;
 	}
 }
 
