@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 00:17:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:36:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <stdio.h>
 # include <signal.h>
 # include <termios.h>
@@ -30,26 +31,26 @@
 # define PARSER_TOKENS "$\'\""
 # define FORBIDDEN_CHARS "\\;"
 # define WORD_CHARS "=-_+/()[]{}?!~.#@^\%`´:"
-
+# define EXIT_NOT_EXECUTABLE 126
+# define EXIT_NOT_FOUND 127
 # define HASH_TABLE_SIZE 1031
 
 typedef struct sigaction	t_sigaction;
 typedef struct termios		t_termios;
+typedef struct stat			t_stat;
 
 typedef enum e_input
 {
 	Stdin,
 	Infile,
-	Heredoc,
-	Invalid_In
+	Heredoc
 }	t_input;
 
 typedef enum e_output
 {
 	Stdout,
 	Overwrite,
-	Append,
-	Invalid_Out
+	Append
 }	t_output;
 
 typedef struct s_files
@@ -165,8 +166,12 @@ void	invalid_syntax(t_minishell *data);
 
 //lexer.c
 void	lexer(t_minishell *data);
+t_bool	validate_path(t_minishell *data, char *path);
 int		handle_input_output(
 			t_minishell *data, t_node **input, int cmd_pos, int err);
+
+t_bool	is_path(char *str);
+t_bool	is_directory(char *path);
 
 //utils.c
 size_t	max_size(char *s1, char *s2);
@@ -215,7 +220,7 @@ int		event(void);
 
 //heredoc.c
 int		*heredoc_interruptor(int is_interrupt);
-int	ft_here_doc(t_minishell *data, int index);
+int		ft_here_doc(t_minishell *data, int index);
 
 //builtins
 int		is_builtin(char *cmd);
@@ -235,6 +240,9 @@ void	reset_io_builtin(t_workspace *vars, int *std_io);
 void	exit_free(t_minishell *data, t_llong exit_code);
 
 //error handling
-void	command_not_found(t_minishell *data, int index);
+t_bool	print_error_msg(char *cmd, char *msg);
+void	exit_error(t_minishell *data, char *cmd, char *msg, int exit_code);
+t_bool	print_perror_msg(char *cmd, char *perror_msg);
+void	exit_perror(t_minishell *data, char *cmd, char *perr, int exit_code);
 
 #endif

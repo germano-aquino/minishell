@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 23:45:51 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:44:10 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,27 @@ void	call_execve_or_builtin(
 	check_builtin(data, index, TRUE);
 }
 
-void	child_task(t_minishell *data, t_workspace *vars, int index)
+void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
 {
 	char	**envp;
 	int		i;
 
-	trigger_signal(0, &child_handler);
-	envp = get_env_from_ht(&data->env);
-	dup2(vars->fd[index][0], STDIN);
-	dup2(vars->fd[index][1], STDOUT);
-	i = -1;
-	while (++i < data->cmd.cmds_amount)
-	{
-		close(vars->fd[i][0]);
-		close(vars->fd[i][1]);
-	}
-	ft_free_matrix((void *)&vars->fd);
-	call_execve_or_builtin(data, vars, envp, index);
-}
-
-void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
-{
 	vars->pid[index] = fork();
 	if (vars->pid[index] == 0)
-		child_task(data, vars, index);
+	{
+		trigger_signal(0, &child_handler);
+		envp = get_env_from_ht(&data->env);
+		dup2(vars->fd[index][0], STDIN);
+		dup2(vars->fd[index][1], STDOUT);
+		i = -1;
+		while (++i < data->cmd.cmds_amount)
+		{
+			close(vars->fd[i][0]);
+			close(vars->fd[i][1]);
+		}
+		ft_free_matrix((void *)&vars->fd);
+		call_execve_or_builtin(data, vars, envp, index);
+	}
 	else
 	{
 		close(vars->fd[index][0]);
@@ -61,11 +58,18 @@ void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
 	}
 }
 
-void	close_unused_fds(t_minishell *data, t_workspace *vars, int index)
+void	wait_child(t_minishell *data, t_workspace *vars)
 {
-	close(vars->fd[index][0]);
-	close(vars->fd[index][1]);
-	data->ext_val = EXIT_FAILURE;
+	int	index;
+
+	index = -1;
+	while (++index < data->cmd.cmds_amount)
+		if (vars->pid[index])
+			waitpid(vars->pid[index], &data->child_exit_code, 0);
+	if (vars->pid[index - 1] && WIFEXITED(data->child_exit_code))
+		data->ext_val = WEXITSTATUS(data->child_exit_code);
+	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
+		data->ext_val = 127;
 }
 
 void	exec_cmds(t_minishell *data)
@@ -73,26 +77,24 @@ void	exec_cmds(t_minishell *data)
 	t_workspace	vars;
 	int			index;
 
+	if (!*data->cmd.args)
+		return ;
 	trigger_signal(0, &cmd_handler);
 	initialize_pipes_and_pid(data, &vars);
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
 	{
-		if (!data->cmd.cmd_path[index])
-			command_not_found(data, index);
-		else if (!*data->cmd.cmd_path[index])
-			close_unused_fds(data, &vars, index);
+		if (!*data->cmd.cmd_path[index])
+		{
+			close(vars.fd[index][0]);
+			close(vars.fd[index][1]);
+			if (data->ext_val == EXIT_SUCCESS)
+				data->ext_val = EXIT_FAILURE;
+		}
 		else
 			exec_cmd(data, &vars, index);
 	}
-	index = -1;
-	while (++index < data->cmd.cmds_amount)
-		if (vars.pid[index])
-			waitpid(vars.pid[index], &data->child_exit_code, 0);
-	if (vars.pid[index - 1] && WIFEXITED(data->child_exit_code))
-		data->ext_val = WEXITSTATUS(data->child_exit_code);
+	wait_child(data, &vars);
 	ft_memfree((void *)&vars.pid);
 	ft_free_matrix((void *)&vars.fd);
-	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
-		data->ext_val = 127;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_and_pid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:15:32 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 23:52:32 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 16:49:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	build_pipeline(t_minishell *data, t_workspace *vars)
 	}
 }
 
+void	dup42(int fd_1, int fd_2)
+{
+	dup2(fd_1, fd_2);
+	close(fd_1);
+}
+
 void	set_input_output_fd(t_minishell *data, t_workspace *vars)
 {
 	int	index;
@@ -34,20 +40,20 @@ void	set_input_output_fd(t_minishell *data, t_workspace *vars)
 	while (++index < data->cmd.cmds_amount)
 	{
 		if (data->cmd.files[index].which_input == Stdin && index == 0)
-			dup2(dup(STDIN), vars->fd[index][0]);
+			dup42(dup(STDIN), vars->fd[index][0]);
 		else if (data->cmd.files[index].which_input == Infile)
-			dup2(open(data->cmd.files[index].infile, O_RDONLY),
+			dup42(open(data->cmd.files[index].infile, O_RDONLY),
 				vars->fd[index][0]);
 		else if (data->cmd.files[index].which_input == Heredoc)
-			dup2(ft_here_doc(data, index), vars->fd[index][0]);
+			dup42(ft_here_doc(data, index), vars->fd[index][0]);
 		if (data->cmd.files[index].which_output == Stdout
 			&& index == data->cmd.cmds_amount - 1)
-			dup2(dup(STDOUT), vars->fd[index][1]);
+			dup42(dup(STDOUT), vars->fd[index][1]);
 		else if (data->cmd.files[index].which_output == Overwrite)
-			dup2(open(data->cmd.files[index].outfile,
+			dup42(open(data->cmd.files[index].outfile,
 					O_CREAT | O_WRONLY | O_TRUNC, 0644), vars->fd[index][1]);
 		else if (data->cmd.files[index].which_output == Append)
-			dup2(open(data->cmd.files[index].outfile,
+			dup42(open(data->cmd.files[index].outfile,
 					O_CREAT | O_WRONLY | O_APPEND, 0644), vars->fd[index][1]);
 	}
 }

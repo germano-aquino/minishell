@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 19:32:40 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:06:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 
 	env_var = get_dollar_value(data, buff, i);
 	if (env_var == NULL)
-		env_var = ft_strdup("");
-	if ((buff[*i] && buff[*i] != ' ' && \
-	!ft_chr_in_str(REGULAR_TOKENS, buff[*i])) && env_var)
+		return ;
+	if ((buff[*i] && buff[*i] != ' '
+			&& !ft_chr_in_str(REGULAR_TOKENS, buff[*i])) && env_var)
 	{
 		handle_parser(data, buff, i);
 		env_var = concat_and_delete_last_input(env_var, data->input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 00:05:16 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:27:01 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_absolute_cmd_path(char *cmd_base, char **path)
 	while (path[++i] != NULL)
 	{
 		cmd_path = ft_strjoin(path[i], cmd_base);
-		if (!access(cmd_path, X_OK | F_OK))
+		if (!access(cmd_path, X_OK))
 			return (cmd_path);
 		free(cmd_path);
 	}
@@ -53,7 +53,7 @@ char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	char	*temp;
 	char	*cmd_path;
 
-	if (!access(cmd_base, X_OK | F_OK) || is_builtin(cmd_base))
+	if (is_builtin(cmd_base) || is_path(cmd_base))
 		cmd_path = ft_strdup(cmd_base);
 	else
 	{
@@ -75,13 +75,13 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 	int	i;
 
 	args_amount = get_args_amount(*input);
-	data->cmd.args[cmd_pos] = (char **) malloc(sizeof(char *) * \
-		(args_amount + 2));
+	data->cmd.args[cmd_pos] = ft_calloc((args_amount + 2), sizeof(char *));
 	data->cmd.args[cmd_pos][args_amount] = NULL;
 	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
 	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
 	*input = (*input)->next;
 	i = 0;
+	err = validate_path(data, data->cmd.cmd_path[cmd_pos]);
 	while (++i < args_amount && *input != NULL && !err)
 	{
 		if ((*input)->tok == Word)

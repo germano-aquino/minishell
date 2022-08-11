@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 22:32:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:09:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ int	handle_input_output(t_minishell *data, t_node **input, int cmd_pos, int err)
 		err = handle_redirect_output(data, input, cmd_pos);
 	else if (*input != NULL && (*input)->tok == Double_Less)
 		err = handle_heredoc(data, input, cmd_pos);
-	if (err)
-		while (*input != NULL && (*input)->tok != Pipe)
-			*input = (*input)->next;
 	return (err);
 }
 
@@ -75,6 +72,8 @@ void	lexer(t_minishell *data)
 			err = handle_input_output(data, &input, cmd_pos, err);
 		if (err)
 		{
+			while (input != NULL && input->tok != Pipe)
+				input = input->next;
 			ft_memfree((void *)&data->cmd.cmd_path[cmd_pos]);
 			data->cmd.cmd_path[cmd_pos] = ft_strdup("");
 		}
