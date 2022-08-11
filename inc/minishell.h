@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 20:28:26 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:19 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,11 @@ typedef struct s_minishell
 {
 	t_command_table	cmd;
 	t_hash_table	env;
-	int				ext_val;
 	int				child_exit_code;
 	t_node			*input;
 }	t_minishell;
+
+extern int	g_ext_val;
 
 void	shell_loop(t_minishell *data);
 void	ft_exit(t_minishell *data, const char *msg, char *buff, \

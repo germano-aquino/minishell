@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 14:06:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_dollar_value(t_minishell *data, char *buff, int *i)
 	else if (buff[*i] == '?')
 	{
 		(*i)++;
-		env_var = ft_itoa(data->ext_val);
+		env_var = ft_itoa(g_ext_val);
 	}
 	else if (ft_isdigit(buff[*i]))
 		env_var = handle_number_var(buff, i);

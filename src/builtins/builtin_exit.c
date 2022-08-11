@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/26 20:54:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 {
 	t_llong	exit_code;
 
-	exit_code = data->ext_val;
+	exit_code = g_ext_val;
 	if (data->cmd.cmds_amount <= 1)
 		ft_putendl_fd("exit", STDOUT_FILENO);
 	if (data->cmd.args && data->cmd.args[index][1])

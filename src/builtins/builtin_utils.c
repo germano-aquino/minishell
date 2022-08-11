@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 23:29:12 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code)
 {
 	if (is_child)
 		exit_free(data, exit_code);
-	data->ext_val = exit_code;
+	g_ext_val = exit_code;
 }
 
 int	is_builtin(char *cmd)

@@ -6,11 +6,13 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 23:45:52 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_ext_val = 0;
 
 void	ft_init(t_minishell *data)
 {
@@ -24,7 +26,7 @@ void	ft_init(t_minishell *data)
 	data->cmd.cmd_path = NULL;
 	data->cmd.args = NULL;
 	data->cmd.files = NULL;
-	data->ext_val = 0;
+	g_ext_val = 0;
 	data->child_exit_code = 0;
 }
 
@@ -36,7 +38,7 @@ void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)
 		ft_printf(msg);
 	free_input(&data->input);
 	free_cmd_table(&data->cmd);
-	data->ext_val = EXIT_FAILURE;
+	g_ext_val = EXIT_FAILURE;
 	if (end_program)
 	{
 		rl_clear_history();

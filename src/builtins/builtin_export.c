@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/25 15:24:27 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	invalid_identifier(
 		ft_memfree((void *) &value);
 		exit_free(data, EXIT_FAILURE);
 	}
-	data->ext_val = EXIT_FAILURE;
+	g_ext_val = EXIT_FAILURE;
 }
 
 static void	set_variable(t_minishell *data, int index, t_bool is_child)
@@ -66,7 +66,7 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 			value = ft_strdup(aux + 1);
 			key[ft_strlen(key) - ft_strlen(aux)] = '\0';
 		}
-		data->ext_val = EXIT_SUCCESS;
+		g_ext_val = EXIT_SUCCESS;
 		if (!ft_is_word_str(key))
 			invalid_identifier(data, key, value, is_child);
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_path_validation.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 16:05:14 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/11 17:46:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ t_bool	validate_path(t_minishell *data, char *path, int cmd_pos)
 {
 	if (!path)
 	{
-		data->ext_val = EXIT_NOT_FOUND;
+		g_ext_val = EXIT_NOT_FOUND;
 		return (print_error_msg(*data->cmd.args[cmd_pos], "command not found"));
 	}
 	if (is_directory(path))
 	{
-		data->ext_val = EXIT_NOT_EXECUTABLE;
+		g_ext_val = EXIT_NOT_EXECUTABLE;
 		return (print_error_msg(path, "Is a directory"));
 	}
 	if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
 	{
-		data->ext_val = EXIT_NOT_EXECUTABLE;
+		g_ext_val = EXIT_NOT_EXECUTABLE;
 		return (print_perror_msg(NULL, path));
 	}
 	if (!is_builtin(path) && access(path, F_OK) != 0)
 	{
-		data->ext_val = EXIT_NOT_FOUND;
+		g_ext_val = EXIT_NOT_FOUND;
 		return (print_perror_msg(NULL, path));
 	}
 	return (FALSE);

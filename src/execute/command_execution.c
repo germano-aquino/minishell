@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 16:44:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	wait_child(t_minishell *data, t_workspace *vars)
 		if (vars->pid[index])
 			waitpid(vars->pid[index], &data->child_exit_code, 0);
 	if (vars->pid[index - 1] && WIFEXITED(data->child_exit_code))
-		data->ext_val = WEXITSTATUS(data->child_exit_code);
+		g_ext_val = WEXITSTATUS(data->child_exit_code);
 	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
-		data->ext_val = 127;
+		g_ext_val = 127;
 }
 
 void	exec_cmds(t_minishell *data)
@@ -88,8 +88,8 @@ void	exec_cmds(t_minishell *data)
 		{
 			close(vars.fd[index][0]);
 			close(vars.fd[index][1]);
-			if (data->ext_val == EXIT_SUCCESS)
-				data->ext_val = EXIT_FAILURE;
+			if (g_ext_val == EXIT_SUCCESS)
+				g_ext_val = EXIT_FAILURE;
 		}
 		else
 			exec_cmd(data, &vars, index);
