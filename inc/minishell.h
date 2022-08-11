@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 17:36:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:39:54 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@
 
 # define REGULAR_TOKENS "<>|&*"
 # define PARSER_TOKENS "$\'\""
-# define FORBIDDEN_CHARS "\\;"
-# define WORD_CHARS "=-_+/()[]{}?!~.#@^\%`´:"
+# define WORD_CHARS "=-_+/()[]{}?!~.#@^\\\%`´:;"
 # define EXIT_NOT_EXECUTABLE 126
 # define EXIT_NOT_FOUND 127
 # define HASH_TABLE_SIZE 1031
