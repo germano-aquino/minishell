@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 17:51:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:32:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int	get_pipes_amount(t_node *input)
 
 int	handle_pipe(t_node **input, int *cmd_pos)
 {
-	if ((*input)->prev == NULL || (*input)->prev->tok != Word \
-		|| (*input)->next == NULL || (*input)->next->tok != Word)
+	if ((*input)->prev == NULL
+		|| (*input)->prev->tok != Word
+		|| (*input)->next == NULL)
 	{
 		ft_printf("syntax error near unexpected token \'|\'\n");
 		return (1);
@@ -48,6 +49,9 @@ int	handle_input_output(t_minishell *data, t_node **input, int cmd_pos, int err)
 		err = handle_redirect_output(data, input, cmd_pos);
 	else if (*input != NULL && (*input)->tok == Double_Less)
 		err = handle_heredoc(data, input, cmd_pos);
+	if (err)
+		while (*input != NULL && (*input)->tok != Pipe)
+			*input = (*input)->next;
 	return (err);
 }
 
@@ -69,5 +73,10 @@ void	lexer(t_minishell *data)
 			err = handle_command(data, &input, cmd_pos, err);
 		else if (input != NULL)
 			err = handle_input_output(data, &input, cmd_pos, err);
+		if (err)
+		{
+			ft_memfree((void *)&data->cmd.cmd_path[cmd_pos]);
+			data->cmd.cmd_path[cmd_pos] = ft_strdup("");
+		}
 	}
 }

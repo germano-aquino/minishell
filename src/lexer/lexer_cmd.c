@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 01:25:39 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/10 21:59:42 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
 	*input = (*input)->next;
 	i = 0;
-	while (++i < args_amount && *input != NULL)
+	while (++i < args_amount && *input != NULL && !err)
 	{
 		if ((*input)->tok == Word)
 		{
@@ -95,9 +95,7 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 			--i;
 		}
 	}
-	if (err)
-		data->cmd.cmd_path[cmd_pos] = NULL;
-	return (0);
+	return (err);
 }
 
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount)

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 17:40:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:21:39 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
 	}
 }
 
+void	close_unused_fds(t_minishell *data, t_workspace *vars, int index)
+{
+	close(vars->fd[index][0]);
+	close(vars->fd[index][1]);
+	data->ext_val = EXIT_FAILURE;
+}
+
 void	exec_cmds(t_minishell *data)
 {
 	t_workspace	vars;
@@ -72,16 +79,19 @@ void	exec_cmds(t_minishell *data)
 	{
 		if (!data->cmd.cmd_path[index])
 			command_not_found(data, index);
+		else if (!*data->cmd.cmd_path[index])
+			close_unused_fds(data, &vars, index);
 		else
 			exec_cmd(data, &vars, index);
 	}
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
 		if (vars.pid[index])
-			waitpid(vars.pid[index], &data->ext_val, 0);
+			waitpid(vars.pid[index], &data->child_exit_code, 0);
+	if (vars.pid[index - 1] && WIFEXITED(data->child_exit_code))
+		data->ext_val = WEXITSTATUS(data->child_exit_code);
 	ft_memfree((void *)&vars.pid);
 	ft_free_matrix((void *)&vars.fd);
-	data->ext_val = WEXITSTATUS(data->ext_val);
 	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
 		data->ext_val = 127;
 }

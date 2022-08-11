@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 17:52:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:06:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 		ft_putstr_fd("minishell: ", STDERR);
 		perror((*input)->data);
 		*input = (*input)->next;
-		data->cmd.files[cmd_pos].which_input = Invalid_In;
 		return (1);
 	}
 	if (data->cmd.files[cmd_pos].infile != NULL)
@@ -58,7 +57,7 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 			ft_printf("syntax error near unexpected token \'>>\'\n");
 		return (1);
 	}
-	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) == -1)
+	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
 		perror((*input)->data);
