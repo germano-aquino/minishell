@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 00:03:38 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 00:17:30 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_minishell
 {
 	t_command_table	cmd;
 	t_hash_table	env;
-	int				*ext_val;
+	int				ext_val;
 	int				child_exit_code;
 	t_node			*input;
 }	t_minishell;
