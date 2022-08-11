@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 17:39:54 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:46:10 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	invalid_syntax(t_minishell *data);
 
 //lexer.c
 void	lexer(t_minishell *data);
-t_bool	validate_path(t_minishell *data, char *path);
+t_bool	validate_path(t_minishell *data, char *path, int cmd_pos);
 int		handle_input_output(
 			t_minishell *data, t_node **input, int cmd_pos, int err);
 
