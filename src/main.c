@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 16:52:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 19:56:47 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	shell_loop(t_minishell *data)
 			free_input(&data->input);
 			free_cmd_table(&data->cmd);
 		}
+		else
+			ft_memfree((void *)&buff);
 	}
 }
 
