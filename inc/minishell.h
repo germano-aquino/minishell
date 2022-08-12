@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 16:48:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:33:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	free_input(t_node **begin);
 int		buff_to_input(t_minishell *data, const char *str, t_token tok);
 
 //input_utils.c
-char	*concat_and_delete_last_input(char *str, t_node *input);
+char	*concat_and_delete_last_input(char *str, t_node **input);
 
 //quotes_to_word.c
 void	transform_quotes_into_word(t_node *input);

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 16:31:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 17:03:37 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*find_absolute_cmd_path(char *cmd_base, char **path)
 	int		i;
 	char	*cmd_path;
 
+	if (!cmd_base[1])
+		return (NULL);
 	i = -1;
 	while (path[++i])
 	{
