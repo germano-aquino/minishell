@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 20:47:40 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 22:03:33 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_files
 	t_input		which_input;
 	char		*infile;
 	char		*outfile;
+	char		**delimiter;
 }	t_files;
 
 typedef enum e_token
@@ -222,7 +223,7 @@ int		event(void);
 
 //heredoc.c
 int		*heredoc_interruptor(int is_interrupt);
-int		ft_here_doc(t_minishell *data, int index);
+void	ft_here_doc(t_minishell *data, char *delimiter);
 
 //builtins
 int		is_builtin(char *cmd);

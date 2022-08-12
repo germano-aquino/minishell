@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 21:36:34 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,29 @@ char	*get_dollar_value(t_minishell *data, char *buff, int *i)
 	return (env_var);
 }
 
+void	handle_heredoc_delimiter(t_minishell *data, char *buff, int *i)
+{
+	char	*delimiter;
+	size_t	begin;
+
+	begin = *i;
+	while (!ft_isspace(buff[*i]))
+		(*i)++;
+	delimiter = ft_substr(buff, begin, *i - begin);
+	buff_to_input(data, delimiter, Word);
+}
+
 void	handle_dollar(t_minishell *data, char *buff, int *i)
 {
 	char	*env_var;
+	t_node	*last_input;
 
+	last_input = get_last_input(data->input);
+	if (last_input->tok == Double_Less)
+	{
+		handle_heredoc_delimiter(data, buff, i);
+		return ;
+	}
 	env_var = get_dollar_value(data, buff, i);
 	if (env_var == NULL)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 23:52:42 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/11 22:15:46 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	*heredoc_interruptor(int is_interrupt)
 	return (&should_interrupt);
 }
 
-int	*init_heredoc_signal()
+int	*init_heredoc_signal(void)
 {
 	int	*should_interrupt;
 
@@ -32,58 +32,55 @@ int	*init_heredoc_signal()
 	return (should_interrupt);
 }
 
-void	close_heredoc(t_minishell *data, int *should_int, int fd[2], char *line)
+void	close_heredoc(t_minishell *data, int *should_int,
+	char *delimiter, char *line)
 {
 	char	*str;
 
-	close(fd[1]);
 	if (*should_int)
 	{
 		rl_done = 0;
-		close(fd[0]);
 		ft_exit(data, NULL, line, 0);
 	}
 	else if (line != NULL)
-		free(line);
+		ft_memfree((void *) &line);
 	else
 	{
-		str = ft_strdup("bash: warning: here-document" \
+		str = ft_strdup("minishell: warning: here-document" \
 			" delimited by end-of-file (wanted \'%s\')\n");
-		free(str);
+		printf(str, delimiter);
+		ft_memfree((void *) &str);
 	}
 }
 
-int	should_close_heredoc(t_minishell *data, char *line, int *should_int)
+int	should_close_heredoc(char *line, int *should_int, char *delimiter)
 {
 	int	should_close;
 
 	should_close = (line == NULL || *should_int == 1);
-	// if (!should_close)
-	// 	should_close = !(ft_strncmp(line, data->files.infile, \
-	// 		max_size(line, data->files.infile)));	ARRUMAR!!!
+	if (!should_close)
+		should_close = !ft_strcmp(line, delimiter);
 	return (should_close);
 }
 
-int	ft_here_doc(t_minishell *data, int index)
+void	ft_here_doc(t_minishell *data, char *delimiter)
 {
 	char	*line;
-	int		fd[2];
+	int		fd;
 	int		*should_interrupt;
 
-	if (pipe(fd) == -1)
-		ft_exit(data, "cannot create pipe.\n", NULL, 0);
-	should_interrupt = init_heredoc_signal(data);
+	fd = open("/tmp/heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	should_interrupt = init_heredoc_signal();
 	while (1)
 	{
 		line = readline("> ");
-		if (should_close_heredoc(data, line, should_interrupt))
+		if (should_close_heredoc(line, should_interrupt, delimiter))
 		{
-			close_heredoc(data, should_interrupt, fd, line);
-			return (fd[0]);
+			close(fd);
+			close_heredoc(data, should_interrupt, delimiter, line);
+			return ;
 		}
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		free(line);
+		ft_putendl_fd(line, fd);
+		ft_memfree((void *) &line);
 	}
-	return (0);
 }

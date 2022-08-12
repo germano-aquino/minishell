@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 22:06:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/11 22:07:05 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,16 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 {
 	*input = (*input)->next;
-	if (*input != NULL && (*input)->tok == Word)
+	if (!*input || (*input)->tok != Word)
 	{
-		if (data->cmd.files[cmd_pos].infile != NULL)
-			ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
-		data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
-		data->cmd.files[cmd_pos].which_input = Heredoc;
-		*input = (*input)->next;
-		return (0);
-	}
-	else
-	{
-		ft_printf("syntax error near unexpected token \'<<\'\n");
+		printf("syntax error near unexpected token \'<<\'\n");
 		return (1);
 	}
+	if (data->cmd.files[cmd_pos].infile != NULL)
+		ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
+	data->cmd.files[cmd_pos].infile = ft_strdup("/tmp/heredoc");
+	data->cmd.files[cmd_pos].which_input = Heredoc;
+	ft_here_doc(data, (*input)->data);
+	*input = (*input)->next;
+	return (0);
 }
