@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 21:36:34 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 01:27:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 	t_node	*last_input;
 
 	last_input = get_last_input(data->input);
-	if (last_input->tok == Double_Less)
+	if (last_input && last_input->tok == Double_Less)
 	{
 		handle_heredoc_delimiter(data, buff, i);
 		return ;

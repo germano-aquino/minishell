@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 22:03:33 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 01:36:39 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@
 # define EXIT_NOT_FOUND 127
 # define EXIT_SIGINT 130
 # define EXIT_SIGQUIT 131
-
 # define HASH_TABLE_SIZE 1031
+
+extern int					g_ext_val;
 
 typedef struct sigaction	t_sigaction;
 typedef struct stat			t_stat;
@@ -122,8 +123,6 @@ typedef struct s_minishell
 	int				child_exit_code;
 	t_node			*input;
 }	t_minishell;
-
-extern int	g_ext_val;
 
 void	shell_loop(t_minishell *data);
 void	ft_exit(t_minishell *data, const char *msg, char *buff, \

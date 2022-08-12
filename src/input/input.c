@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 01:29:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	buff_to_input(t_minishell *data, const char *str, t_token tok)
 
 	begin = &data->input;
 	input = create_input(str, tok, NULL, NULL);
-	add_input(begin, input);
+	if (input != *begin)
+		add_input(begin, input); // TODO: exorcizar satanás
 	return (ft_strlen(str));
 }
 

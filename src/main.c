@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 22:11:06 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 01:36:56 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_ext_val = 0;
+int	g_ext_val = 0;
 
 void	ft_init(t_minishell *data)
 {
@@ -26,7 +26,6 @@ void	ft_init(t_minishell *data)
 	data->cmd.cmd_path = NULL;
 	data->cmd.args = NULL;
 	data->cmd.files = NULL;
-	g_ext_val = 0;
 	data->child_exit_code = 0;
 }
 
