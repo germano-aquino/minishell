@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 19:56:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:18:11 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	redisplay_prompt(t_minishell *data, char *msg, char *buff, t_bool quit)
 		print_error_msg(NULL, msg);
 	free_input(&data->input);
 	free_cmd_table(&data->cmd);
-	g_exit_value = EXIT_FAILURE;
 	if (quit)
 		exit_free(data, EXIT_FAILURE);
 	shell_loop(data);

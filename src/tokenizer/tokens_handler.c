@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 17:33:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:27:15 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	handle_word(t_minishell *data, char *buff, size_t *i)
 	char	*str;
 
 	begin = buff + *i;
-	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
+	while (buff[*i] && !ft_isspace(buff[*i])
+		&& !ft_chr_in_str(REGULAR_TOKENS PARSER_TOKENS, buff[*i]))
 		(*i)++;
 	str = ft_substr(begin, 0, (buff + *i - begin));
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))

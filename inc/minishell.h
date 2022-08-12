@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 17:33:11 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:28:31 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <readline/history.h>
 
 /* Tokenizer */
-# define REGULAR_TOKENS "<>|&*"
+# define REGULAR_TOKENS "<>|&"
 # define PARSER_TOKENS "$\'\""
 # define WORD_CHARS "=-_+/()[]{}?!~.#@^\\\%`´:;"
 
