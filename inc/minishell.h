@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 01:36:39 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:40:56 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,32 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+/* Tokenizer */
 # define REGULAR_TOKENS "<>|&*"
 # define PARSER_TOKENS "$\'\""
 # define WORD_CHARS "=-_+/()[]{}?!~.#@^\\\%`´:;"
-# define EXIT_NOT_EXECUTABLE 126
-# define EXIT_NOT_FOUND 127
-# define EXIT_SIGINT 130
-# define EXIT_SIGQUIT 131
-# define HASH_TABLE_SIZE 1031
 
-extern int					g_ext_val;
+/* Here-document */
+# define TMP_HEREDOC_PATH "/tmp/heredoc"
+
+/* Pipe */
+# define IN 0			/* Pipe read end */
+# define OUT 1			/* Pipe write end */
+# define PIPE_SIZE 2	/* Pipe total size */
+
+/* Exit code */
+# define EXIT_NOT_EXECUTABLE 126	/* Permission denied, Is a directory */
+# define EXIT_NOT_FOUND 127			/* Command not found */
+# define EXIT_SIGINT 130			/* Interrupt program, normally Ctrl+C. */
+# define EXIT_SIGQUIT 131			/* Interrupt program, similar to SIGINT. */
+
+/* Hashtable */
+# define HASH_TABLE_SIZE 1031
+# define HASH_RIGHT_OFFSET 24
+# define HASH_LEFT_OFFSET 4
+# define HASH_LIMITER 0xf0000000
+
+extern int					g_exit_value;
 
 typedef struct sigaction	t_sigaction;
 typedef struct stat			t_stat;
@@ -120,19 +136,19 @@ typedef struct s_minishell
 {
 	t_command_table	cmd;
 	t_hash_table	env;
-	int				child_exit_code;
 	t_node			*input;
+	int				child_exit_code;
 }	t_minishell;
 
 void	shell_loop(t_minishell *data);
-void	ft_exit(t_minishell *data, const char *msg, char *buff, \
-	int end_program);
+void	ft_exit(
+			t_minishell *data, const char *msg, char *buff, int end_program);
 
 //input.c
-int		buff_to_input(t_minishell *data, const char *str, t_token tok);
 t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev);
-void	free_input(t_node **begin);
 t_node	*get_last_input(t_node *input);
+void	free_input(t_node **begin);
+int		buff_to_input(t_minishell *data, const char *str, t_token tok);
 
 //input_utils.c
 char	*concat_and_delete_last_input(char *str, t_node *input);
@@ -142,33 +158,32 @@ void	remove_last_input(t_node *begin);
 void	transform_quotes_into_word(t_node *input);
 
 //tokens_handler.c
-void	handle_word(t_minishell *data, char *buff, int *i);
-void	handle_dollar(t_minishell *data, char *buff, int *i);
-void	handle_single_quote(t_minishell *data, char *buff, int *i);
-void	handle_double_quote(t_minishell *data, char *buff, int *i);
+void	handle_word(t_minishell *data, char *buff, size_t *i);
+void	handle_dollar(t_minishell *data, char *buff, size_t *i);
+void	handle_single_quote(t_minishell *data, char *buff, size_t *i);
+void	handle_double_quote(t_minishell *data, char *buff, size_t *i);
 
 //tokenizer.c
 void	tokenizer(t_minishell *data, char *buff);
-void	handle_parser(t_minishell *data, char *buff, int *i);
+void	handle_parser(t_minishell *data, char *buff, size_t *i);
 
 //dollar_handler.c
-char	*get_dollar_value(t_minishell *data, char *buff, int *i);
+char	*get_dollar_value(t_minishell *data, char *buff, size_t *i);
 
 //lexer_cmd.c
-int		handle_command(t_minishell *data, t_node **input, int cmd_pos, int err);
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
 void	free_cmd_table(t_command_table *table);
+int		handle_command(t_minishell *data, t_node **input, int cmd_pos, int err);
 
 //lexer_io.c
+void	invalid_syntax(t_minishell *data);
 int		handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos);
 int		handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos);
 int		handle_heredoc(t_minishell *data, t_node **input, int cmd_pos);
 
-void	invalid_syntax(t_minishell *data);
-
 //lexer.c
-void	lexer(t_minishell *data);
 t_bool	validate_path(t_minishell *data, char *path, int cmd_pos);
+void	lexer(t_minishell *data);
 int		handle_input_output(
 			t_minishell *data, t_node **input, int cmd_pos, int err);
 
@@ -176,30 +191,25 @@ t_bool	is_path(char *str);
 t_bool	is_directory(char *path);
 
 //utils.c
-size_t	max_size(char *s1, char *s2);
-void	ft_free_2d_char_ptr(char ***ptr);
-int		ft_chr_in_str(const char *str, char ch);
 char	*join_free(char *str1, char *str2);
-int		max(int a, int b);
-int		ft_is_number_str(const char *str);
-int		ft_is_word_str(const char *str);
+t_bool	ft_chr_in_str(const char *str, char ch);
+t_bool	ft_is_number_str(const char *str);
+t_bool	ft_is_word_str(const char *str);
 
 //hash_table_utils.c
-int		hash_function(char	*key);
 t_hnode	*create_item(char *key, char *value);
-void	free_item(t_hnode *item);
-void	ht_free(t_hash_table	*table);
 char	**get_env_from_ht(t_hash_table *table);
+void	free_item(t_hnode *item);
+void	ht_free(t_hash_table *table);
+int		hash_function(char *key);
 
 //hash_table.c
-void	ht_insert(t_hash_table *table, char *key, char *value);
 char	*ht_search(t_hash_table *table, char *key);
+void	ht_insert(t_hash_table *table, char *key, char *value);
 void	ht_delete(t_hash_table *table, char *key);
 
 //commands_execution.c
 void	exec_cmds(t_minishell *data);
-void	build_pipeline(t_minishell *data, t_workspace *vars);
-void	set_input_output_fd(t_minishell *data, t_workspace *vars);
 void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars);
 int		check_builtin(t_minishell *data, int index, t_bool is_child);
 int		exec_builtin(t_minishell *data, int index, t_bool is_child);
@@ -213,19 +223,23 @@ void	display_cmd_table(t_command_table *cmd);
 void	populate_env_table(t_hash_table *table, char *envp[]);
 
 //signal.c
-void	trigger_signal(int ignore_sigquit, void *handler);
-void	prompt_handler(int signo);
-void	heredoc_handler(int signo);
-void	cmd_handler(int signo);
-void	child_handler(int signo);
-int		event(void);
+void	trigger_signal(t_bool ignore_sigquit, void *handler);
+void	prompt_handler(int sig);
+void	heredoc_handler(int sig);
+void	cmd_handler(int sig);
+void	child_handler(int sig);
 
 //heredoc.c
-int		*heredoc_interruptor(int is_interrupt);
 void	ft_here_doc(t_minishell *data, char *delimiter);
+int		*heredoc_interruptor(int is_interrupt);
+int		*init_heredoc_signal(void);
+int		event(void);
 
 //builtins
-int		is_builtin(char *cmd);
+t_bool	is_builtin(char *cmd);
+void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code);
+void	set_io_builtin(t_minishell *data, t_workspace *vars, int *std_io);
+void	reset_io_builtin(t_workspace *vars, int *std_io);
 int		check_builtin(t_minishell *data, int index, t_bool is_child);
 int		builtin_exit(t_minishell *data, int index, t_bool is_child);
 int		builtin_echo(t_minishell *data, int index, t_bool is_child);
@@ -234,17 +248,14 @@ int		builtin_unset(t_minishell *data, int index, t_bool is_child);
 int		builtin_cd(t_minishell *data, int index, t_bool is_child);
 int		builtin_pwd(t_minishell *data, t_bool is_child);
 int		builtin_env(t_minishell *data, t_bool is_child);
-void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code);
-void	set_io_builtin(t_minishell *data, t_workspace *vars, int *std_io);
-void	reset_io_builtin(t_workspace *vars, int *std_io);
 
 //garbage collecting
 void	exit_free(t_minishell *data, t_llong exit_code);
 
 //error handling
 t_bool	print_error_msg(char *cmd, char *msg);
-void	exit_error(t_minishell *data, char *cmd, char *msg, int exit_code);
 t_bool	print_perror_msg(char *cmd, char *perror_msg);
+void	exit_error(t_minishell *data, char *cmd, char *msg, int exit_code);
 void	exit_perror(t_minishell *data, char *cmd, char *perr, int exit_code);
 
 #endif

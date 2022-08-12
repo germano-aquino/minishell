@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:32:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ static int	out_llong_range(char *str)
 
 static int	too_many_arguments(t_minishell *data, t_bool is_child)
 {
-	ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+	ft_putendl_fd("minishell: exit: too many arguments", STDERR);
 	set_exit_value(data, is_child, EXIT_FAILURE);
 	return (TRUE);
 }
 
 static void	numeric_argument_required(t_minishell *data, int index)
 {
-	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-	ft_putstr_fd(data->cmd.args[index][1], STDERR_FILENO);
-	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR);
+	ft_putstr_fd(data->cmd.args[index][1], STDERR);
+	ft_putendl_fd(": numeric argument required", STDERR);
 	exit_free(data, 2);
 }
 
@@ -49,9 +49,9 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 {
 	t_llong	exit_code;
 
-	exit_code = g_ext_val;
+	exit_code = g_exit_value;
 	if (data->cmd.cmds_amount <= 1)
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDOUT);
 	if (data->cmd.args && data->cmd.args[index][1])
 	{
 		if (out_llong_range(data->cmd.args[index][1])

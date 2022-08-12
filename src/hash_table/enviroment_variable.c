@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:29:27 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 19:35:17 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:03:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static int	get_ht_size(t_hash_table *table)
 	items_amount = 0;
 	while (++i < HASH_TABLE_SIZE)
 	{
-		if (table->item[i] != NULL)
+		if (table->item[i])
 		{
 			items_amount++;
 			tmp = table->item[i]->next;
-			while (tmp != NULL)
+			while (tmp)
 			{
 				items_amount++;
 				tmp = tmp->next;
@@ -34,24 +34,6 @@ static int	get_ht_size(t_hash_table *table)
 		}
 	}
 	return (items_amount);
-}
-
-void	populate_env_table(t_hash_table *table, char *envp[])
-{
-	char	*key_value[2];
-	char	*aux;
-	int		i;
-
-	i = -1;
-	while (envp[++i] != NULL)
-	{
-		aux = ft_strchr(envp[i], '=');
-		key_value[0] = ft_substr(envp[i], 0, aux - envp[i]);
-		key_value[1] = ft_substr(aux, 1, ft_strlen(aux) - 1);
-		ht_insert(table, key_value[0], key_value[1]);
-		ft_memfree((void *) &key_value[0]);
-		ft_memfree((void *) &key_value[1]);
-	}
 }
 
 static char	*get_key_value_from_item(t_hnode *item)
@@ -75,11 +57,11 @@ char	**get_env_from_ht(t_hash_table *table)
 	j = 0;
 	while (++i < HASH_TABLE_SIZE)
 	{
-		if (table->item[i] != NULL)
+		if (table->item[i])
 		{
 			env[j++] = get_key_value_from_item(table->item[i]);
 			tmp = table->item[i]->next;
-			while (tmp != NULL)
+			while (tmp)
 			{
 				env[j++] = get_key_value_from_item(tmp);
 				tmp = tmp->next;
@@ -88,4 +70,22 @@ char	**get_env_from_ht(t_hash_table *table)
 	}
 	env[j] = NULL;
 	return (env);
+}
+
+void	populate_env_table(t_hash_table *table, char *envp[])
+{
+	char	*key_value[2];
+	char	*aux;
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+	{
+		aux = ft_strchr(envp[i], '=');
+		key_value[0] = ft_substr(envp[i], 0, (aux - envp[i]));
+		key_value[1] = ft_substr(aux, 1, (ft_strlen(aux) - 1));
+		ht_insert(table, key_value[0], key_value[1]);
+		ft_memfree((void *)&key_value[0]);
+		ft_memfree((void *)&key_value[1]);
+	}
 }

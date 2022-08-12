@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   heredoc_signals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 15:39:55 by maolivei         ###   ########.fr       */
+/*   Created: 2022/08/12 13:13:52 by maolivei          #+#    #+#             */
+/*   Updated: 2022/08/12 13:31:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code)
+int	event(void)
 {
-	if (is_child)
-		exit_free(data, exit_code);
-	g_exit_value = exit_code;
+	return (0);
 }
 
-t_bool	is_builtin(char *cmd)
+int	*heredoc_interruptor(int is_interrupt)
 {
-	if (!cmd)
-		return (FALSE);
-	return (ft_strcmp(cmd, "exit") == 0
-		|| ft_strcmp(cmd, "echo") == 0
-		|| ft_strcmp(cmd, "env") == 0
-		|| ft_strcmp(cmd, "unset") == 0
-		|| ft_strcmp(cmd, "pwd") == 0
-		|| ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "export") == 0);
+	static int	should_interrupt;
+
+	should_interrupt = FALSE;
+	if (is_interrupt)
+		should_interrupt = TRUE;
+	return (&should_interrupt);
+}
+
+int	*init_heredoc_signal(void)
+{
+	int	*should_interrupt;
+
+	rl_event_hook = event;
+	should_interrupt = heredoc_interruptor(FALSE);
+	trigger_signal(TRUE, &heredoc_handler);
+	return (should_interrupt);
 }

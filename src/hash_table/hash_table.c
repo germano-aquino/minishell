@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:57:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/25 15:43:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:36:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	insert_colliding_item(t_hnode *curr_item, char *key, char *value)
 {
-	while (curr_item->next != NULL)
+	while (curr_item->next)
 	{
 		curr_item = curr_item->next;
-		if (!ft_strncmp(key, curr_item->key, max_size(key, curr_item->key)))
+		if (!ft_strcmp(key, curr_item->key))
 		{
 			free(curr_item->value);
 			curr_item->value = ft_strdup(value);
@@ -34,9 +34,9 @@ void	ht_insert(t_hash_table *table, char *key, char *value)
 
 	index = hash_function(key);
 	curr_item = table->item[index];
-	if (curr_item == NULL)
+	if (!curr_item)
 		table->item[index] = create_item(key, value);
-	else if (!ft_strncmp(key, curr_item->key, max_size(key, curr_item->key)))
+	else if (!ft_strcmp(key, curr_item->key))
 	{
 		if (value)
 		{
@@ -55,9 +55,9 @@ char	*ht_search(t_hash_table *table, char *key)
 
 	index = hash_function(key);
 	curr_item = table->item[index];
-	while (curr_item != NULL)
+	while (curr_item)
 	{
-		if (!ft_strncmp(key, curr_item->key, max_size(key, curr_item->key)))
+		if (!ft_strcmp(key, curr_item->key))
 			return (curr_item->value);
 		curr_item = curr_item->next;
 	}
@@ -69,14 +69,14 @@ void	delete_colliding_item(t_hnode *item, char *key)
 	t_hnode	*previous;
 
 	previous = NULL;
-	while (item != NULL && ft_strncmp(key, item->key, max_size(key, item->key)))
+	while (item && ft_strcmp(key, item->key))
 	{
 		previous = item;
 		item = item->next;
 	}
-	if (item == NULL)
+	if (!item)
 		return ;
-	else if (item->next == NULL)
+	else if (!item->next)
 	{
 		previous->next = NULL;
 		free_item(item);
@@ -98,7 +98,7 @@ void	ht_delete(t_hash_table *table, char *key)
 	item = table->item[index];
 	if (item)
 	{
-		if (!ft_strncmp(key, item->key, max_size(key, item->key)))
+		if (!ft_strcmp(key, item->key))
 		{
 			table->item[index] = item->next;
 			item->next = NULL;

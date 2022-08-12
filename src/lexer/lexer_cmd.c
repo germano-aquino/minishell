@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 17:46:02 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:20:24 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_args_amount(t_node *input)
 	int	args_amount;
 
 	args_amount = -1;
-	while (input != NULL)
+	while (input)
 	{
 		if (input->tok == Pipe)
 			break ;
@@ -37,10 +37,10 @@ char	*find_absolute_cmd_path(char *cmd_base, char **path)
 	char	*cmd_path;
 
 	i = -1;
-	while (path[++i] != NULL)
+	while (path[++i])
 	{
 		cmd_path = ft_strjoin(path[i], cmd_base);
-		if (!access(cmd_path, X_OK))
+		if (access(cmd_path, X_OK) == 0)
 			return (cmd_path);
 		free(cmd_path);
 	}
@@ -80,9 +80,9 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
 	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
 	*input = (*input)->next;
-	i = 0;
 	err = validate_path(data, data->cmd.cmd_path[cmd_pos], cmd_pos);
-	while (++i < args_amount && *input != NULL && !err)
+	i = 0;
+	while (++i < args_amount && *input && !err)
 	{
 		if ((*input)->tok == Word)
 		{

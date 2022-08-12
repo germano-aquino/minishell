@@ -3,47 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 00:09:52 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:40:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	max_size(char *s1, char *s2)
+t_bool	ft_is_number_str(const char *str)
 {
-	size_t	size1;
-	size_t	size2;
+	size_t	index;
 
-	size1 = ft_strlen(s1) + 1;
-	size2 = ft_strlen(s2) + 1;
-	if (size1 > size2)
-		return (size1);
-	else
-		return (size2);
+	index = 0;
+	if (str[index] == '-' || str[index] == '+')
+		++index;
+	while (str[index])
+		if (!ft_isdigit(str[index++]))
+			return (FALSE);
+	return (TRUE);
 }
 
-int	max(int a, int b)
+t_bool	ft_is_word_str(const char *str)
 {
-	if (a > b)
-		return (a);
-	return (b);
+	size_t	index;
+
+	if (!ft_strlen(str))
+		return (FALSE);
+	if (str[0] != '_' && !ft_isalpha(str[0]))
+		return (FALSE);
+	index = 1;
+	while (str[index])
+	{
+		if (str[index] != '_' && !ft_isalnum(str[index]))
+			return (FALSE);
+		index++;
+	}
+	return (TRUE);
 }
 
-int	ft_chr_in_str(const char *str, char ch)
+t_bool	ft_chr_in_str(const char *str, char ch)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i])
 	{
 		if (str[i] == ch)
 			break ;
 		i++;
 	}
-	if (str[i] != '\0')
+	if (str[i])
 		return (1);
 	return (0);
 }

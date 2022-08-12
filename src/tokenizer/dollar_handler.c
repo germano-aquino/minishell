@@ -6,22 +6,22 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 01:27:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:57:40 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*get_env_var(t_hash_table *env, char *buff, int *i)
+char	*get_env_var(t_hash_table *env, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*key;
 	char	*env_var;
 
-	begin = (size_t)(*i);
+	begin = (*i);
 	while (ft_isalnum(buff[*i]) || buff[*i] == '_')
 		(*i)++;
-	key = ft_substr(buff, begin, (size_t)(*i) - begin);
+	key = ft_substr(buff, begin, (*i - begin));
 	env_var = ht_search(env, key);
 	if (env_var)
 		env_var = ft_strdup(env_var);
@@ -29,14 +29,14 @@ char	*get_env_var(t_hash_table *env, char *buff, int *i)
 	return (env_var);
 }
 
-char	*handle_number_var(char *buff, int *i)
+char	*handle_number_var(char *buff, size_t *i)
 {
 	if (buff[(*i)++] == '0')
 		return (ft_strdup("minishell"));
 	return (NULL);
 }
 
-char	*get_dollar_value(t_minishell *data, char *buff, int *i)
+char	*get_dollar_value(t_minishell *data, char *buff, size_t *i)
 {
 	char	*env_var;
 
@@ -47,7 +47,7 @@ char	*get_dollar_value(t_minishell *data, char *buff, int *i)
 	else if (buff[*i] == '?')
 	{
 		(*i)++;
-		env_var = ft_itoa(g_ext_val);
+		env_var = ft_itoa(g_exit_value);
 	}
 	else if (ft_isdigit(buff[*i]))
 		env_var = handle_number_var(buff, i);
@@ -58,7 +58,7 @@ char	*get_dollar_value(t_minishell *data, char *buff, int *i)
 	return (env_var);
 }
 
-void	handle_heredoc_delimiter(t_minishell *data, char *buff, int *i)
+void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
 {
 	char	*delimiter;
 	size_t	begin;
@@ -66,11 +66,11 @@ void	handle_heredoc_delimiter(t_minishell *data, char *buff, int *i)
 	begin = *i;
 	while (!ft_isspace(buff[*i]))
 		(*i)++;
-	delimiter = ft_substr(buff, begin, *i - begin);
+	delimiter = ft_substr(buff, begin, (*i - begin));
 	buff_to_input(data, delimiter, Word);
 }
 
-void	handle_dollar(t_minishell *data, char *buff, int *i)
+void	handle_dollar(t_minishell *data, char *buff, size_t *i)
 {
 	char	*env_var;
 	t_node	*last_input;
@@ -82,7 +82,7 @@ void	handle_dollar(t_minishell *data, char *buff, int *i)
 		return ;
 	}
 	env_var = get_dollar_value(data, buff, i);
-	if (env_var == NULL)
+	if (!env_var)
 		return ;
 	if ((buff[*i] && buff[*i] != ' '
 			&& !ft_chr_in_str(REGULAR_TOKENS, buff[*i])) && env_var)

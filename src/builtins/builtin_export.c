@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/11 20:41:36 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:32:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ static void	display_export(t_hash_table *table)
 static void	invalid_identifier(
 	t_minishell *data, char *key, char *value, t_bool is_child)
 {
-	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(key, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	ft_putstr_fd("minishell: export: `", STDERR);
+	ft_putstr_fd(key, STDERR);
+	ft_putendl_fd("': not a valid identifier", STDERR);
 	if (is_child)
 	{
 		ft_memfree((void *) &key);
 		ft_memfree((void *) &value);
 		exit_free(data, EXIT_FAILURE);
 	}
-	g_ext_val = EXIT_FAILURE;
+	g_exit_value = EXIT_FAILURE;
 }
 
 static void	set_variable(t_minishell *data, int index, t_bool is_child)
@@ -66,7 +66,7 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 			value = ft_strdup(aux + 1);
 			key[ft_strlen(key) - ft_strlen(aux)] = '\0';
 		}
-		g_ext_val = EXIT_SUCCESS;
+		g_exit_value = EXIT_SUCCESS;
 		if (!ft_is_word_str(key))
 			invalid_identifier(data, key, value, is_child);
 		else

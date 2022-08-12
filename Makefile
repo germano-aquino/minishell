@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/11 16:14:48 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/12 13:14:14 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SOURCE_FILES		+= lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.
 SOURCE_FILES		+= command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c
 SOURCE_FILES		+= error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_export.c
 SOURCE_FILES		+= builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c
-SOURCE_FILES		+= builtin_single_io.c pipes_and_pid.c bin_path_validation.c
+SOURCE_FILES		+= builtin_single_io.c pipes_and_pid.c bin_path_validation.c heredoc_signals.c
 
 LIBFT_PATH			:= libft
 LIBFT				:= libft/libft.a

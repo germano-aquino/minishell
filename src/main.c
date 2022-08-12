@@ -6,46 +6,45 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 01:36:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:41:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_ext_val = 0;
+int	g_exit_value = 0;
 
 void	ft_init(t_minishell *data)
 {
 	int	i;
 
 	i = -1;
-	data->input = NULL;
 	while (++i < HASH_TABLE_SIZE)
 		data->env.item[i] = NULL;
-	data->cmd.cmds_amount = 0;
+	data->input = NULL;
 	data->cmd.cmd_path = NULL;
 	data->cmd.args = NULL;
 	data->cmd.files = NULL;
+	data->cmd.cmds_amount = 0;
 	data->child_exit_code = 0;
 }
 
 void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)
 {
-	if (buff != NULL)
+	if (buff)
 		free(buff);
-	if (msg != NULL)
-		ft_printf(msg);
+	if (msg)
+		printf(msg);
 	free_input(&data->input);
 	free_cmd_table(&data->cmd);
-	g_ext_val = EXIT_FAILURE;
+	g_exit_value = EXIT_FAILURE;
 	if (end_program)
 	{
 		rl_clear_history();
 		ht_free(&data->env);
 		exit(EXIT_FAILURE);
 	}
-	else
-		shell_loop(data);
+	shell_loop(data);
 }
 
 void	shell_loop(t_minishell *data)
@@ -53,17 +52,17 @@ void	shell_loop(t_minishell *data)
 	char	*buff;
 
 	buff = NULL;
-	while (1)
+	while (TRUE)
 	{
-		trigger_signal(1, &prompt_handler);
+		trigger_signal(TRUE, &prompt_handler);
 		buff = readline("MINISHELL> ");
-		if (buff == NULL)
+		if (!buff)
 			builtin_exit(data, 0, FALSE);
-		else if (*buff != '\0')
+		else if (*buff)
 		{
 			add_history(buff);
 			tokenizer(data, buff);
-			ft_memfree((void *) &buff);
+			ft_memfree((void *)&buff);
 			lexer(data);
 			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0, FALSE))
 				exec_cmds(data);

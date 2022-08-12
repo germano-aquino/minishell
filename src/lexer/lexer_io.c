@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 22:07:05 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:19:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@ int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 	*input = (*input)->next;
 	if (!*input || (*input)->tok != Word)
 	{
-		ft_printf("syntax error near unexpected token \'<\'\n");
-		return (1);
+		printf("syntax error near unexpected token \'<\'\n");
+		return (TRUE);
 	}
 	if (access((*input)->data, R_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
 		perror((*input)->data);
 		*input = (*input)->next;
-		return (1);
+		return (TRUE);
 	}
-	if (data->cmd.files[cmd_pos].infile != NULL)
+	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
 	data->cmd.files[cmd_pos].which_input = Infile;
 	*input = (*input)->next;
-	return (0);
+	return (FALSE);
 }
 
 int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
@@ -52,18 +52,18 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 	if (!*input || (*input)->tok != Word)
 	{
 		if ((*input)->prev->tok == Less)
-			ft_printf("syntax error near unexpected token \'>\'\n");
+			printf("syntax error near unexpected token \'>\'\n");
 		else
-			ft_printf("syntax error near unexpected token \'>>\'\n");
-		return (1);
+			printf("syntax error near unexpected token \'>>\'\n");
+		return (TRUE);
 	}
 	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
 		perror((*input)->data);
-		return (1);
+		return (TRUE);
 	}
-	if (data->cmd.files[cmd_pos].outfile != NULL)
+	if (data->cmd.files[cmd_pos].outfile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].outfile);
 	if ((*input)->prev->tok == Less)
 		data->cmd.files[cmd_pos].which_output = Overwrite;
@@ -72,7 +72,7 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 	data->cmd.files[cmd_pos].outfile = ft_strdup((*input)->data);
 	create_file(*input);
 	*input = (*input)->next;
-	return (0);
+	return (FALSE);
 }
 
 int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
@@ -81,13 +81,13 @@ int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 	if (!*input || (*input)->tok != Word)
 	{
 		printf("syntax error near unexpected token \'<<\'\n");
-		return (1);
+		return (TRUE);
 	}
-	if (data->cmd.files[cmd_pos].infile != NULL)
+	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
-	data->cmd.files[cmd_pos].infile = ft_strdup("/tmp/heredoc");
+	data->cmd.files[cmd_pos].infile = ft_strdup(TMP_HEREDOC_PATH);
 	data->cmd.files[cmd_pos].which_input = Heredoc;
 	ft_here_doc(data, (*input)->data);
 	*input = (*input)->next;
-	return (0);
+	return (FALSE);
 }

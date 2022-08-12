@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:08:57 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/26 20:54:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:32:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	builtin_echo(t_minishell *data, int index, t_bool is_child)
 	}
 	while (data->cmd.args[index][i])
 	{
-		ft_putstr_fd(data->cmd.args[index][i++], STDOUT_FILENO);
+		ft_putstr_fd(data->cmd.args[index][i++], STDOUT);
 		if (data->cmd.args[index][i])
-			ft_putchar_fd(' ', STDOUT_FILENO);
+			ft_putchar_fd(' ', STDOUT);
 	}
 	if (newline)
-		ft_putendl_fd("", STDOUT_FILENO);
+		ft_putendl_fd("", STDOUT);
 	set_exit_value(data, is_child, EXIT_SUCCESS);
 	return (TRUE);
 }

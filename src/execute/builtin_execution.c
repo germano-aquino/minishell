@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:45 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/10 17:13:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:03:41 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int	exec_builtin(t_minishell *data, int index, t_bool is_child)
 	t_bool	status;
 
 	status = FALSE;
-	if (!data->cmd.args[index])
-		return (TRUE);
-	else if (ft_strcmp(*data->cmd.args[index], "exit") == 0)
+	if (ft_strcmp(*data->cmd.args[index], "exit") == 0)
 		status = builtin_exit(data, index, is_child);
 	else if (ft_strcmp(*data->cmd.args[index], "echo") == 0)
 		status = builtin_echo(data, index, is_child);
@@ -40,7 +38,7 @@ int	check_builtin(t_minishell *data, int index, t_bool is_child)
 {
 	t_workspace	vars;
 	t_bool		status;
-	int			std_io[2];
+	int			std_io[PIPE_SIZE];
 
 	if (!is_builtin(data->cmd.cmd_path[index]))
 		return (FALSE);

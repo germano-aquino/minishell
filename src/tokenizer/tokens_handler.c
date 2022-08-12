@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/10 19:37:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:52:08 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	handle_word(t_minishell *data, char *buff, int *i)
+void	handle_word(t_minishell *data, char *buff, size_t *i)
 {
 	char	*begin;
 	char	*str;
@@ -20,7 +20,7 @@ void	handle_word(t_minishell *data, char *buff, int *i)
 	begin = buff + *i;
 	while (ft_isalnum(buff[*i]) || ft_chr_in_str(WORD_CHARS, buff[*i]))
 		(*i)++;
-	str = ft_substr(begin, 0, (size_t)(buff + *i - begin));
+	str = ft_substr(begin, 0, (buff + *i - begin));
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
 	{
 		handle_parser(data, buff, i);
@@ -30,12 +30,12 @@ void	handle_word(t_minishell *data, char *buff, int *i)
 	free(str);
 }
 
-void	handle_single_quote(t_minishell *data, char *buff, int *i)
+void	handle_single_quote(t_minishell *data, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
 
-	begin = (size_t)(++(*i));
+	begin = ++(*i);
 	while (buff[*i] != '\'')
 		(*i)++;
 	str = ft_substr(buff, begin, ((*i) - begin));
@@ -49,7 +49,7 @@ void	handle_single_quote(t_minishell *data, char *buff, int *i)
 	free(str);
 }
 
-void	handle_double_quote(t_minishell *data, char *buff, int *i)
+void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
@@ -60,14 +60,14 @@ void	handle_double_quote(t_minishell *data, char *buff, int *i)
 	{
 		if (buff[*i] == '$')
 		{
-			str = join_free(str, ft_substr(buff, begin, ((*i) - begin)));
+			str = join_free(str, ft_substr(buff, begin, (*i - begin)));
 			str = join_free(str, get_dollar_value(data, buff, i));
-			begin = (size_t)(*i);
+			begin = *i;
 		}
 		else
 			(*i)++;
 	}
-	str = join_free(str, ft_substr(buff, begin, ((*i) - begin)));
+	str = join_free(str, ft_substr(buff, begin, (*i - begin)));
 	(*i)++;
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
 	{

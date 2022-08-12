@@ -3,73 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/11 20:51:29 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:32:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	event(void)
+void	child_handler(int sig)
 {
-	return (0);
-}
-
-void	child_handler(int signo)
-{
-	if (signo == SIGINT)
+	if (sig == SIGINT)
 		exit(EXIT_SIGINT);
-	if (signo == SIGQUIT)
+	if (sig == SIGQUIT)
 	{
-		ft_putstr_fd("Quit\n", 2);
+		ft_putstr_fd("Quit\n", STDERR);
 		exit(EXIT_SIGQUIT);
 	}
 }
 
-void	heredoc_handler(int signo)
+void	heredoc_handler(int sig)
 {
-	if (signo == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_printf("\n");
-		rl_replace_line("", 1);
+		printf("\n");
+		rl_replace_line("", TRUE);
 		rl_on_new_line();
-		heredoc_interruptor(1);
-		rl_done = 1;
-		g_ext_val = EXIT_SIGINT;
+		heredoc_interruptor(TRUE);
+		rl_done = TRUE;
+		g_exit_value = EXIT_SIGINT;
 	}
 }
 
-void	cmd_handler(int signo)
+void	cmd_handler(int sig)
 {
-	if (signo == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_printf("\n");
-		rl_replace_line("", 1);
+		printf("\n");
+		rl_replace_line("", TRUE);
 		rl_on_new_line();
-		g_ext_val = EXIT_SIGINT;
+		g_exit_value = EXIT_SIGINT;
 	}
-	else if (signo == SIGQUIT)
+	else if (sig == SIGQUIT)
 	{
 		printf("Quit\n");
-		g_ext_val = EXIT_SIGQUIT;
+		g_exit_value = EXIT_SIGQUIT;
 	}
 }
 
-void	prompt_handler(int signo)
+void	prompt_handler(int sig)
 {
-	if (signo == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_printf("\n");
-		rl_replace_line("", 1);
+		printf("\n");
+		rl_replace_line("", TRUE);
 		rl_on_new_line();
 		rl_redisplay();
-		g_ext_val = EXIT_SIGINT;
+		g_exit_value = EXIT_SIGINT;
 	}
 }
 
-void	trigger_signal(int ignore_sigquit, void *handler)
+void	trigger_signal(t_bool ignore_sigquit, void *handler)
 {
 	t_sigaction	act;
 	t_sigaction	ign;

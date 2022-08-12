@@ -6,24 +6,24 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 09:29:02 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/26 20:53:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:48:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_error(t_minishell *data, t_bool is_child, char *err_msg, char *dir)
+static int	cd_error(t_minishell *data, t_bool is_child, char *msg, char *dir)
 {
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	if (err_msg)
-		ft_putendl_fd(err_msg, STDERR_FILENO);
+	ft_putstr_fd("minishell: cd: ", STDERR);
+	if (msg)
+		ft_putendl_fd(msg, STDERR);
 	else
 		perror(dir);
 	set_exit_value(data, is_child, EXIT_FAILURE);
 	return (TRUE);
 }
 
-void	set_env_pwd_and_oldpwd(t_minishell *data, char *oldpwd)
+static void	set_env_pwd_and_oldpwd(t_minishell *data, char *oldpwd)
 {
 	char	*pwd;
 	char	*oldpwd_env;

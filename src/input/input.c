@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 01:29:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 13:37:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev)
 	new_input->data = ft_strdup(str);
 	new_input->tok = tok;
 	new_input->next = next;
-	if (next != NULL)
+	if (next)
 		next->prev = new_input;
 	new_input->prev = prev;
-	if (prev != NULL)
+	if (prev)
 		prev->next = new_input;
 	return (new_input);
 }
@@ -32,12 +32,12 @@ void	add_input(t_node **begin, t_node *new)
 {
 	t_node	*last;
 
-	if (*begin == NULL)
+	if (!*begin)
 		*begin = new;
 	else
 	{
 		last = *begin;
-		while (last->next != NULL)
+		while (last->next)
 			last = last->next;
 		last->next = new;
 		new->prev = last;
@@ -50,7 +50,7 @@ void	free_input(t_node **begin)
 	t_node	*tmp;
 
 	node = *begin;
-	while (node != NULL)
+	while (node)
 	{
 		tmp = node;
 		free(node->data);
@@ -68,13 +68,13 @@ int	buff_to_input(t_minishell *data, const char *str, t_token tok)
 	begin = &data->input;
 	input = create_input(str, tok, NULL, NULL);
 	if (input != *begin)
-		add_input(begin, input); // TODO: exorcizar satanás
+		add_input(begin, input);
 	return (ft_strlen(str));
 }
 
 t_node	*get_last_input(t_node *input)
 {
-	while (input != NULL && input->next != NULL)
+	while (input && input->next)
 		input = input->next;
 	return (input);
 }

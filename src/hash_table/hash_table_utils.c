@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 19:57:22 by grenato-          #+#    #+#             */
-/*   Updated: 2022/07/22 21:33:13 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:26:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	hash_function(char *key)
 	__uint32_t		hash;
 
 	hash = 0;
-	while (*key != '\0')
+	while (*key)
 	{
-		hash = (hash << 4) + (*key);
-		tmp = hash & 0xf0000000;
+		hash = (hash << HASH_LEFT_OFFSET) + (*key);
+		tmp = hash & HASH_LIMITER;
 		if (tmp)
 		{
-			hash ^= tmp >> 24;
+			hash ^= tmp >> HASH_RIGHT_OFFSET;
 			hash ^= tmp;
 		}
 		key++;
@@ -36,7 +36,7 @@ t_hnode	*create_item(char *key, char *value)
 {
 	t_hnode	*item;
 
-	item = (t_hnode *) ft_calloc(1, sizeof(t_hnode));
+	item = (t_hnode *)ft_calloc(1, sizeof(t_hnode));
 	if (key)
 		item->key = ft_strdup(key);
 	if (value)
@@ -48,7 +48,7 @@ void	free_item(t_hnode *item)
 {
 	t_hnode	*temp;
 
-	while (item != NULL)
+	while (item)
 	{
 		temp = item;
 		item = item->next;
@@ -67,7 +67,7 @@ void	ht_free(t_hash_table *table)
 	while (++i < HASH_TABLE_SIZE)
 	{
 		temp = table->item[i];
-		if (temp != NULL)
+		if (temp)
 			free_item(temp);
 	}
 }
