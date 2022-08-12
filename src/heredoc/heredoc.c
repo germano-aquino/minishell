@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 13:59:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:44:41 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	close_heredoc(
 
 	if (*should_int)
 	{
-		rl_done = 0;
-		ft_exit(data, NULL, line, 0);
+		rl_done = FALSE;
+		redisplay_prompt(data, NULL, line, FALSE);
 	}
 	else if (line)
-		ft_memfree((void *) &line);
+		ft_memfree((void *)&line);
 	else
 	{
 		str = ft_strdup("minishell: warning: here-document" \
 			" delimited by end-of-file (wanted \'%s\')\n");
 		printf(str, delimiter);
-		ft_memfree((void *) &str);
+		ft_memfree((void *)&str);
 	}
 }
 
@@ -51,7 +51,7 @@ void	ft_here_doc(t_minishell *data, char *delimiter)
 
 	fd = open(TMP_HEREDOC_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	should_interrupt = init_heredoc_signal();
-	while (1)
+	while (TRUE)
 	{
 		line = readline("> ");
 		if (should_close_heredoc(line, should_interrupt, delimiter))
@@ -61,6 +61,6 @@ void	ft_here_doc(t_minishell *data, char *delimiter)
 			return ;
 		}
 		ft_putendl_fd(line, fd);
-		ft_memfree((void *) &line);
+		ft_memfree((void *)&line);
 	}
 }

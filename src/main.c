@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:34:24 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 15:41:48 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:52:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,17 @@ void	ft_init(t_minishell *data)
 	data->child_exit_code = 0;
 }
 
-void	ft_exit(t_minishell *data, const char *msg, char *buff, int end_program)
+void	redisplay_prompt(t_minishell *data, char *msg, char *buff, t_bool quit)
 {
 	if (buff)
-		free(buff);
+		ft_memfree((void *)&buff);
 	if (msg)
-		printf(msg);
+		print_error_msg(NULL, msg);
 	free_input(&data->input);
 	free_cmd_table(&data->cmd);
 	g_exit_value = EXIT_FAILURE;
-	if (end_program)
-	{
-		rl_clear_history();
-		ht_free(&data->env);
-		exit(EXIT_FAILURE);
-	}
+	if (quit)
+		exit_free(data, EXIT_FAILURE);
 	shell_loop(data);
 }
 
@@ -81,5 +77,5 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_init(&data);
 	populate_env_table(&data.env, envp);
 	shell_loop(&data);
-	return (0);
+	return (g_exit_value);
 }

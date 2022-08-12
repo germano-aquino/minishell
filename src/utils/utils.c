@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 15:40:06 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:33:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ t_bool	ft_chr_in_str(const char *str, char ch)
 		i++;
 	}
 	if (str[i])
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 char	*join_free(char *str1, char *str2)

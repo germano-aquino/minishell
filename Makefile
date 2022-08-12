@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/12 13:14:14 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/12 16:48:05 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJ_PATH			:= obj
 OBJ					:= $(SOURCE_FILES:%.c=$(OBJ_PATH)/%.o)
 
 CC					:= gcc
-CFLAGS				:= -g3 -O0 -Wall -Wextra #-Werror
+CFLAGS				:= -g3 -O0 -Wall -Wextra -Werror
 REMOVE				:= rm -rf
 VALGRIND			:= valgrind
 LDFLAGS				:= -L $(LIBFT_PATH) -lft -lreadline
@@ -56,9 +56,6 @@ $(LIBFT):
 $(OBJ_PATH):
 					mkdir -p $@
 
-run:				all
-					./$(NAME)
-
 clean:
 					$(REMOVE) $(OBJ)
 					$(MAKE) -C ${LIBFT_PATH} clean
@@ -69,7 +66,13 @@ fclean:				clean
 
 re:					fclean all
 
+run:				all
+					./$(NAME)
+
 vg:					all
 					$(VALGRIND) $(VGSUPRESS) $(VGFLAGS) ./$(NAME)
 
-.PHONY:				all clean fclean re vg
+test:				all
+					cd minishell_tester && ./tester
+
+.PHONY:				all clean fclean re run vg test

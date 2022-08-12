@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:31:55 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/11 16:32:03 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:51:55 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 t_bool	print_error_msg(char *cmd, char *msg)
 {
 	ft_putstr_fd("minishell: ", STDERR);
-	ft_putstr_fd(cmd, STDERR);
-	ft_putstr_fd(": ", STDERR);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, STDERR);
+		ft_putstr_fd(": ", STDERR);
+	}
 	ft_putendl_fd(msg, STDERR);
 	return (TRUE);
 }

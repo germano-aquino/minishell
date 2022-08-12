@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 14:19:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:31:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 		return (TRUE);
 	}
 	if (data->cmd.files[cmd_pos].infile)
-		ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
+		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
 	data->cmd.files[cmd_pos].which_input = Infile;
 	*input = (*input)->next;
@@ -84,7 +84,7 @@ int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 		return (TRUE);
 	}
 	if (data->cmd.files[cmd_pos].infile)
-		ft_memfree((void *) &data->cmd.files[cmd_pos].infile);
+		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup(TMP_HEREDOC_PATH);
 	data->cmd.files[cmd_pos].which_input = Heredoc;
 	ft_here_doc(data, (*input)->data);

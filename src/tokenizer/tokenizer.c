@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 13:46:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:53:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	tokenizer(t_minishell *data, char *buff)
 	size_t	i;
 
 	if (check_unclosed_quotes(buff))
-		ft_exit(data, "There is unclosed quotes.\n", buff, 0);
+		redisplay_prompt(data, "there are unclosed quotes", buff, FALSE);
 	i = 0;
 	while (buff[i])
 	{

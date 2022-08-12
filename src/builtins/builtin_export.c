@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 13:32:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 16:31:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static void	invalid_identifier(
 	ft_putendl_fd("': not a valid identifier", STDERR);
 	if (is_child)
 	{
-		ft_memfree((void *) &key);
-		ft_memfree((void *) &value);
+		ft_memfree((void *)&key);
+		ft_memfree((void *)&value);
 		exit_free(data, EXIT_FAILURE);
 	}
 	g_exit_value = EXIT_FAILURE;
@@ -71,8 +71,8 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 			invalid_identifier(data, key, value, is_child);
 		else
 			ht_insert(&data->env, key, value);
-		ft_memfree((void *) &key);
-		ft_memfree((void *) &value);
+		ft_memfree((void *)&key);
+		ft_memfree((void *)&value);
 	}
 }
 
