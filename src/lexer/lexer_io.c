@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 21:26:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:37:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ void	create_file(t_node *input)
 
 int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 {
+	if (!(*input)->next || (*input)->next->tok != Word)
+		redisplay_prompt(data, SYNTAX_ERROR REDIR_INPUT_STR, NULL, FALSE);
 	*input = (*input)->next;
-	if (!*input || (*input)->tok != Word)
-		redisplay_prompt(data, "syntax error near unexpected token \'<\'",
-			NULL, FALSE);
 	if (access((*input)->data, R_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
@@ -44,26 +43,15 @@ int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 	return (FALSE);
 }
 
-void	redirect_output_syntax_error(t_minishell *data, t_node *input)
-{
-	t_node	*prev;
-
-	prev = input;
-	input = input->next;
-	if (!input || input->tok != Word)
-	{
-		if (prev->tok == Great)
-			redisplay_prompt(data, "syntax error near unexpected token \'>\'",
-				NULL, FALSE);
-		else
-			redisplay_prompt(data, "syntax error near unexpected token \'>>\'",
-				NULL, FALSE);
-	}
-}
-
 int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 {
-	redirect_output_syntax_error(data, *input);
+	if (!(*input)->next || (*input)->next->tok != Word)
+	{
+		if ((*input)->tok == Great)
+			redisplay_prompt(data, SYNTAX_ERROR REDIR_TRUNC_STR, NULL, FALSE);
+		else
+			redisplay_prompt(data, SYNTAX_ERROR REDIR_APPEND_STR, NULL, FALSE);
+	}
 	*input = (*input)->next;
 	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
 	{
@@ -85,10 +73,9 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 
 int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 {
+	if (!(*input)->next || (*input)->next->tok != Word)
+		redisplay_prompt(data, SYNTAX_ERROR REDIR_HEREDOC_STR, NULL, FALSE);
 	*input = (*input)->next;
-	if (!*input || (*input)->tok != Word)
-		redisplay_prompt(data, "syntax error near unexpected token \'<<\'",
-			NULL, FALSE);
 	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup(TMP_HEREDOC_PATH);

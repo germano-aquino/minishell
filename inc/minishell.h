@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 20:28:31 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:44:22 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,15 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-/* Tokenizer */
+/* Parsing */
 # define REGULAR_TOKENS "<>|&"
 # define PARSER_TOKENS "$\'\""
-# define WORD_CHARS "=-_+/()[]{}?!~.#@^\\\%`´:;"
+# define SYNTAX_ERROR "syntax error near unexpected token "
+# define REDIR_TRUNC_STR "`>'"
+# define REDIR_APPEND_STR "`>>'"
+# define REDIR_INPUT_STR "`<'"
+# define REDIR_HEREDOC_STR "`<<'"
+# define PIPE_STR "`|'"
 
 /* Here-document */
 # define TMP_HEREDOC_PATH "/tmp/heredoc"
@@ -43,8 +48,8 @@
 /* Exit code */
 # define EXIT_NOT_EXECUTABLE 126	/* Permission denied, Is a directory */
 # define EXIT_NOT_FOUND 127			/* Command not found */
-# define EXIT_SIGINT 130			/* Interrupt program, normally Ctrl+C. */
-# define EXIT_SIGQUIT 131			/* Interrupt program, similar to SIGINT. */
+# define EXIT_SIGINT 130			/* Interrupt program, normally Ctrl+C */
+# define EXIT_SIGQUIT 131			/* Interrupt program, normally Ctrl+\ */
 
 /* Hashtable */
 # define HASH_TABLE_SIZE 1031
@@ -77,7 +82,6 @@ typedef struct s_files
 	t_input		which_input;
 	char		*infile;
 	char		*outfile;
-	char		**delimiter;
 }	t_files;
 
 typedef enum e_token

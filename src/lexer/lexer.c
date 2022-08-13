@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 20:48:40 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:33:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	get_pipes_amount(t_node *input)
 int	handle_pipe(t_minishell *data, t_node **input, int *cmd_pos)
 {
 	if (!(*input)->prev || (*input)->prev->tok != Word || !(*input)->next)
-		redisplay_prompt(data, "syntax error near unexpected token \'|\'",
-			NULL, FALSE);
+		redisplay_prompt(data, SYNTAX_ERROR PIPE_STR, NULL, FALSE);
 	*input = (*input)->next;
 	(*cmd_pos)++;
 	return (FALSE);
