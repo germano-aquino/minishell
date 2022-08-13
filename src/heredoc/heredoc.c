@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 16:44:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 02:24:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	close_heredoc(
 	else
 	{
 		str = ft_strdup("minishell: warning: here-document" \
-			" delimited by end-of-file (wanted \'%s\')\n");
+			" delimited by end-of-file (wanted `%s')\n");
 		printf(str, delimiter);
 		ft_memfree((void *)&str);
 	}
