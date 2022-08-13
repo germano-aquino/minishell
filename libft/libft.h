@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:43:19 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/07 20:39:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:08:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -581,7 +581,6 @@ t_llong	ft_atoll(const char *nptr);
 * by its ASCII values.
 * @param s1 First string.
 * @param s2 Second string.
-* @param n Number of bytes to compare.
 * @return -1, 0 or 1 if s1 is less, equal or greater than s2,
 * respectively.
 */
