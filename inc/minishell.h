@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 01:44:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:33:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define REDIR_INPUT_STR "`<'"
 # define REDIR_HEREDOC_STR "`<<'"
 # define PIPE_STR "`|'"
+# define SQUOTE '\''
+# define DQUOTE '"'
 
 /* Here-document */
 # define TMP_HEREDOC_PATH "/tmp/heredoc"
@@ -146,6 +148,8 @@ typedef struct s_minishell
 
 void	shell_loop(t_minishell *data);
 void	redisplay_prompt(t_minishell *data, char *msg, char *buff, t_bool quit);
+void	ft_init(t_minishell *data);
+int		minishell(char **envp);
 
 //input.c
 t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev);
@@ -160,10 +164,7 @@ char	*concat_and_delete_last_input(char *str, t_node **input);
 void	transform_quotes_into_word(t_node *input);
 
 //tokens_handler.c
-void	handle_word(t_minishell *data, char *buff, size_t *i);
 void	handle_dollar(t_minishell *data, char *buff, size_t *i);
-void	handle_single_quote(t_minishell *data, char *buff, size_t *i);
-void	handle_double_quote(t_minishell *data, char *buff, size_t *i);
 
 //tokenizer.c
 void	tokenizer(t_minishell *data, char *buff);
@@ -211,7 +212,7 @@ void	ht_insert(t_hash_table *table, char *key, char *value);
 void	ht_delete(t_hash_table *table, char *key);
 
 //commands_execution.c
-void	exec_cmds(t_minishell *data);
+void	execute_forks(t_minishell *data);
 void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars);
 int		check_builtin(t_minishell *data, int index, t_bool is_child);
 int		exec_builtin(t_minishell *data, int index, t_bool is_child);
@@ -222,7 +223,7 @@ void	display_input(t_node *input);
 void	display_cmd_table(t_command_table *cmd);
 
 //enviroment_variables.c
-void	populate_env_table(t_hash_table *table, char *envp[]);
+void	populate_env_table(t_hash_table *table, char **envp);
 
 //signal.c
 void	trigger_signal(t_bool ignore_sigquit, void *handler);

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 15:32:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:24:54 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	child_handler(int sig)
 		exit(EXIT_SIGINT);
 	if (sig == SIGQUIT)
 	{
-		ft_putstr_fd("Quit\n", STDERR);
+		ft_putendl_fd("Quit", STDERR);
 		exit(EXIT_SIGQUIT);
 	}
 }
@@ -27,7 +27,7 @@ void	heredoc_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		ft_putendl_fd("", STDERR);
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
 		heredoc_interruptor(TRUE);
@@ -40,14 +40,14 @@ void	cmd_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		ft_putendl_fd("", STDERR);
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
 		g_exit_value = EXIT_SIGINT;
 	}
 	else if (sig == SIGQUIT)
 	{
-		printf("Quit\n");
+		ft_putendl_fd("Quit", STDERR);
 		g_exit_value = EXIT_SIGQUIT;
 	}
 }
@@ -56,7 +56,7 @@ void	prompt_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		ft_putendl_fd("", STDERR);
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
 		rl_redisplay();

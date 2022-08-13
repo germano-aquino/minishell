@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 20:27:15 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:32:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	handle_word(t_minishell *data, char *buff, size_t *i)
+static void	handle_word(t_minishell *data, char *buff, size_t *i)
 {
 	char	*begin;
 	char	*str;
@@ -31,13 +31,13 @@ void	handle_word(t_minishell *data, char *buff, size_t *i)
 	free(str);
 }
 
-void	handle_single_quote(t_minishell *data, char *buff, size_t *i)
+static void	handle_single_quote(t_minishell *data, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
 
 	begin = ++(*i);
-	while (buff[*i] != '\'')
+	while (buff[*i] != SQUOTE)
 		(*i)++;
 	str = ft_substr(buff, begin, (*i - begin));
 	(*i)++;
@@ -50,14 +50,14 @@ void	handle_single_quote(t_minishell *data, char *buff, size_t *i)
 	free(str);
 }
 
-void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
+static void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
 
 	str = NULL;
 	begin = ++(*i);
-	while (buff[*i] != '\"')
+	while (buff[*i] != DQUOTE)
 	{
 		if (buff[*i] == '$')
 		{
@@ -77,4 +77,16 @@ void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
 	}
 	buff_to_input(data, str, Word);
 	free(str);
+}
+
+void	handle_parser(t_minishell *data, char *buff, size_t *i)
+{
+	if (buff[*i] == SQUOTE)
+		handle_single_quote(data, buff, i);
+	else if (buff[*i] == DQUOTE)
+		handle_double_quote(data, buff, i);
+	else if (ft_strncmp((buff + *i), "$", 1) == 0)
+		handle_dollar(data, buff, i);
+	else
+		handle_word(data, buff, i);
 }

@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/12 16:48:05 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/13 14:38:55 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,15 @@ NAME				:= minishell
 HEADER_PATH			:= inc
 HEADER				:= minishell.h
 
-SOURCE_PATH			:= src src/hash_table src/tokenizer src/lexer src/execute src/signal src/input
-SOURCE_PATH			+= src/utils src/heredoc src/builtins
+SOURCE_PATH			:= src src/hash_table src/tokenizer src/lexer src/execute src/input src/utils
+SOURCE_PATH			+= src/heredoc src/builtins src/prompt
 SOURCE_FILES		:= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c
 SOURCE_FILES		+= lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.c utils.c
 SOURCE_FILES		+= command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c
 SOURCE_FILES		+= error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_export.c
 SOURCE_FILES		+= builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c
 SOURCE_FILES		+= builtin_single_io.c pipes_and_pid.c bin_path_validation.c heredoc_signals.c
+SOURCE_FILES		+= prompt.c init.c minishell.c get_env_from_ht.c
 
 LIBFT_PATH			:= libft
 LIBFT				:= libft/libft.a

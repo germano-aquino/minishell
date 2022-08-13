@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:57:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 15:36:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:10:53 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	insert_colliding_item(t_hnode *curr_item, char *key, char *value)
 	while (curr_item->next)
 	{
 		curr_item = curr_item->next;
-		if (!ft_strcmp(key, curr_item->key))
+		if (ft_strcmp(key, curr_item->key) == 0)
 		{
 			free(curr_item->value);
 			curr_item->value = ft_strdup(value);
@@ -36,7 +36,7 @@ void	ht_insert(t_hash_table *table, char *key, char *value)
 	curr_item = table->item[index];
 	if (!curr_item)
 		table->item[index] = create_item(key, value);
-	else if (!ft_strcmp(key, curr_item->key))
+	else if (ft_strcmp(key, curr_item->key) == 0)
 	{
 		if (value)
 		{
@@ -57,7 +57,7 @@ char	*ht_search(t_hash_table *table, char *key)
 	curr_item = table->item[index];
 	while (curr_item)
 	{
-		if (!ft_strcmp(key, curr_item->key))
+		if (ft_strcmp(key, curr_item->key) == 0)
 			return (curr_item->value);
 		curr_item = curr_item->next;
 	}
@@ -98,7 +98,7 @@ void	ht_delete(t_hash_table *table, char *key)
 	item = table->item[index];
 	if (item)
 	{
-		if (!ft_strcmp(key, item->key))
+		if (ft_strcmp(key, item->key) == 0)
 		{
 			table->item[index] = item->next;
 			item->next = NULL;

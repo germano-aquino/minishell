@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 20:18:07 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:32:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 static void	handle_token(t_minishell *data, char *buff, size_t *i)
 {
-	if (!ft_strncmp((buff + *i), ">>", 2))
+	if (ft_strncmp((buff + *i), ">>", 2) == 0)
 		*i += buff_to_input(data, ">>", Double_Great);
-	else if (!ft_strncmp((buff + *i), "<<", 2))
+	else if (ft_strncmp((buff + *i), "<<", 2) == 0)
 		*i += buff_to_input(data, "<<", Double_Less);
-	else if (!ft_strncmp((buff + *i), "&&", 2))
+	else if (ft_strncmp((buff + *i), "&&", 2) == 0)
 		*i += buff_to_input(data, "&&", Word);
-	else if (!ft_strncmp((buff + *i), "||", 2))
+	else if (ft_strncmp((buff + *i), "||", 2) == 0)
 		*i += buff_to_input(data, "||", Word);
-	else if (!ft_strncmp((buff + *i), ">", 1))
+	else if (ft_strncmp((buff + *i), ">", 1) == 0)
 		*i += buff_to_input(data, ">", Great);
-	else if (!ft_strncmp((buff + *i), "<", 1))
+	else if (ft_strncmp((buff + *i), "<", 1) == 0)
 		*i += buff_to_input(data, "<", Less);
-	else if (!ft_strncmp((buff + *i), "|", 1))
+	else if (ft_strncmp((buff + *i), "|", 1) == 0)
 		*i += buff_to_input(data, "|", Pipe);
-	else if (!ft_strncmp((buff + *i), "&", 1))
+	else if (ft_strncmp((buff + *i), "&", 1) == 0)
 		*i += buff_to_input(data, "&", Word);
-	else if (!ft_strncmp((buff + *i), "*", 1))
+	else if (ft_strncmp((buff + *i), "*", 1) == 0)
 		*i += buff_to_input(data, "*", Wildcard);
 }
 
@@ -54,24 +54,12 @@ static int	check_unclosed_quotes(char *buff)
 	quotes_amount = 0;
 	while (*buff)
 	{
-		if (*buff == '\'' || *buff == '\"')
+		if (*buff == SQUOTE || *buff == DQUOTE)
 			escape_char_and_count(&buff, *buff, &quotes_amount);
 		else
 			buff++;
 	}
 	return (quotes_amount % 2);
-}
-
-void	handle_parser(t_minishell *data, char *buff, size_t *i)
-{
-	if (ft_chr_in_str("\'", buff[*i]))
-		handle_single_quote(data, buff, i);
-	else if (ft_chr_in_str("\"", buff[*i]))
-		handle_double_quote(data, buff, i);
-	else if (!ft_strncmp((buff + *i), "$", 1))
-		handle_dollar(data, buff, i);
-	else
-		handle_word(data, buff, i);
 }
 
 void	tokenizer(t_minishell *data, char *buff)

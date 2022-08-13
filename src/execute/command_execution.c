@@ -6,16 +6,14 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 13:39:05 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 13:56:39 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	call_execve_or_builtin(
-	t_minishell *data, t_workspace *vars, char **envp, int index)
+void	call_execve_or_builtin(t_minishell *data, char **envp, int index)
 {
-	free(vars->pid);
 	if (!is_builtin(data->cmd.cmd_path[index]))
 	{
 		if (execve(data->cmd.cmd_path[index], data->cmd.args[index], envp) != 0)
@@ -28,7 +26,7 @@ void	call_execve_or_builtin(
 	check_builtin(data, index, TRUE);
 }
 
-void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
+void	execute_command(t_minishell *data, t_workspace *vars, int index)
 {
 	char	**envp;
 	int		i;
@@ -46,8 +44,9 @@ void	exec_cmd(t_minishell *data, t_workspace *vars, int index)
 			close(vars->fd[i][IN]);
 			close(vars->fd[i][OUT]);
 		}
+		ft_memfree((void *)&vars->pid);
 		ft_free_matrix((void *)&vars->fd);
-		call_execve_or_builtin(data, vars, envp, index);
+		call_execve_or_builtin(data, envp, index);
 	}
 	else
 	{
@@ -70,7 +69,7 @@ void	wait_child(t_minishell *data, t_workspace *vars)
 		g_exit_value = EXIT_NOT_FOUND;
 }
 
-void	exec_cmds(t_minishell *data)
+void	execute_forks(t_minishell *data)
 {
 	t_workspace	vars;
 	int			index;
@@ -90,7 +89,7 @@ void	exec_cmds(t_minishell *data)
 				g_exit_value = EXIT_FAILURE;
 		}
 		else
-			exec_cmd(data, &vars, index);
+			execute_command(data, &vars, index);
 	}
 	wait_child(data, &vars);
 	ft_memfree((void *)&vars.pid);

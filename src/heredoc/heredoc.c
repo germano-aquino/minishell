@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 02:24:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:10:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_heredoc(
+static void	close_heredoc(
 	t_minishell *data, int *should_int, char *delimiter, char *line)
 {
 	char	*str;
@@ -33,13 +33,13 @@ void	close_heredoc(
 	}
 }
 
-int	should_close_heredoc(char *line, int *should_int, char *delimiter)
+static int	should_close_heredoc(char *line, int *should_int, char *delimiter)
 {
 	int	should_close;
 
 	should_close = (!line || *should_int);
 	if (!should_close)
-		should_close = !ft_strcmp(line, delimiter);
+		should_close = ft_strcmp(line, delimiter) == 0;
 	return (should_close);
 }
 

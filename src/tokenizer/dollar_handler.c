@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 17:33:26 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:38:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*get_env_var(t_hash_table *env, char *buff, size_t *i)
+static char	*get_env_var(t_hash_table *env, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*key;
@@ -29,11 +29,23 @@ char	*get_env_var(t_hash_table *env, char *buff, size_t *i)
 	return (env_var);
 }
 
-char	*handle_number_var(char *buff, size_t *i)
+static char	*handle_number_var(char *buff, size_t *i)
 {
 	if (buff[(*i)++] == '0')
 		return (ft_strdup("minishell"));
 	return (NULL);
+}
+
+static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
+{
+	char	*delimiter;
+	size_t	begin;
+
+	begin = *i;
+	while (!ft_isspace(buff[*i]))
+		(*i)++;
+	delimiter = ft_substr(buff, begin, (*i - begin));
+	buff_to_input(data, delimiter, Word);
 }
 
 char	*get_dollar_value(t_minishell *data, char *buff, size_t *i)
@@ -51,23 +63,11 @@ char	*get_dollar_value(t_minishell *data, char *buff, size_t *i)
 	}
 	else if (ft_isdigit(buff[*i]))
 		env_var = handle_number_var(buff, i);
-	else if (ft_isspace(buff[*i]) || buff[*i] == '\0' || buff[*i] == '\"')
+	else if (ft_isspace(buff[*i]) || buff[*i] == '\0' || buff[*i] == DQUOTE)
 		env_var = ft_strdup("$");
 	else
 		(*i)++;
 	return (env_var);
-}
-
-void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
-{
-	char	*delimiter;
-	size_t	begin;
-
-	begin = *i;
-	while (!ft_isspace(buff[*i]))
-		(*i)++;
-	delimiter = ft_substr(buff, begin, (*i - begin));
-	buff_to_input(data, delimiter, Word);
 }
 
 void	handle_dollar(t_minishell *data, char *buff, size_t *i)
