@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 01:37:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 02:06:47 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,7 @@ int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 		redisplay_prompt(data, SYNTAX_ERROR REDIR_INPUT_STR, NULL, FALSE);
 	*input = (*input)->next;
 	if (access((*input)->data, R_OK) != 0)
-	{
-		ft_putstr_fd("minishell: ", STDERR);
-		perror((*input)->data);
-		*input = (*input)->next;
-		return (TRUE);
-	}
+		return (print_perror_msg(NULL, (*input)->data));
 	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
@@ -54,11 +49,7 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 	}
 	*input = (*input)->next;
 	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
-	{
-		ft_putstr_fd("minishell: ", STDERR);
-		perror((*input)->data);
-		return (TRUE);
-	}
+		return (print_perror_msg(NULL, (*input)->data));
 	if (data->cmd.files[cmd_pos].outfile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].outfile);
 	if ((*input)->prev->tok == Less)
