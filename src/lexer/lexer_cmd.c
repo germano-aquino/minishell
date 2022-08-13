@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 17:03:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 12:48:22 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
 	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
 	*input = (*input)->next;
-	err = validate_path(data, data->cmd.cmd_path[cmd_pos], cmd_pos);
 	i = 0;
 	while (++i < args_amount && *input && !err)
 	{

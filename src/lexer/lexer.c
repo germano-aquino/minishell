@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 01:33:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 12:51:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	lexer(t_minishell *data)
 				input = input->next;
 			ft_memfree((void *)&data->cmd.cmd_path[cmd_pos]);
 			data->cmd.cmd_path[cmd_pos] = ft_strdup("");
+			*data->cmd.cmd_path[cmd_pos] = -1;
 		}
 	}
 }

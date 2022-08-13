@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 21:54:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/13 13:39:05 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	exec_cmds(t_minishell *data)
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
 	{
-		if (!data->cmd.cmd_path[index] || !*data->cmd.cmd_path[index])
+		if (validate_path(data, data->cmd.cmd_path[index], index) != 0)
 		{
 			close(vars.fd[index][IN]);
 			close(vars.fd[index][OUT]);

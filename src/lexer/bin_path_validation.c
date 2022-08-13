@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 16:05:14 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 13:27:43 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/13 13:29:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_bool	validate_path(t_minishell *data, char *path, int cmd_pos)
 		g_exit_value = EXIT_NOT_FOUND;
 		return (print_error_msg(*data->cmd.args[cmd_pos], "command not found"));
 	}
+	if (*path == -1)
+		return (TRUE);
 	if (is_directory(path))
 	{
 		g_exit_value = EXIT_NOT_EXECUTABLE;
