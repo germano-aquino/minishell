@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 14:19:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:48:40 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ int	get_pipes_amount(t_node *input)
 	return (pipes_amount);
 }
 
-int	handle_pipe(t_node **input, int *cmd_pos)
+int	handle_pipe(t_minishell *data, t_node **input, int *cmd_pos)
 {
 	if (!(*input)->prev || (*input)->prev->tok != Word || !(*input)->next)
-	{
-		printf("syntax error near unexpected token \'|\'\n");
-		return (TRUE);
-	}
+		redisplay_prompt(data, "syntax error near unexpected token \'|\'",
+			NULL, FALSE);
 	*input = (*input)->next;
 	(*cmd_pos)++;
 	return (FALSE);
@@ -63,7 +61,7 @@ void	lexer(t_minishell *data)
 	while (input)
 	{
 		if (input->tok == Pipe)
-			err = handle_pipe(&input, &cmd_pos);
+			err = handle_pipe(data, &input, &cmd_pos);
 		else if (input->tok == Word)
 			err = handle_command(data, &input, cmd_pos, err);
 		else if (input)
