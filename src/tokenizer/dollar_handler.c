@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 01:06:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 19:47:57 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
 	size_t	begin;
 
 	begin = *i;
-	while (!ft_isspace(buff[*i]))
+	while (buff[*i] && !ft_isspace(buff[*i]))
 		(*i)++;
 	delimiter = ft_substr(buff, begin, (*i - begin));
 	buff_to_input(data, delimiter, Word);
