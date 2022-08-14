@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 14:10:06 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 00:41:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	close_heredoc(
 	if (*should_int)
 	{
 		rl_done = FALSE;
-		redisplay_prompt(data, NULL, line, FALSE);
+		redisplay_prompt(data, NULL, line, EXIT_SIGINT);
 	}
 	else if (line)
 		ft_memfree((void *)&line);

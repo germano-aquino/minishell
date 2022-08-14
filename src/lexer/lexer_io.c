@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 02:06:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 00:38:08 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	create_file(t_node *input)
 int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 {
 	if (!(*input)->next || (*input)->next->tok != Word)
-		redisplay_prompt(data, SYNTAX_ERROR REDIR_INPUT_STR, NULL, FALSE);
+		redisplay_prompt(data, ERR_SYNTAX INPUT_STR, NULL, EXIT_BAD_USAGE);
 	*input = (*input)->next;
 	if (access((*input)->data, R_OK) != 0)
 		return (print_perror_msg(NULL, (*input)->data));
@@ -43,9 +43,9 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 	if (!(*input)->next || (*input)->next->tok != Word)
 	{
 		if ((*input)->tok == Great)
-			redisplay_prompt(data, SYNTAX_ERROR REDIR_TRUNC_STR, NULL, FALSE);
+			redisplay_prompt(data, ERR_SYNTAX TRUNC_STR, NULL, EXIT_BAD_USAGE);
 		else
-			redisplay_prompt(data, SYNTAX_ERROR REDIR_APPEND_STR, NULL, FALSE);
+			redisplay_prompt(data, ERR_SYNTAX APPEND_STR, NULL, EXIT_BAD_USAGE);
 	}
 	*input = (*input)->next;
 	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
@@ -65,7 +65,7 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 {
 	if (!(*input)->next || (*input)->next->tok != Word)
-		redisplay_prompt(data, SYNTAX_ERROR REDIR_HEREDOC_STR, NULL, FALSE);
+		redisplay_prompt(data, ERR_SYNTAX HEREDOC_STR, NULL, EXIT_BAD_USAGE);
 	*input = (*input)->next;
 	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);

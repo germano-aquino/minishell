@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 14:33:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 00:50:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,21 @@
 
 /* Parsing */
 # define REGULAR_TOKENS "<>|&"
-# define PARSER_TOKENS "$\'\""
-# define SYNTAX_ERROR "syntax error near unexpected token "
-# define REDIR_TRUNC_STR "`>'"
-# define REDIR_APPEND_STR "`>>'"
-# define REDIR_INPUT_STR "`<'"
-# define REDIR_HEREDOC_STR "`<<'"
+# define PARSER_TOKENS "$'\""
+
+# define ERR_QUOTES "there are unclosed quotes"
+# define ERR_SYNTAX "syntax error near unexpected token "
+# define TRUNC_STR "`>'"
+# define APPEND_STR "`>>'"
+# define INPUT_STR "`<'"
+# define HEREDOC_STR "`<<'"
 # define PIPE_STR "`|'"
-# define SQUOTE '\''
-# define DQUOTE '"'
+
+# define SQUOTE '\''	/* Single quote character */
+# define DQUOTE '"'		/* Double quote character */
 
 /* Here-document */
-# define TMP_HEREDOC_PATH "/tmp/heredoc"
+# define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */
 
 /* Pipe */
 # define IN 0			/* Pipe read end */
@@ -48,6 +51,7 @@
 # define PIPE_SIZE 2	/* Pipe total size */
 
 /* Exit code */
+# define EXIT_BAD_USAGE 2			/* Builtin misuse, syntax error */
 # define EXIT_NOT_EXECUTABLE 126	/* Permission denied, Is a directory */
 # define EXIT_NOT_FOUND 127			/* Command not found */
 # define EXIT_SIGINT 130			/* Interrupt program, normally Ctrl+C */
@@ -147,7 +151,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	shell_loop(t_minishell *data);
-void	redisplay_prompt(t_minishell *data, char *msg, char *buff, t_bool quit);
+void	redisplay_prompt(t_minishell *data, char *msg, char *buff, int status);
 void	ft_init(t_minishell *data);
 int		minishell(char **envp);
 
