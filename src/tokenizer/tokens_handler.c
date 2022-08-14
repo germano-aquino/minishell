@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 01:03:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 20:23:44 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
 		if (buff[*i] == DOLLAR)
 		{
 			str = join_free(str, ft_substr(buff, begin, (*i - begin)));
-			str = join_free(str, get_dollar_value(data, buff, i));
+			str = join_free(str, get_dollar_value(&data->env, buff, i));
 			begin = *i;
 		}
 		else

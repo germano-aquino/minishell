@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 19:47:57 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/14 20:23:17 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
 	buff_to_input(data, delimiter, Word);
 }
 
-char	*get_dollar_value(t_minishell *data, char *buff, size_t *i)
+char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i)
 {
 	char	*env_var;
 
 	(*i)++;
 	env_var = NULL;
 	if (ft_isalpha(buff[*i]) || buff[*i] == '_')
-		env_var = get_env_var(&data->env, buff, i);
+		env_var = get_env_var(env, buff, i);
 	else if (buff[*i] == '?')
 	{
 		(*i)++;
@@ -81,7 +81,7 @@ void	handle_dollar(t_minishell *data, char *buff, size_t *i)
 		handle_heredoc_delimiter(data, buff, i);
 		return ;
 	}
-	env_var = get_dollar_value(data, buff, i);
+	env_var = get_dollar_value(&data->env, buff, i);
 	if (!env_var)
 		return ;
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i])

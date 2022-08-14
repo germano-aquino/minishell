@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 00:41:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 20:41:23 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,33 @@ static int	should_close_heredoc(char *line, int *should_int, char *delimiter)
 	return (should_close);
 }
 
+static char	*environment_variable_expansion(t_hash_table *env, char *line)
+{
+	char	*new_line;
+	char	*temp;
+	size_t	i;
+	size_t	begin;
+
+	if (!ft_chr_in_str(line, '$'))
+		return (line);
+	i = 0;
+	begin = 0;
+	new_line = NULL;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			temp = ft_substr(line, begin, i - begin);
+			new_line = ft_strjoin_free(new_line, temp);
+			temp = get_dollar_value(env, line, &i);
+			new_line = ft_strjoin_free(new_line, temp);
+			begin = i;
+		}
+		i++;
+	}
+	return (new_line);
+}
+
 void	ft_here_doc(t_minishell *data, char *delimiter)
 {
 	char	*line;
@@ -60,6 +87,7 @@ void	ft_here_doc(t_minishell *data, char *delimiter)
 			close_heredoc(data, should_interrupt, delimiter, line);
 			return ;
 		}
+		line = environment_variable_expansion(&data->env, line);
 		ft_putendl_fd(line, fd);
 		ft_memfree((void *)&line);
 	}

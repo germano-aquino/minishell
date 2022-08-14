@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 01:03:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 20:24:43 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void	tokenizer(t_minishell *data, char *buff);
 void	handle_parser(t_minishell *data, char *buff, size_t *i);
 
 //dollar_handler.c
-char	*get_dollar_value(t_minishell *data, char *buff, size_t *i);
+char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i);
 
 //lexer_cmd.c
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
