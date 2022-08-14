@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 14:32:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 01:03:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
 	begin = ++(*i);
 	while (buff[*i] != DQUOTE)
 	{
-		if (buff[*i] == '$')
+		if (buff[*i] == DOLLAR)
 		{
 			str = join_free(str, ft_substr(buff, begin, (*i - begin)));
 			str = join_free(str, get_dollar_value(data, buff, i));
@@ -85,7 +85,7 @@ void	handle_parser(t_minishell *data, char *buff, size_t *i)
 		handle_single_quote(data, buff, i);
 	else if (buff[*i] == DQUOTE)
 		handle_double_quote(data, buff, i);
-	else if (ft_strncmp((buff + *i), "$", 1) == 0)
+	else if (buff[*i] == DOLLAR)
 		handle_dollar(data, buff, i);
 	else
 		handle_word(data, buff, i);

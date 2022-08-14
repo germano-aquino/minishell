@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 00:50:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 01:03:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 # define SQUOTE '\''	/* Single quote character */
 # define DQUOTE '"'		/* Double quote character */
+# define DOLLAR '$'		/* Dollar sign (env variable expansion) character */
 
 /* Here-document */
 # define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */
@@ -58,10 +59,10 @@
 # define EXIT_SIGQUIT 131			/* Interrupt program, normally Ctrl+\ */
 
 /* Hashtable */
-# define HASH_TABLE_SIZE 1031
-# define HASH_RIGHT_OFFSET 24
-# define HASH_LEFT_OFFSET 4
-# define HASH_LIMITER 0xf0000000
+# define HASH_TABLE_SIZE 1031		/* Hashtable total size */
+# define HASH_RIGHT_OFFSET 24		/* Right bit-shifting offset */
+# define HASH_LEFT_OFFSET 4			/* Left bit-shifting offset */
+# define HASH_LIMITER 0xf0000000	/* Hashing limiter */
 
 extern int					g_exit_value;
 

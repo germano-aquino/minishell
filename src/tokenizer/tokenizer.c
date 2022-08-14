@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 00:40:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/14 00:59:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,6 @@ void	tokenizer(t_minishell *data, char *buff)
 		else if (buff[i])
 			handle_parser(data, buff, &i);
 	}
+	if (!data->input)
+		redisplay_prompt(data, NULL, buff, EXIT_SUCCESS);
 }
