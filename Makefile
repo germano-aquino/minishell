@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/13 14:38:55 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/15 12:02:44 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME				:= minishell
 HEADER_PATH			:= inc
 HEADER				:= minishell.h
 
-SOURCE_PATH			:= src src/hash_table src/tokenizer src/lexer src/execute src/input src/utils
-SOURCE_PATH			+= src/heredoc src/builtins src/prompt
+SOURCE_DIRS			:= hash_table tokenizer lexer execute input utils heredoc builtins prompt
+SOURCE_PATH			:= $(addprefix src/, $(SOURCE_DIRS))
 SOURCE_FILES		:= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c
 SOURCE_FILES		+= lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.c utils.c
 SOURCE_FILES		+= command_execution.c display.c free.c enviroment_variable.c signal.c heredoc.c
