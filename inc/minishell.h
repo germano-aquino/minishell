@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 17:26:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,6 @@ t_bool	is_path(char *str);
 t_bool	is_directory(char *path);
 
 //utils.c
-char	*join_free(char *str1, char *str2);
 t_bool	ft_chr_in_str(const char *str, char ch);
 t_bool	ft_is_number_str(const char *str);
 t_bool	ft_is_word_str(const char *str);
