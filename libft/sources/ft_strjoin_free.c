@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 12:18:13 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/14 20:38:49 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:28:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	char	*str;
 
 	str = ft_strjoin(s1, s2);
-	ft_memfree((void *) &s1);
-	ft_memfree((void *) &s2);
+	free(s1);
+	free(s2);
 	return (str);
 }
