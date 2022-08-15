@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 20:23:17 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:13:02 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
 		(*i)++;
 	delimiter = ft_substr(buff, begin, (*i - begin));
 	buff_to_input(data, delimiter, Word);
+	free(delimiter);
 }
 
 char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i)
