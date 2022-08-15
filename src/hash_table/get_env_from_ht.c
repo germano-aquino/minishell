@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:23:17 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/13 14:23:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:01:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*get_key_value_from_item(t_hnode *item)
 	char	*key_value;
 
 	key_value = ft_strdup(item->key);
-	key_value = join_free(key_value, ft_strjoin("=", item->value));
+	key_value = ft_strjoin_free(key_value, ft_strjoin("=", item->value));
 	return (key_value);
 }
 

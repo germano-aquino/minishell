@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 23:44:03 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 17:47:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:01:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char	*concat_and_delete_last_input(char *str, t_node **input)
 
 	last = get_last_input(*input);
 	if (last)
-		concat = join_free(str, ft_strdup(last->data));
+		concat = ft_strjoin_free(str, ft_strdup(last->data));
 	else
-		concat = join_free(str, ft_strdup(""));
+		concat = ft_strjoin_free(str, ft_strdup(""));
 	if (last && last->prev)
 	{
 		last->prev->next = NULL;
