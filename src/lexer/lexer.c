@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 00:38:08 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:09:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	lexer(t_minishell *data)
 			err = handle_pipe(data, &input, &cmd_pos);
 		else if (input->tok == Word)
 			err = handle_command(data, &input, cmd_pos, err);
-		else if (input)
+		else
 			err = handle_input_output(data, &input, cmd_pos, err);
 		if (err)
 		{
