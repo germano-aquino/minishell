@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 20:41:23 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:24:24 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static char	*environment_variable_expansion(t_hash_table *env, char *line)
 	size_t	i;
 	size_t	begin;
 
-	if (!ft_chr_in_str(line, '$'))
+	if (!ft_chr_in_str(line, DOLLAR))
 		return (line);
 	i = 0;
 	begin = 0;
 	new_line = NULL;
 	while (line[i])
 	{
-		if (line[i] == '$')
+		if (line[i] == DOLLAR)
 		{
 			temp = ft_substr(line, begin, i - begin);
 			new_line = ft_strjoin_free(new_line, temp);
@@ -65,7 +65,8 @@ static char	*environment_variable_expansion(t_hash_table *env, char *line)
 			new_line = ft_strjoin_free(new_line, temp);
 			begin = i;
 		}
-		i++;
+		if (line[i])
+			i++;
 	}
 	return (new_line);
 }
