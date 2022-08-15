@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 12:24:24 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:02:56 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static char	*environment_variable_expansion(t_hash_table *env, char *line)
 		if (line[i])
 			i++;
 	}
+	free(line);
 	return (new_line);
 }
 
