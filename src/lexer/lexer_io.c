@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 12:55:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	create_file(t_node *input)
+static void	create_file(t_node *input)
 {
 	int	fd;
 
@@ -23,11 +23,8 @@ void	create_file(t_node *input)
 	close(fd);
 }
 
-int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
+static int	handle_redir_input(t_minishell *data, t_node **input, int cmd_pos)
 {
-	if (!(*input)->next || (*input)->next->tok != Word)
-		redisplay_prompt(data, ERR_SYNTAX INPUT_STR, NULL, EXIT_BAD_USAGE);
-	*input = (*input)->next;
 	if (access((*input)->data, R_OK) != 0)
 		return (print_perror_msg(NULL, (*input)->data));
 	if (data->cmd.files[cmd_pos].infile)
@@ -38,16 +35,8 @@ int	handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos)
 	return (FALSE);
 }
 
-int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
+static int	handle_redir_output(t_minishell *data, t_node **input, int cmd_pos)
 {
-	if (!(*input)->next || (*input)->next->tok != Word)
-	{
-		if ((*input)->tok == Great)
-			redisplay_prompt(data, ERR_SYNTAX TRUNC_STR, NULL, EXIT_BAD_USAGE);
-		else
-			redisplay_prompt(data, ERR_SYNTAX APPEND_STR, NULL, EXIT_BAD_USAGE);
-	}
-	*input = (*input)->next;
 	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
 		return (print_perror_msg(NULL, (*input)->data));
 	if (data->cmd.files[cmd_pos].outfile)
@@ -62,11 +51,8 @@ int	handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos)
 	return (FALSE);
 }
 
-int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
+static int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 {
-	if (!(*input)->next || (*input)->next->tok != Word)
-		redisplay_prompt(data, ERR_SYNTAX HEREDOC_STR, NULL, EXIT_BAD_USAGE);
-	*input = (*input)->next;
 	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup(TMP_HEREDOC_PATH);
@@ -74,4 +60,18 @@ int	handle_heredoc(t_minishell *data, t_node **input, int cmd_pos)
 	ft_here_doc(data, (*input)->data);
 	*input = (*input)->next;
 	return (FALSE);
+}
+
+int	handle_redir(t_minishell *data, t_node **input, int cmd_pos, int err)
+{
+	if (!(*input)->next || (*input)->next->tok != Word)
+		syntax_error(data, (*input)->next);
+	*input = (*input)->next;
+	if ((*input)->prev->tok == Great || (*input)->prev->tok == Double_Great)
+		err = handle_redir_output(data, input, cmd_pos);
+	else if ((*input)->prev->tok == Less)
+		err = handle_redir_input(data, input, cmd_pos);
+	else if ((*input)->prev->tok == Double_Less)
+		err = handle_heredoc(data, input, cmd_pos);
+	return (err);
 }

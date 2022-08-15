@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:31:55 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 16:51:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 16:29:39 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,20 @@ void	exit_perror(t_minishell *data, char *cmd, char *perr, int exit_code)
 {
 	print_perror_msg(cmd, perr);
 	exit_free(data, exit_code);
+}
+
+void	syntax_error(t_minishell *data, t_node *input)
+{
+	if (!input)
+		redisplay_prompt(data, ERR_SYNTAX NEWLINE_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Great)
+		redisplay_prompt(data, ERR_SYNTAX TRUNC_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Double_Great)
+		redisplay_prompt(data, ERR_SYNTAX APPEND_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Less)
+		redisplay_prompt(data, ERR_SYNTAX INPUT_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Double_Less)
+		redisplay_prompt(data, ERR_SYNTAX HEREDOC_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Pipe)
+		redisplay_prompt(data, ERR_SYNTAX PIPE_STR, NULL, EXIT_BAD_USAGE);
 }

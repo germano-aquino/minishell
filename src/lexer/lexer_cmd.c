@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 12:48:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	get_args_amount(t_node *input)
 		else if (input->tok == Less || input->tok == Double_Less
 			|| input->tok == Great || input->tok == Double_Great)
 			input = input->next;
-		input = input->next;
+		if (input)
+			input = input->next;
 	}
 	return (args_amount + 1);
 }
@@ -81,6 +82,7 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 	data->cmd.args[cmd_pos][args_amount] = NULL;
 	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
 	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
+	data->cmd.cmds_amount++;
 	*input = (*input)->next;
 	i = 0;
 	while (++i < args_amount && *input && !err)
@@ -92,7 +94,7 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 		}
 		else
 		{
-			err = handle_input_output(data, input, cmd_pos, err);
+			err = handle_redir(data, input, cmd_pos, err);
 			--i;
 		}
 	}
@@ -101,7 +103,6 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
 {
-	data->cmd.cmds_amount = cmds_amount;
 	data->cmd.cmd_path = (char **)ft_calloc((cmds_amount + 1), sizeof(char *));
 	data->cmd.args = (char ***)ft_calloc((cmds_amount + 1), sizeof(char **));
 	data->cmd.files = (t_files *)ft_calloc((cmds_amount + 1), sizeof(t_files));

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 12:06:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:54:24 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	execute_forks(t_minishell *data)
 	t_workspace	vars;
 	int			index;
 
-	if (!*data->cmd.args)
+	if (data->cmd.cmds_amount == 0)
 		return ;
 	trigger_signal(FALSE, &cmd_handler);
 	initialize_pipes_and_pid(data, &vars);

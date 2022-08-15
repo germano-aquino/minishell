@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 12:55:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define INPUT_STR "`<'"
 # define HEREDOC_STR "`<<'"
 # define PIPE_STR "`|'"
+# define NEWLINE_STR "`newline'"
 
 # define SQUOTE '\''	/* Single quote character */
 # define DQUOTE '"'		/* Double quote character */
@@ -183,17 +184,10 @@ void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
 void	free_cmd_table(t_command_table *table);
 int		handle_command(t_minishell *data, t_node **input, int cmd_pos, int err);
 
-//lexer_io.c
-void	invalid_syntax(t_minishell *data);
-int		handle_redirect_input(t_minishell *data, t_node **input, int cmd_pos);
-int		handle_redirect_output(t_minishell *data, t_node **input, int cmd_pos);
-int		handle_heredoc(t_minishell *data, t_node **input, int cmd_pos);
-
 //lexer.c
 t_bool	validate_path(t_minishell *data, char *path, int cmd_pos);
 void	lexer(t_minishell *data);
-int		handle_input_output(
-			t_minishell *data, t_node **input, int cmd_pos, int err);
+int		handle_redir(t_minishell *data, t_node **input, int cmd_pos, int err);
 
 t_bool	is_path(char *str);
 t_bool	is_directory(char *path);
@@ -265,5 +259,6 @@ t_bool	print_error_msg(char *cmd, char *msg);
 t_bool	print_perror_msg(char *cmd, char *perror_msg);
 void	exit_error(t_minishell *data, char *cmd, char *msg, int exit_code);
 void	exit_perror(t_minishell *data, char *cmd, char *perr, int exit_code);
+void	syntax_error(t_minishell *data, t_node *input);
 
 #endif
