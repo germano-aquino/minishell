@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:15:32 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 15:22:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:31:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars)
 		vars->fd[index] = (int *)malloc(sizeof(int) * PIPE_SIZE);
 		pipe(vars->fd[index]);
 	}
-	vars->pid = (int *)ft_calloc(data->cmd.cmds_amount, sizeof(int));
+	vars->pid = (pid_t *)ft_calloc(data->cmd.cmds_amount, sizeof(pid_t));
 	set_input_output_fd(data, vars);
 }
