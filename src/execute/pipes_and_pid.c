@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:15:32 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/15 12:31:25 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:55:56 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	set_input_output_fd(t_minishell *data, t_workspace *vars)
 		if (data->cmd.files[index].which_output == Stdout
 			&& index == data->cmd.cmds_amount - 1)
 			dup42(dup(STDOUT), vars->fd[index][OUT]);
-		else if (data->cmd.files[index].which_output == Overwrite)
+		else if (data->cmd.files[index].which_output == Truncate)
 			dup42(open(data->cmd.files[index].outfile,
 					O_WRONLY | O_CREAT | O_TRUNC, 0644), vars->fd[index][OUT]);
 		else if (data->cmd.files[index].which_output == Append)
