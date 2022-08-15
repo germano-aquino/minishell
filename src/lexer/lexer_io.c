@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 16:56:43 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	handle_redir_output(t_minishell *data, t_node **input, int cmd_pos)
 		return (print_perror_msg(NULL, (*input)->data));
 	if (data->cmd.files[cmd_pos].outfile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].outfile);
-	if ((*input)->prev->tok == Less)
+	if ((*input)->prev->tok == Great)
 		data->cmd.files[cmd_pos].which_output = Truncate;
 	else
 		data->cmd.files[cmd_pos].which_output = Append;
