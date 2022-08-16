@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 23:50:12 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 16:41:33 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,11 @@ void	handle_parser(t_minishell *data, char *buff, size_t *i);
 
 //dollar_handler.c
 char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i);
+
+//wildcard_dir_objs.c
+int		amount_objs_in_current_dir(t_bool begin_with_dot);
+char	**get_objects_in_current_directory(char *exp);
+t_bool	filter_is_obj_suffix(char *obj, char *filter);
 
 //wildcard_handler.c
 void	wildcard_expansion(t_minishell *data);
