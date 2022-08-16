@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 16:42:01 by germano          ###   ########.fr       */
+/*   Updated: 2022/08/16 19:58:15 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static t_bool	is_a_valid_obj(char **filters, char *obj, char *exp)
 	temp = ft_strnstr(obj, filters[0], ft_strlen(obj));
 	while (filters[++i] != NULL && temp != NULL)
 		temp = ft_strnstr(temp, filters[i], ft_strlen(temp));
-	if (temp == NULL || (has_suffix && !filter_is_obj_suffix(obj, filters[i - 1])))
+	if (temp == NULL
+		|| (has_suffix && !filter_is_obj_suffix(obj, filters[i - 1])))
 		return (FALSE);
 	return (TRUE);
 }

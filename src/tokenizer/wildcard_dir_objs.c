@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_dir_objs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:39:13 by germano           #+#    #+#             */
-/*   Updated: 2022/08/16 16:39:47 by germano          ###   ########.fr       */
+/*   Updated: 2022/08/16 19:58:46 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#inlcude <minishell.h>
+#include <minishell.h>
 
 int	amount_objs_in_current_dir(t_bool begin_with_dot)
 {
