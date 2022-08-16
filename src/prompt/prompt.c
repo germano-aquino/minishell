@@ -6,7 +6,7 @@
 /*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 15:53:23 by germano          ###   ########.fr       */
+/*   Updated: 2022/08/16 16:06:54 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	shell_loop(t_minishell *data)
 		{
 			add_history(buff);
 			tokenizer(data, buff);
-			display_input(data->input);
 			ft_memfree((void *)&buff);
 			lexer(data);
 			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0, FALSE))
