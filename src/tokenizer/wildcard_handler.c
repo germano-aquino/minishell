@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 02:54:09 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 12:06:48 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void	wildcard_handler(t_node *input, char *exp)
 	}
 	if (prev != input->prev)
 		delete_wildcard_token(input, &prev);
+	else
+		input->tok = Word;
 	ft_free_matrix((void *) &objs);
 	ft_free_matrix((void *) &filters);
 }
