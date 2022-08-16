@@ -6,7 +6,7 @@
 /*   By: germano <germano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 12:06:48 by germano          ###   ########.fr       */
+/*   Updated: 2022/08/16 15:54:51 by germano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,39 +81,37 @@ t_bool	is_a_valid_obj(char **filters, char *obj, char *exp)
 	char	*temp;
 	int		i;
 
-	temp = NULL;
 	has_prefix = FALSE;
 	has_suffix = FALSE;
 	if (*exp != '*')
 		has_prefix = TRUE;
 	if (exp[ft_strlen(exp) - 1] != '*')
 		has_suffix = TRUE;
-	i = -1;
+	i = 0;
 	if (has_prefix && ft_strncmp(filters[0], obj, ft_strlen(filters[0])) != 0)
 		return (FALSE);
-	while (filters[++i] != NULL)
-	{
-		if (temp != NULL)
-			temp = ft_strnstr(temp, filters[i], ft_strlen(temp));
-		else
-			temp = ft_strnstr(obj, filters[i], ft_strlen(obj));
-		if (temp == NULL)
-			return (FALSE);
-	}
-	if (has_suffix && !filter_is_obj_suffix(obj, filters[i - 1]))
+	temp = ft_strnstr(obj, filters[0], ft_strlen(obj));
+	while (filters[++i] != NULL && temp != NULL)
+		temp = ft_strnstr(temp, filters[i], ft_strlen(temp));
+	if (temp == NULL || (has_suffix && !filter_is_obj_suffix(obj, filters[i - 1])))
 		return (FALSE);
 	return (TRUE);
 }
 
-void	delete_wildcard_token(t_node *input, t_node **last)
+t_node	*delete_wildcard_token(t_node *input, t_node **last)
 {
+	t_node	*ret;
+
+	ret = input->prev;
 	(*last)->next = input->next;
+	input->next->prev = *last;
 	input->prev = NULL;
 	input->next = NULL;
 	free_input(&input);
+	return (ret);
 }
 
-void	wildcard_handler(t_node *input, char *exp)
+t_node	*wildcard_handler(t_node *input, char *exp)
 {
 	char	**filters;
 	char	**objs;
@@ -130,11 +128,12 @@ void	wildcard_handler(t_node *input, char *exp)
 			prev = create_input(objs[i], Word, NULL, prev);
 	}
 	if (prev != input->prev)
-		delete_wildcard_token(input, &prev);
+		input = delete_wildcard_token(input, &prev);
 	else
 		input->tok = Word;
 	ft_free_matrix((void *) &objs);
 	ft_free_matrix((void *) &filters);
+	return (input);
 }
 
 void	wildcard_expansion(t_minishell *data)
@@ -145,7 +144,7 @@ void	wildcard_expansion(t_minishell *data)
 	while (input != NULL)
 	{
 		if (input->tok == Wildcard)
-			wildcard_handler(input, input->data);
+			input = wildcard_handler(input, input->data);
 		else
 			input = input->next;
 	}
