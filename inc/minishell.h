@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 17:26:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 23:50:12 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <stdio.h>
+# include <dirent.h>
 # include <signal.h>
 # include <termios.h>
 # include <readline/readline.h>
@@ -69,6 +70,7 @@ extern int					g_exit_value;
 
 typedef struct sigaction	t_sigaction;
 typedef struct stat			t_stat;
+typedef struct dirent		t_dirent;
 
 typedef enum e_input
 {
@@ -178,6 +180,9 @@ void	handle_parser(t_minishell *data, char *buff, size_t *i);
 
 //dollar_handler.c
 char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i);
+
+//wildcard_handler.c
+void	wildcard_expansion(t_minishell *data);
 
 //lexer_cmd.c
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);

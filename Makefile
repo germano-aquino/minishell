@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/15 13:40:04 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/15 23:11:18 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SOURCE_FILES		+= command_execution.c display.c free.c enviroment_variable.c sign
 SOURCE_FILES		+= error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_export.c
 SOURCE_FILES		+= builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c
 SOURCE_FILES		+= builtin_single_io.c pipes_and_pid.c bin_path_validation.c heredoc_signals.c
-SOURCE_FILES		+= prompt.c init.c minishell.c get_env_from_ht.c
+SOURCE_FILES		+= prompt.c init.c minishell.c get_env_from_ht.c wildcard_handler.c
 
 LIBFT_PATH			:= libft
 LIBFT				:= libft/libft.a

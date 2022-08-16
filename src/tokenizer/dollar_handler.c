@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 13:10:02 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/15 22:54:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void	handle_dollar(t_minishell *data, char *buff, size_t *i)
 		handle_parser(data, buff, i);
 		env_var = concat_and_delete_last_input(env_var, &data->input);
 	}
-	buff_to_input(data, env_var, Word);
+	if (ft_chr_in_str(env_var, '*'))
+		buff_to_input(data, env_var, Wildcard);
+	else
+		buff_to_input(data, env_var, Word);
 	free(env_var);
 }

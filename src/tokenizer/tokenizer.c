@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/14 00:59:17 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 02:50:42 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	tokenizer(t_minishell *data, char *buff)
 		else if (buff[i])
 			handle_parser(data, buff, &i);
 	}
+	wildcard_expansion(data);
 	if (!data->input)
 		redisplay_prompt(data, NULL, buff, EXIT_SUCCESS);
 }
