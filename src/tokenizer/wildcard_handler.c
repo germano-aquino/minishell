@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 19:58:15 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:56:37 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static t_bool	is_a_valid_obj(char **filters, char *obj, char *exp)
 	char	*temp;
 	int		i;
 
+	if (!filters)
+		return (TRUE);
 	has_prefix = FALSE;
 	has_suffix = FALSE;
 	if (*exp != '*')
@@ -43,7 +45,8 @@ static t_node	*delete_wildcard_token(t_node *input, t_node **last)
 
 	ret = input->prev;
 	(*last)->next = input->next;
-	input->next->prev = *last;
+	if (input->next)
+		input->next->prev = *last;
 	input->prev = NULL;
 	input->next = NULL;
 	free_input(&input);
@@ -70,8 +73,8 @@ static t_node	*wildcard_handler(t_node *input, char *exp)
 		input = delete_wildcard_token(input, &prev);
 	else
 		input->tok = Word;
-	ft_free_matrix((void *) &objs);
-	ft_free_matrix((void *) &filters);
+	ft_free_matrix((void *)&objs);
+	ft_free_matrix((void *)&filters);
 	return (input);
 }
 
