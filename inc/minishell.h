@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:47:25 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:48:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ void	free_minishell(t_minishell *data);
 //error handling
 t_bool	print_error_msg(char *cmd, char *msg);
 t_bool	print_perror_msg(char *cmd, char *perror_msg);
-void	exit_error(t_minishell *data, char *cmd, char *msg, int exit_code);
+void	exit_perror(t_minishell *data, char *cmd, char *perr, int exit_code);
 void	syntax_error(t_minishell *data, t_node *input);
 void	print_error_file(t_minishell *data);
 
