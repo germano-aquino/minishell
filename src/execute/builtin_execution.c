@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:45 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 15:03:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 23:11:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	check_builtin(t_minishell *data, int index, t_bool is_child)
 
 	if (!is_builtin(data->cmd.cmd_path[index]))
 		return (FALSE);
-	if (is_child == FALSE)
+	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && is_child == FALSE)
 		set_io_builtin(data, &vars, std_io);
 	status = exec_builtin(data, index, is_child);
-	if (is_child == FALSE)
+	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && is_child == FALSE)
 		reset_io_builtin(&vars, std_io);
 	return (status);
 }
