@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:12:05 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:46:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	redisplay_prompt(t_minishell *data, char *msg, char *buff, int status)
 	if (msg)
 		print_error_msg(NULL, msg);
 	print_error_file(data);
-	free_input(&data->input);
-	free_cmd_table(&data->cmd);
-	ft_close_fd_err(data);
+	free_minishell(data);
 	g_exit_value = status;
 	shell_loop(data);
 }
@@ -47,9 +45,7 @@ void	shell_loop(t_minishell *data)
 			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0, FALSE))
 				execute_forks(data);
 			print_error_file(data);
-			free_input(&data->input);
-			free_cmd_table(&data->cmd);
-			ft_close_fd_err(data);
+			free_minishell(data);
 		}
 		else
 			ft_memfree((void *)&buff);

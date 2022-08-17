@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:20:00 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:43:46 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,8 @@ void	execute_command(t_minishell *data, t_workspace *vars, int index)
 		ft_free_matrix((void *)&vars->fd);
 		call_execve_or_builtin(data, envp, index);
 	}
-	else
-	{
-		close(vars->fd[index][IN]);
-		close(vars->fd[index][OUT]);
-	}
+	close(vars->fd[index][IN]);
+	close(vars->fd[index][OUT]);
 }
 
 void	wait_child(t_minishell *data, t_workspace *vars)

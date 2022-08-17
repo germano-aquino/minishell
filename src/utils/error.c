@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:31:55 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:40:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:47:16 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ t_bool	print_error_msg(char *cmd, char *msg)
 	}
 	ft_putendl_fd(msg, STDERR);
 	return (TRUE);
-}
-
-void	exit_error(t_minishell *data, char *cmd, char *msg, int exit_code)
-{
-	print_error_msg(cmd, msg);
-	exit_free(data, exit_code);
 }
 
 t_bool	print_perror_msg(char *cmd, char *perror_msg)

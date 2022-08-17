@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:40:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:45:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ void	ft_close_fd_err(t_minishell *data)
 	close(data->fd_err);
 	if (!access(TMP_ERROR_PATH, F_OK))
 		unlink(TMP_ERROR_PATH);
+}
+
+void	free_minishell(t_minishell *data)
+{
+	free_input(&data->input);
+	free_cmd_table(&data->cmd);
+	ft_close_fd_err(data);
 }
