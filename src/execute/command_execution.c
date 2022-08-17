@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:43:46 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 23:03:39 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	execute_command(t_minishell *data, t_workspace *vars, int index)
 		envp = get_env_from_ht(&data->env);
 		dup2(vars->fd[index][IN], STDIN);
 		dup2(vars->fd[index][OUT], STDOUT);
+		dup2(data->fd_err, STDERR);
 		i = -1;
 		while (++i < data->cmd.cmds_amount)
 		{
