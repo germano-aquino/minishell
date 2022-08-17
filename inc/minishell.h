@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:11:54 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:41:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@
 # define DQUOTE '"'		/* Double quote character */
 # define DOLLAR '$'		/* Dollar sign (env variable expansion) character */
 
-/* Here-document */
+/* Temporary files */
 # define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */
+# define TMP_ERROR_PATH "/tmp/mini_error"		/* STDERR temporary file */
 
 /* Pipe */
 # define IN 0			/* Pipe read end */

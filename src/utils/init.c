@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:17:18 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:09:28 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:40:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ void	ft_open_fd_err(t_minishell *data)
 {
 	int	fd_err;
 
-	close(data->fd_err);
-	if (!access("tmp/err.txt", F_OK))
-		unlink("tmp/err.txt");
-	fd_err = open("tmp/err.txt", O_CREAT | O_WRONLY | O_APPEND, 0666);
 	data->fd_err = dup(STDERR);
+	if (!access(TMP_ERROR_PATH, F_OK))
+		unlink(TMP_ERROR_PATH);
+	fd_err = open(TMP_ERROR_PATH, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	dup2(fd_err, STDERR);
 	close(fd_err);
 }

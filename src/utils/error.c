@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:31:55 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:11:47 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:40:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_error_file(t_minishell *data)
 	char	*line;
 	int		fd;
 
-	fd = open("tmp/err.txt", O_RDONLY);
+	fd = open(TMP_ERROR_PATH, O_RDONLY);
 	line = ft_gnl(fd);
 	while (line != NULL)
 	{

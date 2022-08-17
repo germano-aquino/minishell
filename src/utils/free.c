@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:09:54 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:40:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	ft_close_fd_err(t_minishell *data)
 {
 	dup2(data->fd_err, STDERR);
 	close(data->fd_err);
-	if (!access("tmp/err.txt", F_OK))
-		unlink("tmp/err.txt");
+	if (!access(TMP_ERROR_PATH, F_OK))
+		unlink(TMP_ERROR_PATH);
 }
