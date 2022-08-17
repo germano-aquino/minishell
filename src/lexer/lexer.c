@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:14:55 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	lexer(t_minishell *data)
 			err = handle_redir(data, &input, cmd_pos, err);
 		if (err)
 		{
-			while (input && input->tok != Pipe)
+			while (input && input->tok != Pipe && input->tok != Double_Less)
 				input = input->next;
 			ft_memfree((void *)&data->cmd.cmd_path[cmd_pos]);
 			data->cmd.cmd_path[cmd_pos] = ft_strdup("");

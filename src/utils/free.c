@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 13:24:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:09:54 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,12 @@ void	exit_free(t_minishell *data, t_llong exit_code)
 	free_cmd_table(&data->cmd);
 	ht_free(&data->env);
 	exit(exit_code);
+}
+
+void	ft_close_fd_err(t_minishell *data)
+{
+	dup2(data->fd_err, STDERR);
+	close(data->fd_err);
+	if (!access("tmp/err.txt", F_OK))
+		unlink("tmp/err.txt");
 }

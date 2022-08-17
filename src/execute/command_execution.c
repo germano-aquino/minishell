@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 14:54:24 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:20:00 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	execute_command(t_minishell *data, t_workspace *vars, int index)
 			close(vars->fd[i][IN]);
 			close(vars->fd[i][OUT]);
 		}
+		close(data->fd_err);
 		ft_memfree((void *)&vars->pid);
 		ft_free_matrix((void *)&vars->fd);
 		call_execve_or_builtin(data, envp, index);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:31:55 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/15 16:29:39 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:11:47 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,20 @@ void	syntax_error(t_minishell *data, t_node *input)
 		redisplay_prompt(data, ERR_SYNTAX HEREDOC_STR, NULL, EXIT_BAD_USAGE);
 	else if (input->tok == Pipe)
 		redisplay_prompt(data, ERR_SYNTAX PIPE_STR, NULL, EXIT_BAD_USAGE);
+}
+
+void	print_error_file(t_minishell *data)
+{
+	char	*line;
+	int		fd;
+
+	fd = open("tmp/err.txt", O_RDONLY);
+	line = ft_gnl(fd);
+	while (line != NULL)
+	{
+		ft_putstr_fd(line, data->fd_err);
+		ft_memfree((void *) &line);
+		line = ft_gnl(fd);
+	}
+	close(fd);
 }
