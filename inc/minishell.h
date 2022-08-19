@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 10:56:06 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 11:49:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void	wildcard_expansion(t_minishell *data);
 
 //lexer_cmd.c
 void	alloc_number_of_commands(t_minishell *data, int cmds_amount);
-void	free_cmd_table(t_command_table *table);
+void	free_cmd_table(t_command_table *table, t_node *input);
 int		handle_command(t_minishell *data, t_node **input, int cmd_pos, int err);
 
 //lexer.c
@@ -211,6 +211,7 @@ t_bool	is_directory(char *path);
 t_bool	ft_chr_in_str(const char *str, char ch);
 t_bool	ft_is_number_str(const char *str);
 t_bool	ft_is_word_str(const char *str);
+int		get_pipes_amount(t_node *input);
 
 //hash_table_utils.c
 t_hnode	*create_item(char *key, char *value);

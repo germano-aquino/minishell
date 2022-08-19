@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:14:55 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/19 11:45:56 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	get_pipes_amount(t_node *input)
-{
-	int	pipes_amount;
-
-	pipes_amount = 0;
-	while (input)
-	{
-		if (input->tok == Pipe)
-			pipes_amount++;
-		input = input->next;
-	}
-	return (pipes_amount);
-}
 
 static int	handle_pipe(t_minishell *data, t_node **input, int *cmd_pos)
 {

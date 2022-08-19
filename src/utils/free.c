@@ -6,26 +6,31 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:45:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 11:43:45 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_cmd_table(t_command_table *table)
+void	free_cmd_table(t_command_table *table, t_node *input)
 {
-	int	i;
+	const int	allocated_entries = get_pipes_amount(input) + 1;
+	int			index;
 
-	i = -1;
-	while (++i < table->cmds_amount)
+	index = -1;
+	while (++index < allocated_entries)
 	{
-		if (table->args[i])
-			ft_free_matrix((void *)&table->args[i]);
-		ft_memfree((void *)&table->cmd_path[i]);
-		ft_memfree((void *)&table->files[i].infile);
-		ft_memfree((void *)&table->files[i].outfile);
-		table->files[i].which_input = Stdin;
-		table->files[i].which_output = Stdout;
+		if (table->args)
+			ft_free_matrix((void *)&table->args[index]);
+		if (table->cmd_path)
+			ft_memfree((void *)&table->cmd_path[index]);
+		if (table->files)
+		{
+			ft_memfree((void *)&table->files[index].infile);
+			ft_memfree((void *)&table->files[index].outfile);
+			table->files[index].which_input = Stdin;
+			table->files[index].which_output = Stdout;
+		}
 	}
 	ft_memfree((void *)&table->args);
 	ft_memfree((void *)&table->cmd_path);
@@ -36,8 +41,8 @@ void	free_cmd_table(t_command_table *table)
 void	exit_free(t_minishell *data, t_llong exit_code)
 {
 	rl_clear_history();
+	free_cmd_table(&data->cmd, data->input);
 	free_input(&data->input);
-	free_cmd_table(&data->cmd);
 	ht_free(&data->env);
 	exit(exit_code);
 }
@@ -52,7 +57,7 @@ void	ft_close_fd_err(t_minishell *data)
 
 void	free_minishell(t_minishell *data)
 {
+	free_cmd_table(&data->cmd, data->input);
 	free_input(&data->input);
-	free_cmd_table(&data->cmd);
 	ft_close_fd_err(data);
 }

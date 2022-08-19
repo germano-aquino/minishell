@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 17:26:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 11:46:01 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,18 @@ t_bool	ft_chr_in_str(const char *str, char ch)
 	if (str[i])
 		return (TRUE);
 	return (FALSE);
+}
+
+int	get_pipes_amount(t_node *input)
+{
+	int	pipes_amount;
+
+	pipes_amount = 0;
+	while (input)
+	{
+		if (input->tok == Pipe)
+			pipes_amount++;
+		input = input->next;
+	}
+	return (pipes_amount);
 }
