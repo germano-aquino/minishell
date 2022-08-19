@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 10:16:06 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:52:24 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ static char	*handle_single_quote(char *buff, size_t *i)
 	char	*str;
 
 	begin = ++(*i);
-	while (buff[*i] != SQUOTE)
+	while (buff[*i] && buff[*i] != SQUOTE)
 		(*i)++;
 	str = ft_substr(buff, begin, (*i - begin));
-	(*i)++;
+	if (*str)
+		(*i)++;
 	return (str);
 }
 
@@ -45,19 +46,25 @@ static char	*handle_double_quote(t_minishell *data, char *buff, size_t *i)
 
 	str = NULL;
 	begin = ++(*i);
-	while (buff[*i] != DQUOTE)
+	while (buff[*i] && buff[*i] != DQUOTE)
 	{
-		if (buff[*i] == DOLLAR)
+		if (buff[*i] == DOLLAR && buff[*i + 1] != DQUOTE)
 		{
 			str = ft_strjoin_free(str, ft_substr(buff, begin, (*i - begin)));
-			str = ft_strjoin_free(str, get_dollar_value(&data->env, buff, i));
+			str = ft_strjoin_free(str, handle_dollar(data, buff, i));
 			begin = *i;
+		}
+		else if (buff[*i] == DOLLAR && buff[*i + 1] == DQUOTE)
+		{
+			str = ft_strdup("$");
+			begin = ++(*i);
 		}
 		else
 			(*i)++;
 	}
 	str = ft_strjoin_free(str, ft_substr(buff, begin, (*i - begin)));
-	(*i)++;
+	if (*str)
+		(*i)++;
 	return (str);
 }
 

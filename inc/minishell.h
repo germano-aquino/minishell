@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 10:06:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:56:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,6 @@ char	*handle_dollar(t_minishell *data, char *buff, size_t *i);
 //tokenizer.c
 void	tokenizer(t_minishell *data, char *buff);
 void	handle_parser(t_minishell *data, char *buff, size_t *i);
-
-//dollar_handler.c
-char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i);
 
 //wildcard_dir_objs.c
 int		amount_objs_in_current_dir(t_bool begin_with_dot);

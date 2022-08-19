@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 13:02:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:53:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	should_close_heredoc(char *line, int *should_int, char *delimiter)
 	return (should_close);
 }
 
-static char	*environment_variable_expansion(t_hash_table *env, char *line)
+static char	*environment_variable_expansion(t_minishell *data, char *line)
 {
 	char	*new_line;
 	char	*temp;
@@ -61,7 +61,7 @@ static char	*environment_variable_expansion(t_hash_table *env, char *line)
 		{
 			temp = ft_substr(line, begin, i - begin);
 			new_line = ft_strjoin_free(new_line, temp);
-			temp = get_dollar_value(env, line, &i);
+			temp = handle_dollar(data, line, &i);
 			new_line = ft_strjoin_free(new_line, temp);
 			begin = i;
 		}
@@ -89,7 +89,7 @@ void	ft_here_doc(t_minishell *data, char *delimiter)
 			close_heredoc(data, should_interrupt, delimiter, line);
 			return ;
 		}
-		line = environment_variable_expansion(&data->env, line);
+		line = environment_variable_expansion(data, line);
 		ft_putendl_fd(line, fd);
 		ft_memfree((void *)&line);
 	}
