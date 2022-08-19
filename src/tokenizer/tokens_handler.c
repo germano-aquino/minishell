@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 10:52:24 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:23:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	handle_parser(t_minishell *data, char *buff, size_t *i)
 		handle_parser(data, buff, i);
 		str = concat_and_delete_last_input(str, &data->input);
 	}
-	if (ft_chr_in_str(str, '*'))
+	if (ft_chr_in_str(str, '*') && !ft_chr_in_str("'\"", buff[*i - 1]))
 		buff_to_input(data, str, Wildcard);
 	else
 		buff_to_input(data, str, Word);
