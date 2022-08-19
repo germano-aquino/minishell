@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 22:54:29 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:13:46 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_dollar_value(t_hash_table *env, char *buff, size_t *i)
 	return (env_var);
 }
 
-void	handle_dollar(t_minishell *data, char *buff, size_t *i)
+char	*handle_dollar(t_minishell *data, char *buff, size_t *i)
 {
 	char	*env_var;
 	t_node	*last_input;
@@ -80,19 +80,10 @@ void	handle_dollar(t_minishell *data, char *buff, size_t *i)
 	if (last_input && last_input->tok == Double_Less)
 	{
 		handle_heredoc_delimiter(data, buff, i);
-		return ;
+		return (NULL);
 	}
 	env_var = get_dollar_value(&data->env, buff, i);
 	if (!env_var)
-		return ;
-	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
-	{
-		handle_parser(data, buff, i);
-		env_var = concat_and_delete_last_input(env_var, &data->input);
-	}
-	if (ft_chr_in_str(env_var, '*'))
-		buff_to_input(data, env_var, Wildcard);
-	else
-		buff_to_input(data, env_var, Word);
-	free(env_var);
+		return (NULL);
+	return (env_var);
 }

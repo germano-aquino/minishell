@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 23:07:10 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:16:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	handle_word(t_minishell *data, char *buff, size_t *i)
+static char	*handle_word(char *buff, size_t *i)
 {
 	char	*begin;
 	char	*str;
@@ -22,19 +22,10 @@ static void	handle_word(t_minishell *data, char *buff, size_t *i)
 		&& !ft_chr_in_str(REGULAR_TOKENS PARSER_TOKENS, buff[*i]))
 		(*i)++;
 	str = ft_substr(begin, 0, (buff + *i - begin));
-	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
-	{
-		handle_parser(data, buff, i);
-		str = concat_and_delete_last_input(str, &data->input);
-	}
-	if (ft_chr_in_str(str, '*'))
-		buff_to_input(data, str, Wildcard);
-	else
-		buff_to_input(data, str, Word);
-	free(str);
+	return (str);
 }
 
-static void	handle_single_quote(t_minishell *data, char *buff, size_t *i)
+static char	*handle_single_quote(char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
@@ -44,19 +35,10 @@ static void	handle_single_quote(t_minishell *data, char *buff, size_t *i)
 		(*i)++;
 	str = ft_substr(buff, begin, (*i - begin));
 	(*i)++;
-	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
-	{
-		handle_parser(data, buff, i);
-		str = concat_and_delete_last_input(str, &data->input);
-	}
-	if (ft_chr_in_str(str, '*'))
-		buff_to_input(data, str, Wildcard);
-	else
-		buff_to_input(data, str, Word);
-	free(str);
+	return (str);
 }
 
-static char	*get_str_from_dquote(t_minishell *data, char *buff, size_t *i)
+static char	*handle_double_quote(t_minishell *data, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
@@ -79,11 +61,20 @@ static char	*get_str_from_dquote(t_minishell *data, char *buff, size_t *i)
 	return (str);
 }
 
-static void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
+void	handle_parser(t_minishell *data, char *buff, size_t *i)
 {
 	char	*str;
 
-	str = get_str_from_dquote(data, buff, i);
+	if (buff[*i] == SQUOTE)
+		str = handle_single_quote(buff, i);
+	else if (buff[*i] == DQUOTE)
+		str = handle_double_quote(data, buff, i);
+	else if (buff[*i] == DOLLAR)
+		str = handle_dollar(data, buff, i);
+	else
+		str = handle_word(buff, i);
+	if (!str)
+		return ;
 	if (buff[*i] && buff[*i] != ' ' && !ft_chr_in_str(REGULAR_TOKENS, buff[*i]))
 	{
 		handle_parser(data, buff, i);
@@ -94,16 +85,4 @@ static void	handle_double_quote(t_minishell *data, char *buff, size_t *i)
 	else
 		buff_to_input(data, str, Word);
 	free(str);
-}
-
-void	handle_parser(t_minishell *data, char *buff, size_t *i)
-{
-	if (buff[*i] == SQUOTE)
-		handle_single_quote(data, buff, i);
-	else if (buff[*i] == DQUOTE)
-		handle_double_quote(data, buff, i);
-	else if (buff[*i] == DOLLAR)
-		handle_dollar(data, buff, i);
-	else
-		handle_word(data, buff, i);
 }

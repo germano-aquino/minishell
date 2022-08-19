@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 22:48:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:06:42 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ char	*concat_and_delete_last_input(char *str, t_node **input);
 void	transform_quotes_into_word(t_node *input);
 
 //tokens_handler.c
-void	handle_dollar(t_minishell *data, char *buff, size_t *i);
+char	*handle_dollar(t_minishell *data, char *buff, size_t *i);
 
 //tokenizer.c
 void	tokenizer(t_minishell *data, char *buff);
