@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_io.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 16:56:43 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:53:42 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static void	create_file(t_node *input)
 static int	handle_redir_input(t_minishell *data, t_node **input, int cmd_pos)
 {
 	if (access((*input)->data, R_OK) != 0)
+	{
+		g_exit_value = EXIT_FAILURE;
 		return (print_perror_msg(NULL, (*input)->data));
+	}
 	if (data->cmd.files[cmd_pos].infile)
 		ft_memfree((void *)&data->cmd.files[cmd_pos].infile);
 	data->cmd.files[cmd_pos].infile = ft_strdup((*input)->data);
