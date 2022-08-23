@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 11:43:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:48:55 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	free_cmd_table(t_command_table *table, t_node *input)
 	index = -1;
 	while (++index < allocated_entries)
 	{
-		if (table->args)
+		if (table->args && table->args[index])
 			ft_free_matrix((void *)&table->args[index]);
-		if (table->cmd_path)
+		if (table->cmd_path && table->cmd_path[index])
 			ft_memfree((void *)&table->cmd_path[index]);
 		if (table->files)
 		{
