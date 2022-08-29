@@ -15,6 +15,7 @@ SOURCE_FILES		+= ft_free_matrix.c ft_isspace.c ft_strnlen.c ft_memfree.c ft_utoa
 SOURCE_FILES		+= ft_strcmp.c ft_skip_chars.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c
 SOURCE_FILES		+= ft_strtrim_free.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c
 SOURCE_FILES		+= ft_lstmap.c ft_lstlast.c ft_strjoin_free_null.c ft_memccpy.c ft_mempcpy.c
+SOURCE_FILES		+= ft_stredit.c
 
 OBJECT_PATH			:= objects
 OBJECT_FILES		:= $(SOURCE_FILES:%.c=$(OBJECT_PATH)/%.o)
