@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/29 15:26:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/29 15:40:53 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static t_bool	is_a_valid_obj(char **filters, char *obj, char *exp)
 	return (TRUE);
 }
 
-static t_node	*delete_wildcard_token(t_minishell *data, t_node *input, t_node **last)
+static t_node	*delete_wildcard_token(
+	t_minishell *data, t_node *input, t_node **last)
 {
 	t_node	*ret;
 
