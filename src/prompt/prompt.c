@@ -6,33 +6,47 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:46:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:36:03 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redisplay_prompt(t_minishell *data, char *msg, char *buff, int status)
+static char	*get_prompt_info(t_hash_table *env)
 {
-	if (buff)
-		ft_memfree((void *)&buff);
-	if (msg)
-		print_error_msg(NULL, msg);
-	print_error_file(data);
-	free_minishell(data);
-	g_exit_value = status;
-	shell_loop(data);
+	size_t	homedir_len;
+	char	*homedir;
+	char	*pwd;
+	char	*prompt;
+
+	pwd = getcwd(NULL, 0);
+	homedir = ht_search(env, "HOME");
+	if (homedir)
+		homedir_len = ft_strlen(homedir);
+	if (homedir && ft_strncmp(pwd, homedir, homedir_len) == 0)
+		if (pwd[homedir_len] == '/' || pwd[homedir_len] == '\0')
+			pwd = ft_stredit(pwd, homedir, "~");
+	prompt = ft_strjoin(NULL, "[");
+	prompt = ft_strjoin_free(prompt, ft_strdup(getenv("USER")));
+	prompt = ft_strjoin_free(prompt, ft_strdup("@"));
+	prompt = ft_strjoin_free(prompt, ft_strdup(getenv("NAME")));
+	prompt = ft_strjoin_free(prompt, ft_strdup(" "));
+	prompt = ft_strjoin_free(prompt, pwd);
+	prompt = ft_strjoin_free(prompt, ft_strdup("]$> "));
+	return (prompt);
 }
 
 void	shell_loop(t_minishell *data)
 {
 	char	*buff;
+	char	*prompt;
 
-	buff = NULL;
 	while (TRUE)
 	{
 		trigger_signal(TRUE, &prompt_handler);
-		buff = readline("MINISHELL> ");
+		prompt = get_prompt_info(&data->env);
+		buff = readline(prompt);
+		ft_memfree((void *)&prompt);
 		if (!buff)
 			builtin_exit(data, 0, FALSE);
 		else if (*buff)
@@ -47,7 +61,6 @@ void	shell_loop(t_minishell *data)
 			print_error_file(data);
 			free_minishell(data);
 		}
-		else
-			ft_memfree((void *)&buff);
+		ft_memfree((void *)&buff);
 	}
 }
