@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 11:46:01 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 14:09:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	ft_is_number_str(const char *str)
+t_bool	is_number_str(const char *str)
 {
 	size_t	index;
 
@@ -25,7 +25,7 @@ t_bool	ft_is_number_str(const char *str)
 	return (TRUE);
 }
 
-t_bool	ft_is_word_str(const char *str)
+t_bool	is_word_str(const char *str)
 {
 	size_t	index;
 
@@ -43,7 +43,7 @@ t_bool	ft_is_word_str(const char *str)
 	return (TRUE);
 }
 
-t_bool	ft_chr_in_str(const char *str, char ch)
+t_bool	is_chr_in_str(const char *str, char ch)
 {
 	int	i;
 

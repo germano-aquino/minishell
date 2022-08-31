@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 10:53:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 14:09:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*environment_variable_expansion(t_minishell *data, char *line)
 	size_t	i;
 	size_t	begin;
 
-	if (!ft_chr_in_str(line, DOLLAR))
+	if (!is_chr_in_str(line, DOLLAR))
 		return (line);
 	i = 0;
 	begin = 0;

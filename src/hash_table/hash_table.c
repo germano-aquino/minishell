@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 23:57:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/13 14:10:53 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 13:37:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	insert_colliding_item(t_hnode *curr_item, char *key, char *value)
+static void	insert_colliding_item(t_hnode *curr_item, char *key, char *value)
 {
 	while (curr_item->next)
 	{
@@ -48,23 +48,7 @@ void	ht_insert(t_hash_table *table, char *key, char *value)
 		insert_colliding_item(curr_item, key, value);
 }
 
-char	*ht_search(t_hash_table *table, char *key)
-{
-	int		index;
-	t_hnode	*curr_item;
-
-	index = hash_function(key);
-	curr_item = table->item[index];
-	while (curr_item)
-	{
-		if (ft_strcmp(key, curr_item->key) == 0)
-			return (curr_item->value);
-		curr_item = curr_item->next;
-	}
-	return (NULL);
-}
-
-void	delete_colliding_item(t_hnode *item, char *key)
+static void	delete_colliding_item(t_hnode *item, char *key)
 {
 	t_hnode	*previous;
 
@@ -107,4 +91,20 @@ void	ht_delete(t_hash_table *table, char *key)
 		else
 			delete_colliding_item(item, key);
 	}
+}
+
+char	*ht_search(t_hash_table *table, char *key)
+{
+	int		index;
+	t_hnode	*curr_item;
+
+	index = hash_function(key);
+	curr_item = table->item[index];
+	while (curr_item)
+	{
+		if (ft_strcmp(key, curr_item->key) == 0)
+			return (curr_item->value);
+		curr_item = curr_item->next;
+	}
+	return (NULL);
 }

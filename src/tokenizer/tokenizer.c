@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 02:50:42 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/31 14:09:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	tokenizer(t_minishell *data, char *buff)
 	{
 		while (ft_isspace(buff[i]))
 			i++;
-		if (ft_chr_in_str(REGULAR_TOKENS, buff[i]))
+		if (is_chr_in_str(REGULAR_TOKENS, buff[i]))
 			handle_token(data, buff, &i);
 		else if (buff[i])
 			handle_parser(data, buff, &i);

@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/15 16:48:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 13:40:26 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_args_amount(t_node *input)
+static int	get_args_amount(t_node *input)
 {
 	int	args_amount;
 
@@ -32,7 +32,7 @@ int	get_args_amount(t_node *input)
 	return (args_amount + 1);
 }
 
-char	*find_absolute_cmd_path(char *cmd_base, char **path)
+static char	*find_absolute_cmd_path(char *cmd_base, char **path)
 {
 	int		i;
 	char	*cmd_path;
@@ -50,7 +50,7 @@ char	*find_absolute_cmd_path(char *cmd_base, char **path)
 	return (NULL);
 }
 
-char	*get_cmd_path(t_minishell *data, char *cmd_base)
+static char	*get_cmd_path(t_minishell *data, char *cmd_base)
 {
 	char	**path;
 	char	*temp;
@@ -99,11 +99,4 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 		}
 	}
 	return (err);
-}
-
-void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
-{
-	data->cmd.cmd_path = (char **)ft_calloc((cmds_amount + 1), sizeof(char *));
-	data->cmd.args = (char ***)ft_calloc((cmds_amount + 1), sizeof(char **));
-	data->cmd.files = (t_files *)ft_calloc((cmds_amount + 1), sizeof(t_files));
 }

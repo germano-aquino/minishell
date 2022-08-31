@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 16:31:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 14:09:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 			key[ft_strlen(key) - ft_strlen(aux)] = '\0';
 		}
 		g_exit_value = EXIT_SUCCESS;
-		if (!ft_is_word_str(key))
+		if (!is_word_str(key))
 			invalid_identifier(data, key, value, is_child);
 		else
 			ht_insert(&data->env, key, value);

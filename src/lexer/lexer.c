@@ -6,11 +6,18 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 11:45:56 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 13:40:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
+{
+	data->cmd.cmd_path = (char **)ft_calloc((cmds_amount + 1), sizeof(char *));
+	data->cmd.args = (char ***)ft_calloc((cmds_amount + 1), sizeof(char **));
+	data->cmd.files = (t_files *)ft_calloc((cmds_amount + 1), sizeof(t_files));
+}
 
 static int	handle_pipe(t_minishell *data, t_node **input, int *cmd_pos)
 {

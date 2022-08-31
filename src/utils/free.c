@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/22 22:48:55 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/31 14:08:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	exit_free(t_minishell *data, t_llong exit_code)
 	exit(exit_code);
 }
 
-void	ft_close_fd_err(t_minishell *data)
+void	close_fd_err(t_minishell *data)
 {
 	dup2(data->fd_err, STDERR);
 	close(data->fd_err);
@@ -59,5 +59,5 @@ void	free_minishell(t_minishell *data)
 {
 	free_cmd_table(&data->cmd, data->input);
 	free_input(&data->input);
-	ft_close_fd_err(data);
+	close_fd_err(data);
 }

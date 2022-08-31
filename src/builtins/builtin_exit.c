@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 23:10:11 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 14:09:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 	if (data->cmd.args && data->cmd.args[index][1])
 	{
 		if (out_llong_range(data->cmd.args[index][1])
-			|| !ft_is_number_str(data->cmd.args[index][1]))
+			|| !is_number_str(data->cmd.args[index][1]))
 			numeric_argument_required(data, index);
 		else if (data->cmd.args[index][2])
 			return (too_many_arguments(data, is_child));
