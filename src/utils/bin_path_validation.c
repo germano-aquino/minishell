@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin_path_validation.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 16:05:14 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/13 13:29:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/01 01:50:30 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_bool	is_path(char *str)
 {
-	return ((t_bool)ft_strchr(str, '/'));
+	return (is_chr_in_str(str, '/'));
 }
 
 t_bool	is_directory(char *path)
