@@ -6,11 +6,19 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 15:23:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 12:44:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static char	*handle_tilde(char *buff, size_t *i)
+{
+	++(*i);
+	if (buff[*i] == '/' || buff[*i] == '\0' || ft_isspace(buff[*i]))
+		return (ft_strdup(getenv("HOME")));
+	return (ft_strdup("~"));
+}
 
 static char	*handle_word(char *buff, size_t *i)
 {
@@ -78,6 +86,8 @@ void	handle_parser(t_minishell *data, char *buff, size_t *i)
 		str = handle_double_quote(data, buff, i);
 	else if (buff[*i] == DOLLAR)
 		str = handle_dollar(data, buff, i);
+	else if (buff[*i] == TILDE)
+		str = handle_tilde(buff, i);
 	else
 		str = handle_word(buff, i);
 	if (!str)

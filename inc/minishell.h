@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 11:49:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/08/31 12:44:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define SQUOTE '\''	/* Single quote character */
 # define DQUOTE '"'		/* Double quote character */
 # define DOLLAR '$'		/* Dollar sign (env variable expansion) character */
+# define TILDE '~'		/* Tilde expansion character */
 
 /* Temporary files */
 # define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 09:29:02 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:13:20 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/08/31 12:45:08 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	builtin_cd(t_minishell *data, int index, t_bool is_child)
 	dir = data->cmd.args[index][1];
 	if (dir && data->cmd.args[index][2])
 		return (cd_error(data, is_child, "too many arguments", dir));
-	if (!dir || ft_strcmp(dir, "~") == 0)
+	if (!dir)
 	{
 		dir = ht_search(&data->env, "HOME");
 		if (!dir)
