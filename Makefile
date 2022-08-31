@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/08/29 20:18:15 by maolivei         ###   ########.fr        #
+#    Updated: 2022/08/31 11:51:34 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ_PATH			:= obj
 OBJ					:= $(SOURCE_FILES:%.c=$(OBJ_PATH)/%.o)
 
 CC					:= gcc
-CFLAGS				:= -g3 -O0 -Wall -Wextra #-Werror
+CFLAGS				:= -g3 -O0 -Wall -Wextra -Werror
 REMOVE				:= rm -rf
 VALGRIND			:= valgrind
 LDFLAGS				:= -L $(LIBFT_PATH) -lft -lreadline
