@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/01 02:24:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/01 12:21:37 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*get_pwd_prompt(t_hash_table *env)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (ft_strdup("unknown"));
+		return (ft_strdup("(unknown)"));
 	homedir = ht_search(env, "HOME");
 	if (homedir)
 		homedir_len = ft_strlen(homedir);
