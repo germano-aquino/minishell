@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/01 02:23:36 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/01 12:18:06 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,8 +59,8 @@ $(OBJ_PATH):
 					mkdir -p $@
 
 clean:
-					$(REMOVE) $(OBJ)
-					$(MAKE) -C ${LIBFT_PATH} clean
+					$(REMOVE) $(OBJ_PATH)
+					$(MAKE) -C $(LIBFT_PATH) clean
 
 fclean:				clean
 					$(REMOVE) $(NAME)
