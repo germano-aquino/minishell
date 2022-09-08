@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/31 14:09:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:30:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*handle_word(char *buff, size_t *i)
 
 	begin = buff + *i;
 	while (buff[*i] && !ft_isspace(buff[*i])
-		&& !is_chr_in_str(REGULAR_TOKENS PARSER_TOKENS, buff[*i]))
+		&& !ft_strchr(REGULAR_TOKENS PARSER_TOKENS, buff[*i]))
 		(*i)++;
 	str = ft_substr(begin, 0, (buff + *i - begin));
 	return (str);
@@ -92,12 +92,12 @@ void	handle_parser(t_minishell *data, char *buff, size_t *i)
 		str = handle_word(buff, i);
 	if (!str)
 		return ;
-	if (buff[*i] && buff[*i] != ' ' && !is_chr_in_str(REGULAR_TOKENS, buff[*i]))
+	if (buff[*i] && buff[*i] != ' ' && !ft_strchr(REGULAR_TOKENS, buff[*i]))
 	{
 		handle_parser(data, buff, i);
 		str = concat_and_delete_last_input(str, &data->input);
 	}
-	if (is_chr_in_str(str, '*') && !is_chr_in_str("'\"", buff[*i - 1]))
+	if (!!ft_strchr(str, '*') && !ft_strchr("'\"", buff[*i - 1]))
 		buff_to_input(data, str, Wildcard);
 	else
 		buff_to_input(data, str, Word);

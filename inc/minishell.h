@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/01 02:25:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:33:02 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	syntax_error(t_minishell *data, t_node *input);
 void	print_error_file(t_minishell *data);
 
 /* Utils */
-t_bool	is_chr_in_str(const char *str, char ch);
 t_bool	is_number_str(const char *str);
 t_bool	is_word_str(const char *str);
 t_bool	is_path(char *str);

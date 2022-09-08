@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/31 14:09:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:32:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,6 @@ t_bool	is_word_str(const char *str)
 		index++;
 	}
 	return (TRUE);
-}
-
-t_bool	is_chr_in_str(const char *str, char ch)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ch)
-			break ;
-		i++;
-	}
-	if (str[i])
-		return (TRUE);
-	return (FALSE);
 }
 
 int	get_pipes_amount(t_node *input)

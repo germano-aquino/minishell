@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/31 14:09:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:30:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	tokenizer(t_minishell *data, char *buff)
 	{
 		while (ft_isspace(buff[i]))
 			i++;
-		if (is_chr_in_str(REGULAR_TOKENS, buff[i]))
+		if (!!ft_strchr(REGULAR_TOKENS, buff[i]))
 			handle_token(data, buff, &i);
 		else if (buff[i])
 			handle_parser(data, buff, &i);
