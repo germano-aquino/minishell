@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/08 17:27:01 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/08 19:35:27 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,6 @@ test:				all
 					cd minishell_tester && ./tester
 
 debug:				CFLAGS += -g3
-debug:				all
+debug:				clean all
 
 .PHONY:				all clean fclean re run vg test debug
