@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/01 12:18:06 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/08 17:27:01 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ_PATH			:= obj
 OBJ					:= $(SOURCE_FILES:%.c=$(OBJ_PATH)/%.o)
 
 CC					:= cc
-CFLAGS				:= -g3 -O0 -Wall -Wextra -Werror
+CFLAGS				:= -Wall -Wextra -Werror
 REMOVE				:= rm -rf
 VALGRIND			:= valgrind
 LDFLAGS				:= -L $(LIBFT_PATH) -lft -lreadline
@@ -71,10 +71,13 @@ re:					fclean all
 run:				all
 					./$(NAME)
 
-vg:					all
+vg:					debug
 					$(VALGRIND) $(VGSUPRESS) $(VGFLAGS) ./$(NAME)
 
 test:				all
 					cd minishell_tester && ./tester
 
-.PHONY:				all clean fclean re run vg test
+debug:				CFLAGS += -g3
+debug:				all
+
+.PHONY:				all clean fclean re run vg test debug
