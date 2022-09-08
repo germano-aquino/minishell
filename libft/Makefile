@@ -23,7 +23,7 @@ OBJECT_FILES		:= $(SOURCE_FILES:%.c=$(OBJECT_PATH)/%.o)
 vpath				%.c $(SOURCE_PATH)
 
 CC					:= cc
-CFLAGS				:= -g3 -Wall -Wextra -Werror
+CFLAGS				:= -Wall -Wextra -Werror
 IFLAGS				:= -I .
 REMOVE				:= rm -rf
 
