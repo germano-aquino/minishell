@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/01 12:21:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/08 20:28:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,22 @@ static char	*build_prompt(char *user, char *hostname, char *pwd)
 {
 	char	*prompt;
 
-	prompt = ft_strdup("[");
+	prompt = ft_strdup(MAGENTA);
 	prompt = ft_strjoin_free(prompt, ft_strdup(user));
-	prompt = ft_strjoin_free(prompt, ft_strdup("@"));
+	prompt = ft_strjoin_free(prompt, ft_strdup(CYAN "@"));
+	prompt = ft_strjoin_free(prompt, ft_strdup(MAGENTA));
 	prompt = ft_strjoin_free(prompt, ft_strdup(hostname));
-	prompt = ft_strjoin_free(prompt, ft_strdup(" "));
+	prompt = ft_strjoin_free(prompt, ft_strdup(CYAN " 📁 "));
 	prompt = ft_strjoin_free(prompt, pwd);
-	prompt = ft_strjoin_free(prompt, ft_strdup("]$> "));
+	if (g_exit_value == 0)
+		prompt = ft_strjoin_free(prompt, ft_strdup(GREEN " ✓ "));
+	else
+	{
+		prompt = ft_strjoin_free(prompt, ft_strdup(RED " "));
+		prompt = ft_strjoin_free(prompt, ft_itoa(g_exit_value));
+		prompt = ft_strjoin_free(prompt, ft_strdup(" ✗ "));
+	}
+	prompt = ft_strjoin_free(prompt, ft_strdup(RESET));
 	return (prompt);
 }
 

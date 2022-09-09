@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/31 13:24:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/08 21:26:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@
 # define HASH_RIGHT_OFFSET 24		/* Right bit-shifting offset */
 # define HASH_LEFT_OFFSET 4			/* Left bit-shifting offset */
 # define HASH_LIMITER 0xf0000000	/* Hashing limiter */
+
+/* Colors */
+# define RESET		"\x1b[0m"	/* ANSI code for reseting colors */
+# define RED		"\x1b[31m"	/* ANSI color code for red */
+# define GREEN		"\x1b[32m"	/* ANSI color code for green */
+# define MAGENTA	"\x1b[35m"	/* ANSI color code for magenta */
+# define CYAN		"\x1b[36m"	/* ANSI color code for cyan */
 
 extern int					g_exit_value;	/* Global exit code variable */
 
