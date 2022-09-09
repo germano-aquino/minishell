@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/08 19:35:27 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/08 21:33:35 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,10 @@ VGSUPRESS			:= --suppressions=readline.supp
 vpath				%.c $(SOURCE_PATH)
 vpath				%.h $(HEADER_PATH)
 
+ifdef C_DEBUG
+	CFLAGS += -g3
+endif
+
 all:				$(NAME)
 
 $(OBJ_PATH)/%.o:	%.c $(HEADER) Makefile | $(OBJ_PATH)
@@ -71,13 +75,10 @@ re:					fclean all
 run:				all
 					./$(NAME)
 
-vg:					debug
+vg:					all
 					$(VALGRIND) $(VGSUPRESS) $(VGFLAGS) ./$(NAME)
 
 test:				all
 					cd minishell_tester && ./tester
 
-debug:				CFLAGS += -g3
-debug:				clean all
-
-.PHONY:				all clean fclean re run vg test debug
+.PHONY:				all clean fclean re run vg test
