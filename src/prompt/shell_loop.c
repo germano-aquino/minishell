@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 02:23:21 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/01 02:23:27 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:13:43 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 void	shell_loop(t_minishell *data)
 {
 	char	*buff;
-	char	*prompt;
 
 	while (TRUE)
 	{
+		prompt_handler(-1, data);
 		trigger_signal(TRUE, &prompt_handler);
-		prompt = get_prompt_info(&data->env);
-		buff = readline(prompt);
-		ft_memfree((void *)&prompt);
+		buff = readline(get_prompt_info(&data->env));
 		if (!buff)
 			builtin_exit(data, 0, FALSE);
 		else if (*buff)

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/08 15:33:02 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:02:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,10 @@ void	free_minishell(t_minishell *data);
 
 /* Signal handling */
 void	trigger_signal(t_bool ignore_sigquit, void *handler);
-void	prompt_handler(int sig);
+void	prompt_handler(int sig, t_minishell *data);
 void	cmd_handler(int sig);
 void	child_handler(int sig);
+void	handle_dead_child(int status);
 int		event(void);
 
 /* Command execution */

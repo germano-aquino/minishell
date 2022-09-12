@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/08 21:26:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 12:04:33 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,6 @@ typedef struct s_minishell
 	t_command_table	cmd;
 	t_hash_table	env;
 	t_node			*input;
-	int				child_exit_code;
 	int				fd_err;
 }	t_minishell;
 

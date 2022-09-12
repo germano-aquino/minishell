@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/08 20:28:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:17:10 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 
 static char	*build_prompt(char *user, char *hostname, char *pwd)
 {
-	char	*prompt;
+	static char	prompt[4096];
+	char		*aux;
 
-	prompt = ft_strdup(MAGENTA);
-	prompt = ft_strjoin_free(prompt, ft_strdup(user));
-	prompt = ft_strjoin_free(prompt, ft_strdup(CYAN "@"));
-	prompt = ft_strjoin_free(prompt, ft_strdup(MAGENTA));
-	prompt = ft_strjoin_free(prompt, ft_strdup(hostname));
-	prompt = ft_strjoin_free(prompt, ft_strdup(CYAN " 📁 "));
-	prompt = ft_strjoin_free(prompt, pwd);
+	aux = ft_strdup(MAGENTA);
+	aux = ft_strjoin_free(aux, ft_strdup(user));
+	aux = ft_strjoin_free(aux, ft_strdup(CYAN "@"));
+	aux = ft_strjoin_free(aux, ft_strdup(MAGENTA));
+	aux = ft_strjoin_free(aux, ft_strdup(hostname));
+	aux = ft_strjoin_free(aux, ft_strdup(CYAN " 📁 "));
+	aux = ft_strjoin_free(aux, pwd);
 	if (g_exit_value == 0)
-		prompt = ft_strjoin_free(prompt, ft_strdup(GREEN " ✓ "));
+		aux = ft_strjoin_free(aux, ft_strdup(GREEN " ✓ "));
 	else
 	{
-		prompt = ft_strjoin_free(prompt, ft_strdup(RED " "));
-		prompt = ft_strjoin_free(prompt, ft_itoa(g_exit_value));
-		prompt = ft_strjoin_free(prompt, ft_strdup(" ✗ "));
+		aux = ft_strjoin_free(aux, ft_strdup(RED " "));
+		aux = ft_strjoin_free(aux, ft_itoa(g_exit_value));
+		aux = ft_strjoin_free(aux, ft_strdup(" ✗ "));
 	}
-	prompt = ft_strjoin_free(prompt, ft_strdup(RESET));
+	aux = ft_strjoin_free(aux, ft_strdup(RESET));
+	ft_strlcpy(prompt, aux, (ft_strlen(aux) + 1));
+	free(aux);
 	return (prompt);
 }
 

@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/08 21:33:35 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/12 12:11:41 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME				:= minishell
 HEADER_PATH			:= inc
 HEADER				:= minishell.h internals.h
 
-SOURCE_DIRS			:= . hash_table tokenizer lexer execute input utils heredoc builtins prompt
+SOURCE_DIRS			:= . hash_table tokenizer lexer execute input utils heredoc builtins prompt signal
 SOURCE_PATH			:= $(addprefix src/, $(SOURCE_DIRS))
 SOURCE_FILES		:= main.c tokenizer.c input.c input_utils.c hash_table.c hash_table_utils.c
 SOURCE_FILES		+= lexer.c lexer_io.c lexer_cmd.c dollar_handler.c tokens_handler.c utils.c
@@ -24,7 +24,7 @@ SOURCE_FILES		+= error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_e
 SOURCE_FILES		+= builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c
 SOURCE_FILES		+= builtin_single_io.c pipes_and_pid.c bin_path_validation.c heredoc_signals.c
 SOURCE_FILES		+= prompt.c init.c minishell.c get_env_from_ht.c wildcard_handler.c redisplay.c
-SOURCE_FILES		+= wildcard_dir_objs.c buff_to_input.c shell_loop.c
+SOURCE_FILES		+= wildcard_dir_objs.c buff_to_input.c shell_loop.c dead_child.c
 
 LIBFT_PATH			:= libft
 LIBFT				:= libft/libft.a

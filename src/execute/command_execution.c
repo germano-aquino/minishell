@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/16 23:03:39 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:27:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	call_execve_or_builtin(t_minishell *data, char **envp, int index)
 {
+	if (validate_path(data, data->cmd.cmd_path[index], index))
+	{
+		ft_free_matrix((void *)&envp);
+		exit_free(data, g_exit_value);
+	}
 	if (!is_builtin(data->cmd.cmd_path[index]))
 	{
 		if (execve(data->cmd.cmd_path[index], data->cmd.args[index], envp) != 0)
@@ -57,15 +62,22 @@ void	execute_command(t_minishell *data, t_workspace *vars, int index)
 void	wait_child(t_minishell *data, t_workspace *vars)
 {
 	int	index;
+	int	status;
 
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
-		if (vars->pid[index])
-			waitpid(vars->pid[index], &data->child_exit_code, 0);
-	if (vars->pid[index - 1] && WIFEXITED(data->child_exit_code))
-		g_exit_value = WEXITSTATUS(data->child_exit_code);
-	if (!data->cmd.cmd_path[data->cmd.cmds_amount - 1])
-		g_exit_value = EXIT_NOT_FOUND;
+	{
+		if (!data->cmd.cmd_path[index])
+			g_exit_value = EXIT_NOT_FOUND;
+		else if (vars->pid[index])
+		{
+			waitpid(vars->pid[index], &status, 0);
+			if (WIFEXITED(status))
+				g_exit_value = WEXITSTATUS(status);
+			else
+				handle_dead_child(status);
+		}
+	}
 }
 
 void	execute_forks(t_minishell *data)
@@ -79,17 +91,7 @@ void	execute_forks(t_minishell *data)
 	initialize_pipes_and_pid(data, &vars);
 	index = -1;
 	while (++index < data->cmd.cmds_amount)
-	{
-		if (validate_path(data, data->cmd.cmd_path[index], index) != 0)
-		{
-			close(vars.fd[index][IN]);
-			close(vars.fd[index][OUT]);
-			if (g_exit_value == EXIT_SUCCESS)
-				g_exit_value = EXIT_FAILURE;
-		}
-		else
-			execute_command(data, &vars, index);
-	}
+		execute_command(data, &vars, index);
 	wait_child(data, &vars);
 	ft_memfree((void *)&vars.pid);
 	ft_free_matrix((void *)&vars.fd);
