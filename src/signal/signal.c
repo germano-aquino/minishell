@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/12 14:14:01 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 15:56:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	cmd_handler(int sig)
 	}
 }
 
-void	prompt_handler(int sig, t_minishell *data)
+void	prompt_handler(int sig, t_hash_table *env)
 {
-	static t_minishell	*reference;
+	static t_hash_table	*env_reference;
 
 	if (sig == -1)
 	{
-		reference = data;
+		env_reference = env;
 		return ;
 	}
 	if (sig == SIGINT)
@@ -59,7 +59,7 @@ void	prompt_handler(int sig, t_minishell *data)
 		ft_putendl_fd("", STDERR);
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
-		rl_set_prompt(get_prompt_info(&reference->env));
+		rl_set_prompt(get_prompt_info(env_reference));
 		rl_redisplay();
 	}
 }
