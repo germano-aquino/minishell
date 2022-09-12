@@ -4,14 +4,18 @@
 	match-leak-kinds: reachable
 	...
 	fun:readline
-	...
 }
 {
 	<Readline/AddHistory>
 	Memcheck:Leak
 	match-leak-kinds: reachable
-	fun:malloc
-	fun:xmalloc
-	fun:add_history
 	...
+	fun:add_history
+}
+{
+	<Readline/SetPrompt>
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	...
+	fun:rl_set_prompt
 }
