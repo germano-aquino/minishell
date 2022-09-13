@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 14:17:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 21:05:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static char	*build_prompt(char *user, char *hostname, char *pwd)
 	aux = ft_strjoin_free(aux, ft_strdup(CYAN "@"));
 	aux = ft_strjoin_free(aux, ft_strdup(MAGENTA));
 	aux = ft_strjoin_free(aux, ft_strdup(hostname));
-	aux = ft_strjoin_free(aux, ft_strdup(CYAN " 📁 "));
+	aux = ft_strjoin_free(aux, ft_strdup(CYAN " \001📁\002 "));
 	aux = ft_strjoin_free(aux, pwd);
 	if (g_exit_value == 0)
-		aux = ft_strjoin_free(aux, ft_strdup(GREEN " ✓ "));
+		aux = ft_strjoin_free(aux, ft_strdup(GREEN " \001✓\002 "));
 	else
 	{
 		aux = ft_strjoin_free(aux, ft_strdup(RED " "));
 		aux = ft_strjoin_free(aux, ft_itoa(g_exit_value));
-		aux = ft_strjoin_free(aux, ft_strdup(" ✗ "));
+		aux = ft_strjoin_free(aux, ft_strdup(" \001✗\002 "));
 	}
 	aux = ft_strjoin_free(aux, ft_strdup(RESET));
 	ft_strlcpy(prompt, aux, (ft_strlen(aux) + 1));

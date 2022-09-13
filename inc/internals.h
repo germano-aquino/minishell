@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 12:04:33 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 21:05:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@
 # define HASH_LIMITER 0xf0000000	/* Hashing limiter */
 
 /* Colors */
-# define RESET		"\x1b[0m"	/* ANSI code for reseting colors */
-# define RED		"\x1b[31m"	/* ANSI color code for red */
-# define GREEN		"\x1b[32m"	/* ANSI color code for green */
-# define MAGENTA	"\x1b[35m"	/* ANSI color code for magenta */
-# define CYAN		"\x1b[36m"	/* ANSI color code for cyan */
+# define RESET		"\001\x1b[0m\002"	/* ANSI code for reseting colors */
+# define RED		"\001\x1b[31m\002"	/* ANSI color code for red */
+# define GREEN		"\001\x1b[32m\002"	/* ANSI color code for green */
+# define MAGENTA	"\001\x1b[35m\002"	/* ANSI color code for magenta */
+# define CYAN		"\001\x1b[36m\002"	/* ANSI color code for cyan */
 
 extern int					g_exit_value;	/* Global exit code variable */
 
