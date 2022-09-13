@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 21:05:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 21:53:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static char	*build_prompt(char *user, char *hostname, char *pwd)
 	char		*aux;
 
 	aux = ft_strdup(MAGENTA);
-	aux = ft_strjoin_free(aux, ft_strdup(user));
+	aux = ft_strjoin_free(aux, user);
 	aux = ft_strjoin_free(aux, ft_strdup(CYAN "@"));
 	aux = ft_strjoin_free(aux, ft_strdup(MAGENTA));
-	aux = ft_strjoin_free(aux, ft_strdup(hostname));
+	aux = ft_strjoin_free(aux, hostname);
 	aux = ft_strjoin_free(aux, ft_strdup(CYAN " \001📁\002 "));
 	aux = ft_strjoin_free(aux, pwd);
 	if (g_exit_value == 0)
@@ -33,8 +33,11 @@ static char	*build_prompt(char *user, char *hostname, char *pwd)
 		aux = ft_strjoin_free(aux, ft_strdup(" \001✗\002 "));
 	}
 	aux = ft_strjoin_free(aux, ft_strdup(RESET));
-	ft_strlcpy(prompt, aux, (ft_strlen(aux) + 1));
-	free(aux);
+	if (!aux || ft_strlen(aux) >= 4096)
+		ft_strlcpy(prompt, "[unable to generate prompt]$> ", 32);
+	else
+		ft_strlcpy(prompt, aux, (ft_strlen(aux) + 1));
+	ft_memfree((void *)&aux);
 	return (prompt);
 }
 
@@ -59,12 +62,16 @@ static char	*get_pwd_prompt(t_hash_table *env)
 static char	*get_hostname_prompt(void)
 {
 	char	*hostname;
+	int		fd;
 
-	hostname = getenv("HOSTNAME");
+	fd = open("/etc/hostname", O_RDONLY);
+	if (fd < 0)
+		return (ft_strdup("(unknown"));
+	hostname = ft_gnl(fd);
+	close(fd);
 	if (!hostname)
-		hostname = getenv("NAME");
-	if (!hostname)
-		hostname = "(unknown)";
+		return (ft_strdup("(unknown"));
+	hostname = ft_strtrim_free(&hostname, "\n");
 	return (hostname);
 }
 
@@ -77,7 +84,7 @@ static char	*get_user_prompt(void)
 		user = getenv("LOGNAME");
 	if (!user)
 		user = "(unknown)";
-	return (user);
+	return (ft_strdup(user));
 }
 
 char	*get_prompt_info(t_hash_table *env)
