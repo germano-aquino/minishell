@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:45:15 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 14:08:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/12 21:57:01 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_dead_child(int status)
 		sig = WTERMSIG(status);
 		description = get_signal_description(sig);
 		if (description)
-			printf(description);
+			printf("%s", description);
 		if (WCOREDUMP(status))
 			printf(" (core dumped)");
 		if (description != NULL)
