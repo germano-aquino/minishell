@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:13:39 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/14 22:58:33 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:15:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_bool	has_conditional_error(t_minishell *data, t_workspace *vars, int index)
 	int	cursor;
 
 	cursor = index - 1;
-	while (cursor >= 0 && vars->wstatus[cursor] == -1)
+	while (cursor > 0 && vars->wstatus[cursor] == -1)
 		--cursor;
 	last_valid_status = vars->wstatus[cursor];
 	if (data->cmd.connector[index - 1] == AND && last_valid_status != 0)
