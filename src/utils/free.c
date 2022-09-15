@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/31 14:08:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:47:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_cmd_table(t_command_table *table, t_node *input)
 {
-	const int	allocated_entries = get_pipes_amount(input) + 1;
+	const int	allocated_entries = get_connectors_amount(input) + 1;
 	int			index;
 
 	index = -1;
@@ -35,6 +35,7 @@ void	free_cmd_table(t_command_table *table, t_node *input)
 	ft_memfree((void *)&table->args);
 	ft_memfree((void *)&table->cmd_path);
 	ft_memfree((void *)&table->files);
+	ft_memfree((void *)&table->connector);
 	table->cmds_amount = 0;
 }
 

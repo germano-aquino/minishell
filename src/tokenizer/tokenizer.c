@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/08 15:30:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:10:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ static void	handle_token(t_minishell *data, char *buff, size_t *i)
 	else if (ft_strncmp((buff + *i), "<<", 2) == 0)
 		*i += buff_to_input(data, "<<", Double_Less);
 	else if (ft_strncmp((buff + *i), "&&", 2) == 0)
-		*i += buff_to_input(data, "&&", Word);
+		*i += buff_to_input(data, "&&", Double_Ampersand);
 	else if (ft_strncmp((buff + *i), "||", 2) == 0)
-		*i += buff_to_input(data, "||", Word);
+		*i += buff_to_input(data, "||", Double_Pipe);
 	else if (ft_strncmp((buff + *i), ">", 1) == 0)
 		*i += buff_to_input(data, ">", Great);
 	else if (ft_strncmp((buff + *i), "<", 1) == 0)
 		*i += buff_to_input(data, "<", Less);
 	else if (ft_strncmp((buff + *i), "|", 1) == 0)
 		*i += buff_to_input(data, "|", Pipe);
-	else if (ft_strncmp((buff + *i), "&", 1) == 0)
-		*i += buff_to_input(data, "&", Word);
 	else if (ft_strncmp((buff + *i), "*", 1) == 0)
 		*i += buff_to_input(data, "*", Wildcard);
+	else if (ft_strncmp((buff + *i), "&", 1) == 0)
+		redisplay_prompt(data, "unrecognized token `&'", NULL, EXIT_BAD_USAGE);
 }
 
 static void	escape_char_and_count(char **buff, char chr, int *count)

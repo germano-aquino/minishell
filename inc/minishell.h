@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/12 15:56:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/14 20:54:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,12 @@ t_bool	is_number_str(const char *str);
 t_bool	is_word_str(const char *str);
 t_bool	is_path(char *str);
 t_bool	is_directory(char *path);
+t_bool	is_connector_tok(t_token token);
+t_bool	is_redirection_tok(t_token token);
 t_bool	validate_path(t_minishell *data, char *path, int cmd_pos);
-int		get_pipes_amount(t_node *input);
+int		get_connectors_amount(t_node *input);
 void	ft_init(t_minishell *data);
+void	dup42(int fd_1, int fd_2);
 
 /* Garbage collecting */
 void	free_cmd_table(t_command_table *table, t_node *input);
@@ -95,13 +98,19 @@ void	trigger_signal(t_bool ignore_sigquit, void *handler);
 void	prompt_handler(int sig, t_hash_table *env);
 void	cmd_handler(int sig);
 void	child_handler(int sig);
-void	handle_dead_child(int status);
+void	handle_dead_child(t_workspace *vars, pid_t process_id, int status);
 int		event(void);
 
 /* Command execution */
-void	execute_forks(t_minishell *data);
-void	initialize_pipes_and_pid(t_minishell *data, t_workspace *vars);
+void	execute(t_minishell *data);
+void	initialize_workspace(t_minishell *data, t_workspace *vars);
 void	set_exit_value(t_minishell *data, t_bool is_child, int exit_code);
+void	set_child_wstatus(t_workspace *vars, pid_t process_id, int status);
+void	wait_child(t_workspace *vars, int cmds_amount, int should_wait);
+void	set_child_wstatus(t_workspace *vars, pid_t process_id, int status);
+void	skip_pipeline(t_minishell *data, t_workspace *vars, int *index);
+void	wait_conditional_child(t_workspace *vars, int index);
+t_bool	has_conditional_error(t_minishell *data, t_workspace *vars, int index);
 
 /* Builtins */
 int		builtin_cd(t_minishell *data, int index, t_bool is_child);

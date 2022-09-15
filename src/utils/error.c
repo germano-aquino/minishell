@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:31:55 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 22:47:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/14 13:06:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ void	syntax_error(t_minishell *data, t_node *input)
 		redisplay_prompt(data, ERR_SYNTAX HEREDOC_STR, NULL, EXIT_BAD_USAGE);
 	else if (input->tok == Pipe)
 		redisplay_prompt(data, ERR_SYNTAX PIPE_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Double_Pipe)
+		redisplay_prompt(data, ERR_SYNTAX OR_STR, NULL, EXIT_BAD_USAGE);
+	else if (input->tok == Double_Ampersand)
+		redisplay_prompt(data, ERR_SYNTAX AND_STR, NULL, EXIT_BAD_USAGE);
 }
 
 void	print_error_file(t_minishell *data)

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/31 13:40:26 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/14 21:03:23 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ static int	get_args_amount(t_node *input)
 	args_amount = -1;
 	while (input)
 	{
-		if (input->tok == Pipe)
+		if (is_connector_tok(input->tok))
 			break ;
 		if (input->tok == Word)
 			args_amount++;
-		else if (input->tok == Less || input->tok == Double_Less
-			|| input->tok == Great || input->tok == Double_Great)
+		else if (is_redirection_tok(input->tok))
 			input = input->next;
 		if (input)
 			input = input->next;
@@ -79,24 +78,20 @@ int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
 
 	args_amount = get_args_amount(*input);
 	data->cmd.args[cmd_pos] = ft_calloc((args_amount + 2), sizeof(char *));
-	data->cmd.args[cmd_pos][args_amount] = NULL;
 	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
 	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
 	data->cmd.cmds_amount++;
 	*input = (*input)->next;
 	i = 0;
-	while (++i < args_amount && *input && !err)
+	while (*input && !err && !is_connector_tok((*input)->tok))
 	{
 		if ((*input)->tok == Word)
 		{
-			data->cmd.args[cmd_pos][i] = ft_strdup((*input)->data);
+			data->cmd.args[cmd_pos][++i] = ft_strdup((*input)->data);
 			*input = (*input)->next;
 		}
-		else
-		{
+		else if (is_redirection_tok((*input)->tok))
 			err = handle_redir(data, input, cmd_pos, err);
-			--i;
-		}
 	}
 	return (err);
 }

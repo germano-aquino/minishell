@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:45:15 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 21:57:01 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/14 22:35:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_signal_description(int sig)
 	return (description);
 }
 
-void	handle_dead_child(int status)
+void	handle_dead_child(t_workspace *vars, pid_t process_id, int status)
 {
 	char	*description;
 	int		sig;
@@ -45,8 +45,8 @@ void	handle_dead_child(int status)
 			printf(" (core dumped)");
 		if (description != NULL)
 			printf("\n");
-		g_exit_value = sig + 128;
+		set_child_wstatus(vars, process_id, (sig + 128));
 	}
 	else
-		g_exit_value = 0;
+		set_child_wstatus(vars, process_id, EXIT_SUCCESS);
 }

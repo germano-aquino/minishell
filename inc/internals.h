@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 21:05:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/14 16:37:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define INPUT_STR "`<'"
 # define HEREDOC_STR "`<<'"
 # define PIPE_STR "`|'"
+# define OR_STR "`||'"
+# define AND_STR "`&&'"
 # define NEWLINE_STR "`newline'"
 
 # define SQUOTE '\''	/* Single quote character */
@@ -126,6 +128,14 @@ typedef enum e_token
 	Wildcard
 }	t_token;
 
+typedef enum e_connector
+{
+	NONE,
+	PIPE,
+	AND,
+	OR
+}	t_connector;
+
 /* Basic structure of a hashtable node */
 typedef struct s_hnode
 {
@@ -149,10 +159,11 @@ typedef struct s_node
 	struct s_node	*prev;
 }	t_node;
 
-/* Used to keep track of every command I/O and process identifier (PID) */
+/* Used to keep track of every command I/O, status and identifier (PID) */
 typedef struct s_workspace
 {
 	int		**fd;
+	int		*wstatus;
 	pid_t	*pid;
 }	t_workspace;
 
@@ -163,6 +174,7 @@ typedef struct s_command_table
 	char		**cmd_path;
 	char		***args;
 	t_files		*files;
+	t_connector	*connector;
 }	t_command_table;
 
 /* Main data structure, used to contain almost all structures defined */
@@ -172,6 +184,7 @@ typedef struct s_minishell
 	t_hash_table	env;
 	t_node			*input;
 	int				fd_err;
+	int				should_wait;
 }	t_minishell;
 
 #endif /* INTERNALS_H */
