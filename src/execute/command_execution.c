@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/14 20:54:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/15 21:33:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 static void	call_execve_or_builtin(t_minishell *data, char **envp, int index)
 {
-	if (validate_path(data, data->cmd.cmd_path[index], index))
-	{
-		ft_free_matrix((void *)&envp);
-		exit_free(data, g_exit_value);
-	}
 	if (!is_builtin(data->cmd.cmd_path[index]))
 	{
 		if (execve(data->cmd.cmd_path[index], data->cmd.args[index], envp) != 0)
@@ -67,6 +62,12 @@ static void	create_fork(t_minishell *data, t_workspace *vars, int *index)
 	if (*index > 0 && has_conditional_error(data, vars, *index))
 	{
 		skip_pipeline(data, vars, index);
+		return ;
+	}
+	if (has_path_error(data, vars, data->cmd.cmd_path[*index], *index))
+	{
+		close(vars->fd[*index][IN]);
+		close(vars->fd[*index][OUT]);
 		return ;
 	}
 	vars->pid[*index] = fork();

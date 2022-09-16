@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 16:05:14 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/08 15:30:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/15 21:31:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,29 @@ t_bool	is_directory(char *path)
 	return (FALSE);
 }
 
-t_bool	validate_path(t_minishell *data, char *path, int cmd_pos)
+t_bool	has_path_error(t_minishell *data, t_workspace *vars, char *cmd, int i)
 {
-	if (!path)
+	if (!cmd)
 	{
-		g_exit_value = EXIT_NOT_FOUND;
-		return (print_error_msg(*data->cmd.args[cmd_pos], "command not found"));
+		vars->wstatus[i] = EXIT_NOT_FOUND;
+		return (print_error_msg(*data->cmd.args[i], "command not found"));
 	}
-	if (*path == -1)
-		return (TRUE);
-	if (is_directory(path))
+	if (*cmd == -1)
+		return (vars->wstatus[i] = EXIT_FAILURE, TRUE);
+	if (is_directory(cmd))
 	{
-		g_exit_value = EXIT_NOT_EXECUTABLE;
-		return (print_error_msg(path, "Is a directory"));
+		vars->wstatus[i] = EXIT_NOT_EXECUTABLE;
+		return (print_error_msg(cmd, "Is a directory"));
 	}
-	if (access(path, F_OK) == 0 && access(path, X_OK) != 0)
+	if (access(cmd, F_OK) == 0 && access(cmd, X_OK) != 0)
 	{
-		g_exit_value = EXIT_NOT_EXECUTABLE;
-		return (print_perror_msg(NULL, path));
+		vars->wstatus[i] = EXIT_NOT_EXECUTABLE;
+		return (print_perror_msg(NULL, cmd));
 	}
-	if (!is_builtin(path) && access(path, F_OK) != 0)
+	if (!is_builtin(cmd) && access(cmd, F_OK) != 0)
 	{
-		g_exit_value = EXIT_NOT_FOUND;
-		return (print_perror_msg(NULL, path));
+		vars->wstatus[i] = EXIT_NOT_FOUND;
+		return (print_perror_msg(NULL, cmd));
 	}
 	return (FALSE);
 }

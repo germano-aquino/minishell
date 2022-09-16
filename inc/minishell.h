@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/14 20:54:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/15 21:30:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_bool	is_path(char *str);
 t_bool	is_directory(char *path);
 t_bool	is_connector_tok(t_token token);
 t_bool	is_redirection_tok(t_token token);
-t_bool	validate_path(t_minishell *data, char *path, int cmd_pos);
+t_bool	has_path_error(t_minishell *data, t_workspace *vars, char *cmd, int i);
 int		get_connectors_amount(t_node *input);
 void	ft_init(t_minishell *data);
 void	dup42(int fd_1, int fd_2);
