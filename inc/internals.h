@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/15 22:00:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 16:05:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@
 /* stdlib for getenv */
 
 /* Parsing */
-# define REGULAR_TOKENS "<>|&"
+# define REGULAR_TOKENS "<>|&()"
 # define PARSER_TOKENS "$'\""
 
 # define ERR_QUOTES "there are unclosed quotes"
+# define ERR_PARENTHESIS "there are unclosed parenthesis"
 # define ERR_SYNTAX "syntax error near unexpected token "
 # define TRUNC_STR "`>'"
 # define APPEND_STR "`>>'"
@@ -42,12 +43,16 @@
 # define PIPE_STR "`|'"
 # define OR_STR "`||'"
 # define AND_STR "`&&'"
+# define OPEN_STR "`('"
+# define CLOSE_STR "`)'"
 # define NEWLINE_STR "`newline'"
 
-# define SQUOTE '\''	/* Single quote character */
-# define DQUOTE '"'		/* Double quote character */
-# define DOLLAR '$'		/* Dollar sign (env variable expansion) character */
-# define TILDE '~'		/* Tilde expansion character */
+# define OPEN_PARENTHESIS '('	/* Parenthesis opening character */
+# define CLOSE_PARENTHESIS ')'	/* Parenthesis closing character */
+# define SQUOTE '\''			/* Single quote character */
+# define DQUOTE '"'				/* Double quote character */
+# define DOLLAR '$'				/* Dollar sign (variable expansion) character */
+# define TILDE '~'				/* Tilde expansion character */
 
 /* Temporary files */
 # define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */
@@ -87,17 +92,17 @@ typedef struct dirent		t_dirent;		/* Used for wildcards */
 /* Input type identifier */
 typedef enum e_input
 {
-	Stdin,
-	Infile,
-	Heredoc
+	IN_STDIN,
+	IN_INFILE,
+	IN_HEREDOC
 }	t_input;
 
 /* Output type identifier */
 typedef enum e_output
 {
-	Stdout,
-	Truncate,
-	Append
+	OUT_STDOUT,
+	OUT_TRUNC,
+	OUT_APPEND
 }	t_output;
 
 /* Used to set I/O of every command */
@@ -112,20 +117,17 @@ typedef struct s_files
 /* Used for identifying parsing tokens */
 typedef enum e_token
 {
-	Word,
-	File,
-	Dollar,
-	Pipe,
-	Double_Pipe,
-	Great,
-	Double_Great,
-	Less,
-	Double_Less,
-	Ampersand,
-	Double_Ampersand,
-	Quote,
-	Double_Quote,
-	Wildcard
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_AND,
+	TOK_OR,
+	TOK_REDIR_TRUNC,
+	TOK_REDIR_APPEND,
+	TOK_REDIR_INFILE,
+	TOK_REDIR_HEREDOC,
+	TOK_WILDCARD,
+	TOK_OPEN_PARENTHESIS,
+	TOK_CLOSE_PARENTHESIS
 }	t_token;
 
 typedef enum e_connector
@@ -164,6 +166,7 @@ typedef struct s_workspace
 {
 	int		**fd;
 	int		*wstatus;
+	int		*depth;
 	pid_t	*pid;
 }	t_workspace;
 
@@ -171,6 +174,7 @@ typedef struct s_workspace
 typedef struct s_command_table
 {
 	int			cmds_amount;
+	int			*depth;
 	char		**cmd_path;
 	char		***args;
 	t_files		*files;

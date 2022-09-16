@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 23:55:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/12 15:53:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:49:41 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	display_cmd_table(t_command_table *cmd)
 {
-	int	cmd_pos;
+	int	index;
 	int	i;
 
-	cmd_pos = -1;
-	while (++cmd_pos < cmd->cmds_amount)
+	index = -1;
+	while (++index < cmd->cmds_amount)
 	{
-		if (cmd->cmd_path[cmd_pos])
-			printf("cmd_path: %s\n", cmd->cmd_path[cmd_pos]);
+		if (cmd->cmd_path[index])
+			printf("cmd_path: %s\n", cmd->cmd_path[index]);
 		else
-			printf("cmd_path[%d]: not found\n", cmd_pos);
+			printf("cmd_path[%d]: not found\n", index);
 		i = -1;
-		while (cmd->args[cmd_pos][++i])
-			printf("args: %s\n\n", cmd->args[cmd_pos][i]);
+		while (cmd->args[index][++i])
+			printf("args: %s\n\n", cmd->args[index][i]);
 	}
 }
 
@@ -65,13 +65,12 @@ void	display_input(t_node *input)
 {
 	int			i;
 	const char	*tokens[] = {
-		"Word", "File", "Dollar",
-		"Pipe", "Double_Pipe",
-		"Great", "Double_Great",
-		"Less", "Double_Less",
-		"Ampersand", "Double_Ampersand",
-		"Quote", "Double_Quote",
-		"Wildcard"
+		"TOK_WORD",
+		"TOK_PIPE", "TOK_OR",
+		"TOK_REDIR_TRUNC", "TOK_REDIR_APPEND",
+		"TOK_REDIR_INFILE", "TOK_REDIR_HEREDOC",
+		"TOK_AND",
+		"TOK_WILDCARD"
 	};
 
 	if (input == NULL)

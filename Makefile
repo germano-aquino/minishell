@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/15 21:39:28 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/16 17:18:13 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SOURCE_FILES		+= error.c builtin_utils.c builtin_exit.c builtin_echo.c builtin_e
 SOURCE_FILES		+= builtin_env.c builtin_unset.c builtin_pwd.c builtin_cd.c builtin_execution.c
 SOURCE_FILES		+= builtin_single_io.c workspace.c validation.c heredoc_signals.c wait_utils.c
 SOURCE_FILES		+= prompt.c init.c minishell.c get_env_from_ht.c wildcard_handler.c redisplay.c
-SOURCE_FILES		+= wildcard_dir_objs.c buff_to_input.c shell_loop.c dead_child.c
+SOURCE_FILES		+= wildcard_dir_objs.c buff_to_input.c shell_loop.c dead_child.c token_checker.c
+SOURCE_FILES		+= syntax_error.c set_wstatus.c set_io.c
 
 LIBFT_PATH			:= libft
 LIBFT				:= libft/libft.a

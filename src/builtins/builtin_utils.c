@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:07:33 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 15:39:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:36:57 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ t_bool	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (FALSE);
-	return (ft_strcmp(cmd, "exit") == 0
-		|| ft_strcmp(cmd, "echo") == 0
-		|| ft_strcmp(cmd, "env") == 0
-		|| ft_strcmp(cmd, "unset") == 0
-		|| ft_strcmp(cmd, "pwd") == 0
-		|| ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "export") == 0);
+	return (ft_strcmp(cmd, "exit") == 0 \
+	|| ft_strcmp(cmd, "echo") == 0 \
+	|| ft_strcmp(cmd, "env") == 0 \
+	|| ft_strcmp(cmd, "unset") == 0 \
+	|| ft_strcmp(cmd, "pwd") == 0 \
+	|| ft_strcmp(cmd, "cd") == 0 \
+	|| ft_strcmp(cmd, "export") == 0);
 }

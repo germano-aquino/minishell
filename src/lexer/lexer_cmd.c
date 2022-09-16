@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/14 21:03:23 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:10:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_args_amount(t_node *input)
 	{
 		if (is_connector_tok(input->tok))
 			break ;
-		if (input->tok == Word)
+		if (input->tok == TOK_WORD)
 			args_amount++;
 		else if (is_redirection_tok(input->tok))
 			input = input->next;
@@ -71,27 +71,31 @@ static char	*get_cmd_path(t_minishell *data, char *cmd_base)
 	return (cmd_path);
 }
 
-int	handle_command(t_minishell *data, t_node **input, int cmd_pos, int err)
+int	handle_command(t_minishell *data, t_node **input, int index, int depth)
 {
 	int	args_amount;
 	int	i;
+	int	err;
 
+	err = 0;
 	args_amount = get_args_amount(*input);
-	data->cmd.args[cmd_pos] = ft_calloc((args_amount + 2), sizeof(char *));
-	data->cmd.cmd_path[cmd_pos] = get_cmd_path(data, (*input)->data);
-	data->cmd.args[cmd_pos][0] = ft_strdup((*input)->data);
+	data->cmd.args[index] = ft_calloc((args_amount + 1), sizeof(char *));
+	data->cmd.cmd_path[index] = get_cmd_path(data, (*input)->data);
+	data->cmd.args[index][0] = ft_strdup((*input)->data);
+	data->cmd.depth[index] = depth;
 	data->cmd.cmds_amount++;
 	*input = (*input)->next;
 	i = 0;
-	while (*input && !err && !is_connector_tok((*input)->tok))
+	while (*input && !err \
+	&& !is_connector_tok((*input)->tok) && !is_parenthesis_tok((*input)->tok))
 	{
-		if ((*input)->tok == Word)
+		if ((*input)->tok == TOK_WORD)
 		{
-			data->cmd.args[cmd_pos][++i] = ft_strdup((*input)->data);
+			data->cmd.args[index][++i] = ft_strdup((*input)->data);
 			*input = (*input)->next;
 		}
 		else if (is_redirection_tok((*input)->tok))
-			err = handle_redir(data, input, cmd_pos, err);
+			err = handle_redir(data, input, index);
 	}
 	return (err);
 }

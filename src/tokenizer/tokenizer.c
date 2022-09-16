@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/14 23:10:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:04:02 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,71 @@
 
 static void	handle_token(t_minishell *data, char *buff, size_t *i)
 {
-	if (ft_strncmp((buff + *i), ">>", 2) == 0)
-		*i += buff_to_input(data, ">>", Double_Great);
-	else if (ft_strncmp((buff + *i), "<<", 2) == 0)
-		*i += buff_to_input(data, "<<", Double_Less);
-	else if (ft_strncmp((buff + *i), "&&", 2) == 0)
-		*i += buff_to_input(data, "&&", Double_Ampersand);
+	if (ft_strncmp((buff + *i), "&&", 2) == 0)
+		*i += buff_to_input(data, "&&", TOK_AND);
 	else if (ft_strncmp((buff + *i), "||", 2) == 0)
-		*i += buff_to_input(data, "||", Double_Pipe);
-	else if (ft_strncmp((buff + *i), ">", 1) == 0)
-		*i += buff_to_input(data, ">", Great);
-	else if (ft_strncmp((buff + *i), "<", 1) == 0)
-		*i += buff_to_input(data, "<", Less);
+		*i += buff_to_input(data, "||", TOK_OR);
 	else if (ft_strncmp((buff + *i), "|", 1) == 0)
-		*i += buff_to_input(data, "|", Pipe);
+		*i += buff_to_input(data, "|", TOK_PIPE);
+	else if (ft_strncmp((buff + *i), ">>", 2) == 0)
+		*i += buff_to_input(data, ">>", TOK_REDIR_APPEND);
+	else if (ft_strncmp((buff + *i), ">", 1) == 0)
+		*i += buff_to_input(data, ">", TOK_REDIR_TRUNC);
+	else if (ft_strncmp((buff + *i), "<<", 2) == 0)
+		*i += buff_to_input(data, "<<", TOK_REDIR_HEREDOC);
+	else if (ft_strncmp((buff + *i), "<", 1) == 0)
+		*i += buff_to_input(data, "<", TOK_REDIR_INFILE);
 	else if (ft_strncmp((buff + *i), "*", 1) == 0)
-		*i += buff_to_input(data, "*", Wildcard);
+		*i += buff_to_input(data, "*", TOK_WILDCARD);
+	else if (ft_strncmp((buff + *i), "(", 1) == 0)
+		*i += buff_to_input(data, "(", TOK_OPEN_PARENTHESIS);
+	else if (ft_strncmp((buff + *i), ")", 1) == 0)
+		*i += buff_to_input(data, ")", TOK_CLOSE_PARENTHESIS);
 	else if (ft_strncmp((buff + *i), "&", 1) == 0)
 		redisplay_prompt(data, "unrecognized token `&'", NULL, EXIT_BAD_USAGE);
 }
 
-static void	escape_char_and_count(char **buff, char chr, int *count)
+static t_bool	has_unclosed_parenthesis(char *buff)
 {
-	(*count)++;
-	(*buff)++;
-	while (**buff && **buff != chr)
-		(*buff)++;
-	if (**buff)
+	int		parenthesis_amount;
+	char	quote;
+
+	parenthesis_amount = 0;
+	quote = 0;
+	while (*buff)
 	{
-		(*count)++;
-		(*buff)++;
+		if ((*buff == SQUOTE || *buff == DQUOTE) && !quote)
+			quote = *buff++;
+		if ((*buff == OPEN_PARENTHESIS || *buff == CLOSE_PARENTHESIS) && !quote)
+			++parenthesis_amount;
+		if (quote && *buff == quote)
+			quote = 0;
+		buff++;
 	}
+	return (parenthesis_amount % 2);
 }
 
-static int	check_unclosed_quotes(char *buff)
+static t_bool	has_unclosed_quotes(char *buff)
 {
-	int	quotes_amount;
+	int		quotes_amount;
+	char	quote;
 
 	quotes_amount = 0;
 	while (*buff)
 	{
 		if (*buff == SQUOTE || *buff == DQUOTE)
-			escape_char_and_count(&buff, *buff, &quotes_amount);
+		{
+			quote = *buff;
+			++buff;
+			++quotes_amount;
+			while (*buff && *buff != quote)
+				++buff;
+			if (*buff)
+			{
+				++buff;
+				++quotes_amount;
+			}
+		}
 		else
 			buff++;
 	}
@@ -66,8 +89,10 @@ void	tokenizer(t_minishell *data, char *buff)
 {
 	size_t	i;
 
-	if (check_unclosed_quotes(buff))
+	if (has_unclosed_quotes(buff))
 		redisplay_prompt(data, ERR_QUOTES, buff, EXIT_BAD_USAGE);
+	if (has_unclosed_parenthesis(buff))
+		redisplay_prompt(data, ERR_PARENTHESIS, buff, EXIT_BAD_USAGE);
 	i = 0;
 	while (buff[i])
 	{

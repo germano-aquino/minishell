@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/13 23:47:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:07:01 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ void	free_cmd_table(t_command_table *table, t_node *input)
 		{
 			ft_memfree((void *)&table->files[index].infile);
 			ft_memfree((void *)&table->files[index].outfile);
-			table->files[index].which_input = Stdin;
-			table->files[index].which_output = Stdout;
+			table->files[index].which_input = IN_STDIN;
+			table->files[index].which_output = OUT_STDOUT;
 		}
 	}
 	ft_memfree((void *)&table->args);
 	ft_memfree((void *)&table->cmd_path);
 	ft_memfree((void *)&table->files);
 	ft_memfree((void *)&table->connector);
+	ft_memfree((void *)&table->depth);
 	table->cmds_amount = 0;
 }
 

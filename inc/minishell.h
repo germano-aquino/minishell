@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/15 21:30:36 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:18:01 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ht_delete(t_hash_table *table, char *key);
 void	populate_env_table(t_hash_table *table, char **envp);
 int		hash_function(char *key);
 
-/* Heredoc */
+/* IN_HEREDOC */
 void	ft_here_doc(t_minishell *data, char *delimiter);
 void	heredoc_handler(int sig);
 int		*heredoc_interruptor(int is_interrupt);
@@ -56,8 +56,8 @@ int		*init_heredoc_signal(void);
 
 /* Lexer */
 void	lexer(t_minishell *data);
-int		handle_redir(t_minishell *data, t_node **input, int cmd_pos, int err);
-int		handle_command(t_minishell *data, t_node **input, int cmd_pos, int err);
+int		handle_redir(t_minishell *data, t_node **input, int index);
+int		handle_command(t_minishell *data, t_node **input, int index, int depth);
 
 /* Tokenizer */
 void	tokenizer(t_minishell *data, char *buff);
@@ -83,6 +83,7 @@ t_bool	is_path(char *str);
 t_bool	is_directory(char *path);
 t_bool	is_connector_tok(t_token token);
 t_bool	is_redirection_tok(t_token token);
+t_bool	is_parenthesis_tok(t_token token);
 t_bool	has_path_error(t_minishell *data, t_workspace *vars, char *cmd, int i);
 int		get_connectors_amount(t_node *input);
 void	ft_init(t_minishell *data);
@@ -110,6 +111,7 @@ void	wait_child(t_workspace *vars, int cmds_amount, int should_wait);
 void	set_child_wstatus(t_workspace *vars, pid_t process_id, int status);
 void	skip_pipeline(t_minishell *data, t_workspace *vars, int *index);
 void	wait_conditional_child(t_workspace *vars, int index);
+void	set_input_output_fd(t_minishell *data, t_workspace *vars);
 t_bool	has_conditional_error(t_minishell *data, t_workspace *vars, int index);
 
 /* Builtins */

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/14 17:05:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:37:47 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,6 @@ t_bool	is_word_str(const char *str)
 		index++;
 	}
 	return (TRUE);
-}
-
-t_bool	is_connector_tok(t_token token)
-{
-	return (token == Pipe
-		|| token == Double_Pipe
-		|| token == Double_Ampersand);
-}
-
-t_bool	is_redirection_tok(t_token token)
-{
-	return (token == Less
-		|| token == Double_Less
-		|| token == Great
-		|| token == Double_Great);
 }
 
 int	get_connectors_amount(t_node *input)

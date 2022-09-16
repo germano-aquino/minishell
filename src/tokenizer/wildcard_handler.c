@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/29 15:40:53 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:37:20 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static t_bool	is_a_valid_obj(char **filters, char *obj, char *exp)
 	temp = ft_strnstr(obj, filters[0], ft_strlen(obj));
 	while (filters[++i] != NULL && temp != NULL)
 		temp = ft_strnstr(temp, filters[i], ft_strlen(temp));
-	if (temp == NULL
-		|| (has_suffix && !filter_is_obj_suffix(obj, filters[i - 1])))
+	if (temp == NULL \
+	|| (has_suffix && !filter_is_obj_suffix(obj, filters[i - 1])))
 		return (FALSE);
 	return (TRUE);
 }
@@ -75,12 +75,12 @@ static t_node	*wildcard_handler(t_minishell *data, t_node *input, char *exp)
 	while (objs[++i] != NULL)
 	{
 		if (is_a_valid_obj(filters, objs[i], exp))
-			prev = create_input(objs[i], Word, NULL, prev);
+			prev = create_input(objs[i], TOK_WORD, NULL, prev);
 	}
 	if (prev != input->prev)
 		input = delete_wildcard_token(data, input, &prev);
 	else
-		input->tok = Word;
+		input->tok = TOK_WORD;
 	ft_free_matrix((void *)&objs);
 	ft_free_matrix((void *)&filters);
 	return (input);
@@ -93,7 +93,7 @@ void	wildcard_expansion(t_minishell *data)
 	input = data->input;
 	while (input != NULL)
 	{
-		if (input->tok == Wildcard)
+		if (input->tok == TOK_WILDCARD)
 			input = wildcard_handler(data, input, input->data);
 		else
 			input = input->next;

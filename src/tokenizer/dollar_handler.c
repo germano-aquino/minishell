@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/19 10:51:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 13:19:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
 	while (buff[*i] && !ft_isspace(buff[*i]))
 		(*i)++;
 	delimiter = ft_substr(buff, begin, (*i - begin));
-	buff_to_input(data, delimiter, Word);
+	buff_to_input(data, delimiter, TOK_WORD);
 	free(delimiter);
 }
 
@@ -55,7 +55,7 @@ char	*handle_dollar(t_minishell *data, char *buff, size_t *i)
 	t_node	*last_input;
 
 	last_input = get_last_input(data->input);
-	if (last_input && last_input->tok == Double_Less)
+	if (last_input && last_input->tok == TOK_REDIR_HEREDOC)
 	{
 		handle_heredoc_delimiter(data, buff, i);
 		return (NULL);

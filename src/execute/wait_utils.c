@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:13:39 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/15 17:15:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 16:19:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ t_bool	has_conditional_error(t_minishell *data, t_workspace *vars, int index)
 
 void	skip_pipeline(t_minishell *data, t_workspace *vars, int *index)
 {
-	while (data->cmd.connector[*index] != PIPE
-		&& data->cmd.connector[*index] != NONE)
+	while (data->cmd.connector[*index] != PIPE \
+	&& data->cmd.connector[*index] != NONE)
 	{
+		if (data->cmd.connector[*index] == AND \
+		&& data->cmd.connector[*index - 1] == OR \
+		&& vars->depth[*index - 1] == vars->depth[*index])
+			break ;
 		close(vars->fd[*index][IN]);
 		close(vars->fd[*index][OUT]);
 		++(*index);
@@ -45,16 +49,6 @@ void	skip_pipeline(t_minishell *data, t_workspace *vars, int *index)
 	}
 	close(vars->fd[*index][IN]);
 	close(vars->fd[*index][OUT]);
-}
-
-void	set_child_wstatus(t_workspace *vars, pid_t process_id, int status)
-{
-	size_t	index;
-
-	index = 0;
-	while (vars->pid[index] != process_id)
-		++index;
-	vars->wstatus[index] = status;
 }
 
 void	wait_conditional_child(t_workspace *vars, int index)
