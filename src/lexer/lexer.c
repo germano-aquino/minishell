@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:26:05 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 16:55:24 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:13:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,21 @@ static void	skip_to_next_command(t_minishell *data, t_node **input, int index)
 static void	handle_parenthesis(
 	t_minishell *data, t_node **input, int *curr_depth, int *high_depth)
 {
-	if ((*input)->tok == TOK_OPEN_PARENTHESIS \
-	&& (*input)->prev && !is_connector_tok((*input)->prev->tok) \
+	if ((*input)->tok == TOK_OPEN_PARENTHESIS && (*input)->prev \
+	&& !is_connector_tok((*input)->prev->tok) \
 	&& (*input)->prev->tok != TOK_OPEN_PARENTHESIS)
 		syntax_error(data, *input);
+	if ((*input)->tok == TOK_OPEN_PARENTHESIS && (*input)->next \
+	&& (*input)->next->tok != TOK_WORD \
+	&& (*input)->next->tok != TOK_OPEN_PARENTHESIS)
+		syntax_error(data, (*input)->next);
 	if ((*input)->tok == TOK_CLOSE_PARENTHESIS && (*input)->next \
 	&& !is_connector_tok((*input)->next->tok) \
 	&& !is_parenthesis_tok((*input)->next->tok))
 		syntax_error(data, (*input)->next);
-	if ((*input)->tok == TOK_CLOSE_PARENTHESIS \
-	&& (*input)->prev->tok != TOK_WORD \
-	&& !is_parenthesis_tok((*input)->prev->tok))
+	if ((*input)->tok == TOK_CLOSE_PARENTHESIS && (!(*input)->prev \
+	|| ((*input)->prev->tok != TOK_WORD \
+	&& !is_parenthesis_tok((*input)->prev->tok))))
 		syntax_error(data, *input);
 	if ((*input)->tok == TOK_OPEN_PARENTHESIS)
 	{
@@ -66,7 +70,7 @@ static void	handle_connector(t_minishell *data, t_node **input, int *index)
 
 static void	alloc_number_of_commands(t_minishell *data, int cmds_amount)
 {
-	data->cmd.depth = (int *)ft_calloc(cmds_amount, sizeof(int));
+	data->cmd.depth = (int *)ft_calloc((cmds_amount + 1), sizeof(int));
 	data->cmd.cmd_path = (char **)ft_calloc((cmds_amount + 1), sizeof(char *));
 	data->cmd.args = (char ***)ft_calloc((cmds_amount + 1), sizeof(char **));
 	data->cmd.files = (t_files *)ft_calloc((cmds_amount + 1), sizeof(t_files));
