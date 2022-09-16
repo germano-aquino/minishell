@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/14 16:37:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/15 22:00:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@
 extern int					g_exit_value;	/* Global exit code variable */
 
 typedef struct sigaction	t_sigaction;	/* Used for signal handling */
-typedef struct stat			t_stat;			/* Used for ile checking */
+typedef struct stat			t_stat;			/* Used for file checking */
 typedef struct dirent		t_dirent;		/* Used for wildcards */
 
 /* Input type identifier */
