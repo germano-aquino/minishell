@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/08 15:30:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 17:52:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static void	close_heredoc(
 	t_minishell *data, int *should_int, char *delimiter, char *line)
 {
-	char	*str;
-
 	if (*should_int)
 	{
 		rl_done = FALSE;
@@ -25,12 +23,9 @@ static void	close_heredoc(
 	else if (line)
 		ft_memfree((void *)&line);
 	else
-	{
-		str = ft_strdup("minishell: warning: here-document" \
-			" delimited by end-of-file (wanted `%s')\n");
-		printf(str, delimiter);
-		ft_memfree((void *)&str);
-	}
+		printf("minishell: warning: here-document" \
+		" delimited by end-of-file (wanted `%s')\n", delimiter);
+	g_exit_value = EXIT_SUCCESS;
 }
 
 static int	should_close_heredoc(char *line, int *should_int, char *delimiter)
