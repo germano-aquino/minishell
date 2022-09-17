@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/16 16:05:31 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:35:05 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@
 # define EXIT_BAD_USAGE 2			/* Builtin misuse, syntax error */
 # define EXIT_NOT_EXECUTABLE 126	/* Permission denied, Is a directory */
 # define EXIT_NOT_FOUND 127			/* Command not found */
+# define EXIT_OFFSET 128			/* Offset for signal handling */
 # define EXIT_SIGINT 130			/* Interrupt program, normally Ctrl+C */
 # define EXIT_SIGQUIT 131			/* Interrupt program, normally Ctrl+\ */
 
@@ -82,6 +83,8 @@
 # define GREEN		"\001\x1b[32m\002"	/* ANSI color code for green */
 # define MAGENTA	"\001\x1b[35m\002"	/* ANSI color code for magenta */
 # define CYAN		"\001\x1b[36m\002"	/* ANSI color code for cyan */
+
+# define PROMPT_MAX_LENGTH 4096	/* Max length allowed for custom prompt */
 
 extern int					g_exit_value;	/* Global exit code variable */
 
@@ -105,15 +108,6 @@ typedef enum e_output
 	OUT_APPEND
 }	t_output;
 
-/* Used to set I/O of every command */
-typedef struct s_files
-{
-	t_output	which_output;
-	t_input		which_input;
-	char		*infile;
-	char		*outfile;
-}	t_files;
-
 /* Used for identifying parsing tokens */
 typedef enum e_token
 {
@@ -130,6 +124,7 @@ typedef enum e_token
 	TOK_CLOSE_PARENTHESIS
 }	t_token;
 
+/* Used for identifying command line connections */
 typedef enum e_connector
 {
 	NONE,
@@ -137,6 +132,15 @@ typedef enum e_connector
 	AND,
 	OR
 }	t_connector;
+
+/* Used to set I/O of every command */
+typedef struct s_files
+{
+	t_output	which_output;
+	t_input		which_input;
+	char		*infile;
+	char		*outfile;
+}	t_files;
 
 /* Basic structure of a hashtable node */
 typedef struct s_hnode
@@ -161,7 +165,7 @@ typedef struct s_node
 	struct s_node	*prev;
 }	t_node;
 
-/* Used to keep track of every command I/O, status and identifier (PID) */
+/* Used to keep every command's I/O, status, depth and identifier (PID) */
 typedef struct s_workspace
 {
 	int		**fd;

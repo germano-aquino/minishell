@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/16 13:36:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	out_llong_range(char *str)
+static t_bool	out_llong_range(char *str)
 {
 	t_bool	sign;
 
@@ -30,11 +30,10 @@ static int	out_llong_range(char *str)
 	return (FALSE);
 }
 
-static int	too_many_arguments(t_minishell *data, t_bool is_child)
+static void	too_many_arguments(t_minishell *data, t_bool is_child)
 {
 	ft_putendl_fd("minishell: exit: too many arguments", STDERR);
 	set_exit_value(data, is_child, EXIT_FAILURE);
-	return (TRUE);
 }
 
 static void	numeric_argument_required(t_minishell *data, int index)
@@ -47,7 +46,7 @@ static void	numeric_argument_required(t_minishell *data, int index)
 	exit_free(data, EXIT_BAD_USAGE);
 }
 
-int	builtin_exit(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_exit(t_minishell *data, int index, t_bool is_child)
 {
 	t_llong	exit_code;
 
@@ -60,7 +59,7 @@ int	builtin_exit(t_minishell *data, int index, t_bool is_child)
 		|| !is_number_str(data->cmd.args[index][1]))
 			numeric_argument_required(data, index);
 		else if (data->cmd.args[index][2])
-			return (too_many_arguments(data, is_child));
+			return (too_many_arguments(data, is_child), TRUE);
 		else
 			exit_code = ft_atoll(data->cmd.args[index][1]);
 	}

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/12 21:53:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:26:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*build_prompt(char *user, char *hostname, char *pwd)
 {
-	static char	prompt[4096];
+	static char	prompt[PROMPT_MAX_LENGTH];
 	char		*aux;
 
 	aux = ft_strdup(MAGENTA);
@@ -33,7 +33,7 @@ static char	*build_prompt(char *user, char *hostname, char *pwd)
 		aux = ft_strjoin_free(aux, ft_strdup(" \001✗\002 "));
 	}
 	aux = ft_strjoin_free(aux, ft_strdup(RESET));
-	if (!aux || ft_strlen(aux) >= 4096)
+	if (!aux || ft_strlen(aux) >= PROMPT_MAX_LENGTH)
 		ft_strlcpy(prompt, "[unable to generate prompt]$> ", 32);
 	else
 		ft_strlcpy(prompt, aux, (ft_strlen(aux) + 1));

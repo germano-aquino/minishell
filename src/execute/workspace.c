@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:15:32 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/16 18:13:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:18:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	match_depth_fd(t_minishell *data, t_workspace *vars, int current_index)
 		return ;
 	depth = vars->depth[index];
 	last_of_depth = index;
-	while (last_of_depth < data->cmd.cmds_amount - 1 && \
-	vars->depth[last_of_depth + 1] == depth)
+	while (last_of_depth < data->cmd.cmds_amount - 1 \
+	&& vars->depth[last_of_depth + 1] == depth)
 		++last_of_depth;
 	while (index < last_of_depth)
 	{

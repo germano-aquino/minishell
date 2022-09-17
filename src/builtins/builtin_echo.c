@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:08:57 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 13:32:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_echo(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_echo(t_minishell *data, int index, t_bool is_child)
 {
 	size_t	i;
 	t_bool	newline;

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:13:39 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/16 16:19:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:15:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	skip_pipeline(t_minishell *data, t_workspace *vars, int *index)
 
 void	wait_conditional_child(t_workspace *vars, int index)
 {
-	int	status;
-	int	wait_return;
+	int		status;
+	pid_t	wait_return;
 
 	if (vars->pid[index])
 	{

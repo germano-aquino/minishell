@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 17:18:01 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:31:31 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 # define _POSIX_SOURCE
 
 # include "internals.h"
-
-/* Display (REMOVE LATER) */
-void	display_input(t_node *input);
-void	display_htable(t_hash_table *table);
-void	display_cmd_table(t_command_table *cmd);
 
 /* Minishell */
 int		minishell(char **envp);
@@ -86,13 +81,14 @@ t_bool	is_redirection_tok(t_token token);
 t_bool	is_parenthesis_tok(t_token token);
 t_bool	has_path_error(t_minishell *data, t_workspace *vars, char *cmd, int i);
 int		get_connectors_amount(t_node *input);
-void	ft_init(t_minishell *data);
+void	initialize_minishell(t_minishell *data);
 void	dup42(int fd_1, int fd_2);
 
 /* Garbage collecting */
 void	free_cmd_table(t_command_table *table, t_node *input);
 void	exit_free(t_minishell *data, t_llong exit_code);
 void	free_minishell(t_minishell *data);
+void	free_workspace(t_workspace *vars);
 
 /* Signal handling */
 void	trigger_signal(t_bool ignore_sigquit, void *handler);
@@ -115,19 +111,19 @@ void	set_input_output_fd(t_minishell *data, t_workspace *vars);
 t_bool	has_conditional_error(t_minishell *data, t_workspace *vars, int index);
 
 /* Builtins */
-int		builtin_cd(t_minishell *data, int index, t_bool is_child);
-int		builtin_echo(t_minishell *data, int index, t_bool is_child);
-int		builtin_env(t_minishell *data, t_bool is_child);
-int		builtin_exit(t_minishell *data, int index, t_bool is_child);
-int		builtin_export(t_minishell *data, int index, t_bool is_child);
-int		builtin_pwd(t_minishell *data, t_bool is_child);
-int		builtin_unset(t_minishell *data, int index, t_bool is_child);
+t_bool	builtin_cd(t_minishell *data, int index, t_bool is_child);
+t_bool	builtin_echo(t_minishell *data, int index, t_bool is_child);
+t_bool	builtin_env(t_minishell *data, t_bool is_child);
+t_bool	builtin_exit(t_minishell *data, int index, t_bool is_child);
+t_bool	builtin_export(t_minishell *data, int index, t_bool is_child);
+t_bool	builtin_pwd(t_minishell *data, t_bool is_child);
+t_bool	builtin_unset(t_minishell *data, int index, t_bool is_child);
 
 /* Builtin utils */
 t_bool	is_builtin(char *cmd);
 void	set_io_builtin(t_minishell *data, t_workspace *vars, int *std_io);
 void	reset_io_builtin(t_workspace *vars, int *std_io);
-int		check_builtin(t_minishell *data, int index, t_bool is_child);
-int		exec_builtin(t_minishell *data, int index, t_bool is_child);
+t_bool	check_builtin(t_minishell *data, int index, t_bool is_child);
+t_bool	exec_builtin(t_minishell *data, int index, t_bool is_child);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 14:07:01 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:57:40 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,16 @@ void	close_fd_err(t_minishell *data)
 
 void	free_minishell(t_minishell *data)
 {
+	data->should_wait = 0;
 	free_cmd_table(&data->cmd, data->input);
 	free_input(&data->input);
 	close_fd_err(data);
+}
+
+void	free_workspace(t_workspace *vars)
+{
+	ft_memfree((void *)&vars->pid);
+	ft_memfree((void *)&vars->depth);
+	ft_memfree((void *)&vars->wstatus);
+	ft_free_matrix((void *)&vars->fd);
 }

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/31 14:09:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 	}
 }
 
-int	builtin_export(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_export(t_minishell *data, int index, t_bool is_child)
 {
 	if (!data->cmd.args[index][1])
 		display_export(&data->env);

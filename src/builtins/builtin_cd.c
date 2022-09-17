@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 09:29:02 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/31 12:45:08 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	cd_error(t_minishell *data, t_bool is_child, char *msg, char *dir)
+static void	cd_error(t_minishell *data, t_bool is_child, char *msg, char *dir)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR);
 	if (msg)
@@ -20,7 +20,6 @@ static int	cd_error(t_minishell *data, t_bool is_child, char *msg, char *dir)
 	else
 		perror(dir);
 	set_exit_value(data, is_child, EXIT_FAILURE);
-	return (TRUE);
 }
 
 static void	set_env_pwd_and_oldpwd(t_minishell *data, char *oldpwd)
@@ -40,25 +39,25 @@ static void	set_env_pwd_and_oldpwd(t_minishell *data, char *oldpwd)
 	free(oldpwd);
 }
 
-int	builtin_cd(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_cd(t_minishell *data, int index, t_bool is_child)
 {
 	char	*dir;
 	char	*oldpwd;
 
 	dir = data->cmd.args[index][1];
 	if (dir && data->cmd.args[index][2])
-		return (cd_error(data, is_child, "too many arguments", dir));
+		return (cd_error(data, is_child, "too many arguments", dir), TRUE);
 	if (!dir)
 	{
 		dir = ht_search(&data->env, "HOME");
 		if (!dir)
-			return (cd_error(data, is_child, "HOME not set", dir));
+			return (cd_error(data, is_child, "HOME not set", dir), TRUE);
 	}
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(dir) == -1)
 	{
 		free(oldpwd);
-		return (cd_error(data, is_child, NULL, dir));
+		return (cd_error(data, is_child, NULL, dir), TRUE);
 	}
 	set_env_pwd_and_oldpwd(data, oldpwd);
 	set_exit_value(data, is_child, EXIT_SUCCESS);

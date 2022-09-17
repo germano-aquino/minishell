@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:45 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/16 23:11:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:56:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_minishell *data, int index, t_bool is_child)
+t_bool	exec_builtin(t_minishell *data, int index, t_bool is_child)
 {
 	t_bool	status;
 
@@ -34,7 +34,7 @@ int	exec_builtin(t_minishell *data, int index, t_bool is_child)
 	return (status);
 }
 
-int	check_builtin(t_minishell *data, int index, t_bool is_child)
+t_bool	check_builtin(t_minishell *data, int index, t_bool is_child)
 {
 	t_workspace	vars;
 	t_bool		status;
@@ -42,10 +42,10 @@ int	check_builtin(t_minishell *data, int index, t_bool is_child)
 
 	if (!is_builtin(data->cmd.cmd_path[index]))
 		return (FALSE);
-	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && is_child == FALSE)
+	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && !is_child)
 		set_io_builtin(data, &vars, std_io);
 	status = exec_builtin(data, index, is_child);
-	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && is_child == FALSE)
+	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && !is_child)
 		reset_io_builtin(&vars, std_io);
 	return (status);
 }

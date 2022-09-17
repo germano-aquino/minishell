@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 16:10:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:02:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,14 @@ static void	child_routine(t_minishell *data, t_workspace *vars, int index)
 	trigger_signal(FALSE, &child_handler);
 	dup2(vars->fd[index][IN], STDIN);
 	dup2(vars->fd[index][OUT], STDOUT);
-	dup2(data->fd_err, STDERR);
+	dup42(data->fd_err, STDERR);
 	i = -1;
 	while (++i < data->cmd.cmds_amount)
 	{
 		close(vars->fd[i][IN]);
 		close(vars->fd[i][OUT]);
 	}
-	close(data->fd_err);
-	ft_memfree((void *)&vars->pid);
-	ft_memfree((void *)&vars->depth);
-	ft_memfree((void *)&vars->wstatus);
-	ft_free_matrix((void *)&vars->fd);
+	free_workspace(vars);
 	call_execve_or_builtin(data, get_env_from_ht(&data->env), index);
 }
 
@@ -93,8 +89,5 @@ void	execute(t_minishell *data)
 	while (++index < data->cmd.cmds_amount)
 		create_fork(data, &vars, &index);
 	wait_child(&vars, data->cmd.cmds_amount, data->should_wait);
-	ft_memfree((void *)&vars.pid);
-	ft_memfree((void *)&vars.depth);
-	ft_memfree((void *)&vars.wstatus);
-	ft_free_matrix((void *)&vars.fd);
+	free_workspace(&vars);
 }

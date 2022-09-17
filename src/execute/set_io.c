@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:17:41 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/16 23:11:16 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 02:04:22 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void	set_output_files(t_minishell *data, t_workspace *vars, int i)
 	const char		*file_out = data->cmd.files[i].outfile;
 	int				outfile_fd;
 
-	if (current_output == OUT_STDOUT && \
-	(i == data->cmd.cmds_amount - 1 || data->cmd.connector[i] != PIPE))
+	if (current_output == OUT_STDOUT \
+	&& (i == data->cmd.cmds_amount - 1 || data->cmd.connector[i] != PIPE))
 		outfile_fd = dup(STDOUT);
 	else if (current_output == OUT_TRUNC)
 		outfile_fd = open(file_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -36,9 +36,8 @@ static void	set_input_files(t_minishell *data, t_workspace *vars, int i)
 	const char		*file_in = data->cmd.files[i].infile;
 	int				infile_fd;
 
-	if (i == 0 && current_input == IN_STDIN)
-		infile_fd = dup(STDIN);
-	else if (current_input == IN_STDIN && data->cmd.connector[i - 1] != PIPE)
+	if (current_input == IN_STDIN \
+	&& (i == 0 || data->cmd.connector[i - 1] != PIPE))
 		infile_fd = dup(STDIN);
 	else if (current_input == IN_INFILE || current_input == IN_HEREDOC)
 		infile_fd = open(file_in, O_RDONLY);

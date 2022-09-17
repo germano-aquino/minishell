@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 19:08:27 by maolivei          #+#    #+#             */
-/*   Updated: 2022/07/26 20:55:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_unset(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_unset(t_minishell *data, int index, t_bool is_child)
 {
 	size_t	i;
 
