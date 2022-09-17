@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 13:37:20 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/17 14:49:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ void	wildcard_expansion(t_minishell *data)
 	input = data->input;
 	while (input != NULL)
 	{
+		if (input->tok == TOK_WILDCARD \
+		&& input->prev && input->prev->tok == TOK_REDIR_HEREDOC)
+			input->tok = TOK_WORD;
 		if (input->tok == TOK_WILDCARD)
 			input = wildcard_handler(data, input, input->data);
 		else
