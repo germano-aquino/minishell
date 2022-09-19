@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:13:39 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/19 13:06:10 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:20:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	skip_pipeline(t_minishell *data, t_workspace *vars, int *index)
 		close(vars->fd[*index][OUT]);
 		++(*index);
 	}
-	if (previous_depth != current_depth)
+	if (previous_depth != current_depth && current_depth != 1)
 		skip_matching_depth(vars, index, current_depth);
 	else
 	{
