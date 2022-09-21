@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:59:00 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 16:23:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:35:57 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ static void	word_syntax_error(t_data *data, t_node *input)
 	redisplay_prompt(data, error, error, EXIT_BAD_USAGE);
 }
 
-void	syntax_error(t_data *data, t_program *program, t_node *input)
+void	syntax_error(t_data *data, t_node *input)
 {
-	free_programs(&program);
 	if (!input)
 		redisplay_prompt(data, ERR_SYNTAX NEWLINE_STR, NULL, EXIT_BAD_USAGE);
 	else if (input->tok == TOK_REDIR_TRUNC)

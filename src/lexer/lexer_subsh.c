@@ -6,37 +6,42 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:43:05 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 16:24:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:41:57 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_subsh_syntax(t_data *data, t_program *program, t_node *input)
+static t_bool	has_syntax_error(t_node **input)
 {
-	if (input->tok == TOK_OPEN_PARENTHESIS && input->prev \
-	&& !is_connector_tok(input->prev->tok) \
-	&& input->prev->tok != TOK_OPEN_PARENTHESIS)
-		syntax_error(data, program, input);
-	if (input->tok == TOK_OPEN_PARENTHESIS && input->next \
-	&& input->next->tok != TOK_WORD \
-	&& input->next->tok != TOK_OPEN_PARENTHESIS)
-		syntax_error(data, program, input->next);
-	if (input->tok == TOK_CLOSE_PARENTHESIS && input->next \
-	&& input->next->tok == TOK_WORD \
-	&& !is_parenthesis_tok(input->next->tok))
-		syntax_error(data, program, input->next);
-	if (input->tok == TOK_CLOSE_PARENTHESIS && (!input->prev \
-	|| (input->prev->tok != TOK_WORD \
-	&& !is_parenthesis_tok(input->prev->tok))))
-		syntax_error(data, program, input);
+	if ((*input)->tok == TOK_OPEN_PARENTHESIS && (*input)->prev \
+	&& !is_connector_tok((*input)->prev->tok) \
+	&& (*input)->prev->tok != TOK_OPEN_PARENTHESIS)
+		return (TRUE);
+	if ((*input)->tok == TOK_OPEN_PARENTHESIS && (*input)->next \
+	&& (*input)->next->tok != TOK_WORD \
+	&& (*input)->next->tok != TOK_OPEN_PARENTHESIS)
+		return ((*input) = (*input)->next, TRUE);
+	if ((*input)->tok == TOK_CLOSE_PARENTHESIS && (*input)->next \
+	&& (*input)->next->tok == TOK_WORD \
+	&& !is_parenthesis_tok((*input)->next->tok))
+		return ((*input) = (*input)->next, TRUE);
+	if ((*input)->tok == TOK_CLOSE_PARENTHESIS && (!(*input)->prev \
+	|| ((*input)->prev->tok != TOK_WORD \
+	&& !is_parenthesis_tok((*input)->prev->tok))))
+		return (TRUE);
+	return (FALSE);
 }
 
 void	handle_subsh_tok(t_data *data, t_program *program, t_node **input)
 {
 	t_program	*tmp;
 
-	check_subsh_syntax(data, program, *input);
+	if (has_syntax_error(input))
+	{
+		free_programs(&program);
+		syntax_error(data, (*input));
+	}
 	(*input) = (*input)->next;
 	program->type = SUBSHELL;
 	program->left = create_program(data, input, TRUE);
@@ -48,6 +53,10 @@ void	handle_subsh_tok(t_data *data, t_program *program, t_node **input)
 		tmp->right = create_program(data, input, TRUE);
 		tmp = tmp->right;
 	}
-	check_subsh_syntax(data, program, *input);
+	if (has_syntax_error(input))
+	{
+		free_programs(&program);
+		syntax_error(data, (*input));
+	}
 	(*input) = (*input)->next;
 }

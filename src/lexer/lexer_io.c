@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 16:24:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:36:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	handle_redir_tok(t_data *data, t_program *program, t_node **input)
 
 	new_file = NULL;
 	if (!(*input)->next || (*input)->next->tok != TOK_WORD)
-		syntax_error(data, program, (*input)->next);
+	{
+		free_programs(&program);
+		syntax_error(data, (*input)->next);
+	}
 	(*input) = (*input)->next;
 	if ((*input)->prev->tok == TOK_REDIR_TRUNC \
 	|| (*input)->prev->tok == TOK_REDIR_APPEND)
