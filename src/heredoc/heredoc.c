@@ -6,14 +6,14 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 18:19:44 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/17 17:52:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	close_heredoc(
-	t_minishell *data, int *should_int, char *delimiter, char *line)
+	t_data *data, int *should_int, char *delimiter, char *line)
 {
 	if (*should_int)
 	{
@@ -38,7 +38,7 @@ static int	should_close_heredoc(char *line, int *should_int, char *delimiter)
 	return (should_close);
 }
 
-static char	*environment_variable_expansion(t_minishell *data, char *line)
+static char	*environment_variable_expansion(t_data *data, char *line)
 {
 	char	*new_line;
 	char	*temp;
@@ -67,7 +67,7 @@ static char	*environment_variable_expansion(t_minishell *data, char *line)
 	return (new_line);
 }
 
-void	ft_here_doc(t_minishell *data, char *delimiter)
+void	ft_here_doc(t_data *data, char *delimiter)
 {
 	char	*line;
 	int		fd;

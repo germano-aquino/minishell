@@ -6,32 +6,33 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:08:57 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	builtin_echo(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_echo(t_data *data, char **argv, t_bool is_child)
 {
 	size_t	i;
 	t_bool	newline;
 
 	i = 1;
 	newline = TRUE;
-	if (data->cmd.args[index][i] && !ft_strcmp(data->cmd.args[index][i], "-n"))
+	if (argv[i] && !ft_strcmp(argv[i], "-n"))
 	{
 		newline = FALSE;
 		++i;
 	}
-	while (data->cmd.args[index][i])
+	while (argv[i])
 	{
-		ft_putstr_fd(data->cmd.args[index][i++], STDOUT);
-		if (data->cmd.args[index][i])
+		ft_putstr_fd(argv[i++], STDOUT);
+		if (argv[i])
 			ft_putchar_fd(' ', STDOUT);
 	}
 	if (newline)
 		ft_putendl_fd("", STDOUT);
+	ft_free_matrix((void *)&argv);
 	set_exit_value(data, is_child, EXIT_SUCCESS);
 	return (TRUE);
 }

@@ -6,88 +6,43 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/17 02:02:25 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:21:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	call_execve_or_builtin(t_minishell *data, char **envp, int index)
+static int	create_fork(t_data *data, t_program **program)
 {
-	if (!is_builtin(data->cmd.cmd_path[index]))
-	{
-		if (execve(data->cmd.cmd_path[index], data->cmd.args[index], envp) != 0)
-		{
-			ft_free_matrix((void *)&envp);
-			exit_perror(data, *data->cmd.args[index], "execve", EXIT_FAILURE);
-		}
-	}
-	ft_free_matrix((void *)&envp);
-	check_builtin(data, index, TRUE);
-}
-
-static void	parent_routine(t_minishell *data, t_workspace *vars, int index)
-{
-	close(vars->fd[index][IN]);
-	close(vars->fd[index][OUT]);
-	if (data->cmd.connector[index] == AND || data->cmd.connector[index] == OR)
-		wait_conditional_child(vars, index);
+	if (has_conditional_error(data->previous_program))
+		return (skip_pipeline(&data->previous_program, program), 1);
+	if ((*program)->connector == PIPE)
+		pipe((*program)->pipe_fd);
+	(*program)->pid = fork();
+	if ((*program)->pid == 0)
+		child_routine(data, (*program));
+	else if ((*program)->pid < 0)
+		return (0);
 	else
-		++data->should_wait;
+		parent_routine(data, (*program));
+	return (0);
 }
 
-static void	child_routine(t_minishell *data, t_workspace *vars, int index)
+void	execute(t_data *data, t_program *root)
 {
-	int	i;
-
-	trigger_signal(FALSE, &child_handler);
-	dup2(vars->fd[index][IN], STDIN);
-	dup2(vars->fd[index][OUT], STDOUT);
-	dup42(data->fd_err, STDERR);
-	i = -1;
-	while (++i < data->cmd.cmds_amount)
+	if (!root)
+		return ;
+	trigger_signal(FALSE, cmd_handler);
+	if (!root->right && root->type == NORMAL && is_builtin(root->path))
 	{
-		close(vars->fd[i][IN]);
-		close(vars->fd[i][OUT]);
-	}
-	free_workspace(vars);
-	call_execve_or_builtin(data, get_env_from_ht(&data->env), index);
-}
-
-static void	create_fork(t_minishell *data, t_workspace *vars, int *index)
-{
-	if (*index > 0 && has_conditional_error(data, vars, *index))
-	{
-		skip_pipeline(data, vars, index);
+		exec_builtin(data, root, FALSE);
 		return ;
 	}
-	if (has_path_error(data, vars, data->cmd.cmd_path[*index], *index))
+	while (root)
 	{
-		close(vars->fd[*index][IN]);
-		close(vars->fd[*index][OUT]);
-		return ;
+		if (create_fork(data, &root) != 0)
+			continue ;
+		root = root->right;
 	}
-	vars->pid[*index] = fork();
-	if (vars->pid[*index] == 0)
-		child_routine(data, vars, *index);
-	else if (vars->pid[*index] < 0)
-		return ;
-	else
-		parent_routine(data, vars, *index);
-}
-
-void	execute(t_minishell *data)
-{
-	t_workspace	vars;
-	int			index;
-
-	if (data->cmd.cmds_amount == 0)
-		return ;
-	trigger_signal(FALSE, &cmd_handler);
-	initialize_workspace(data, &vars);
-	index = -1;
-	while (++index < data->cmd.cmds_amount)
-		create_fork(data, &vars, &index);
-	wait_child(&vars, data->cmd.cmds_amount, data->should_wait);
-	free_workspace(&vars);
+	wait_child(data);
 }

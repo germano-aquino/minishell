@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 00:39:17 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 13:19:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*handle_number_var(char *buff, size_t *i)
 	return (NULL);
 }
 
-static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
+static void	handle_heredoc_delimiter(t_data *data, char *buff, size_t *i)
 {
 	char	*delimiter;
 	size_t	begin;
@@ -49,7 +49,7 @@ static void	handle_heredoc_delimiter(t_minishell *data, char *buff, size_t *i)
 	free(delimiter);
 }
 
-char	*handle_dollar(t_minishell *data, char *buff, size_t *i)
+char	*handle_dollar(t_data *data, char *buff, size_t *i)
 {
 	char	*env_var;
 	t_node	*last_input;

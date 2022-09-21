@@ -6,82 +6,64 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 20:29:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 13:49:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:24:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	create_file(t_node *input)
+static t_io_file	*handle_redir_input_tok(t_node **input)
 {
-	int	fd;
+	t_io_file	*infile;
 
-	if (input->prev->tok == TOK_REDIR_TRUNC)
-		fd = open(input->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else
-		fd = open(input->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	close(fd);
+	infile = (t_io_file *)malloc(sizeof(t_io_file));
+	infile->filename = ft_strdup((*input)->data);
+	infile->io_type = IO_INFILE;
+	return (infile);
 }
 
-static int	handle_redir_input(t_minishell *data, t_node **input, int index)
+static t_io_file	*handle_redir_output_tok(t_node **input)
 {
-	if (access((*input)->data, R_OK) != 0)
-	{
-		g_exit_value = EXIT_FAILURE;
-		return (print_perror_msg(NULL, (*input)->data));
-	}
-	if (data->cmd.files[index].infile)
-		ft_memfree((void *)&data->cmd.files[index].infile);
-	data->cmd.files[index].infile = ft_strdup((*input)->data);
-	data->cmd.files[index].which_input = IN_INFILE;
-	*input = (*input)->next;
-	return (FALSE);
-}
+	t_io_file	*outfile;
 
-static int	handle_redir_output(t_minishell *data, t_node **input, int index)
-{
-	if (access((*input)->data, F_OK) == 0 && access((*input)->data, W_OK) != 0)
-	{
-		g_exit_value = EXIT_FAILURE;
-		return (print_perror_msg(NULL, (*input)->data));
-	}
-	if (data->cmd.files[index].outfile)
-		ft_memfree((void *)&data->cmd.files[index].outfile);
+	outfile = (t_io_file *)malloc(sizeof(t_io_file));
+	outfile->filename = ft_strdup((*input)->data);
 	if ((*input)->prev->tok == TOK_REDIR_TRUNC)
-		data->cmd.files[index].which_output = OUT_TRUNC;
+		outfile->io_type = IO_TRUNC;
 	else
-		data->cmd.files[index].which_output = OUT_APPEND;
-	data->cmd.files[index].outfile = ft_strdup((*input)->data);
-	create_file(*input);
-	*input = (*input)->next;
-	return (FALSE);
+		outfile->io_type = IO_APPEND;
+	return (outfile);
 }
 
-static int	handle_heredoc(t_minishell *data, t_node **input, int index)
+static t_io_file	*handle_heredoc_tok(t_data *data, t_node **input)
 {
-	if (data->cmd.files[index].infile)
-		ft_memfree((void *)&data->cmd.files[index].infile);
-	data->cmd.files[index].infile = ft_strdup(TMP_HEREDOC_PATH);
-	data->cmd.files[index].which_input = IN_HEREDOC;
+	t_io_file	*heredoc;
+
+	heredoc = (t_io_file *)malloc(sizeof(t_io_file));
+	heredoc->filename = ft_strdup(TMP_HEREDOC_PATH);
+	heredoc->io_type = IO_HEREDOC;
 	ft_here_doc(data, (*input)->data);
-	*input = (*input)->next;
-	return (FALSE);
+	return (heredoc);
 }
 
-int	handle_redir(t_minishell *data, t_node **input, int index)
+void	handle_redir_tok(t_data *data, t_program *program, t_node **input)
 {
-	int	err;
+	t_io_file	*new_file;
 
-	err = 0;
+	new_file = NULL;
 	if (!(*input)->next || (*input)->next->tok != TOK_WORD)
-		syntax_error(data, (*input)->next);
-	*input = (*input)->next;
+		syntax_error(data, program, (*input)->next);
+	(*input) = (*input)->next;
 	if ((*input)->prev->tok == TOK_REDIR_TRUNC \
 	|| (*input)->prev->tok == TOK_REDIR_APPEND)
-		err = handle_redir_output(data, input, index);
+		new_file = handle_redir_output_tok(input);
 	else if ((*input)->prev->tok == TOK_REDIR_INFILE)
-		err = handle_redir_input(data, input, index);
+		new_file = handle_redir_input_tok(input);
 	else if ((*input)->prev->tok == TOK_REDIR_HEREDOC)
-		err = handle_heredoc(data, input, index);
-	return (err);
+		new_file = handle_heredoc_tok(data, input);
+	if (!program->io_files)
+		program->io_files = ft_lstnew(new_file);
+	else
+		ft_lstadd_back(&program->io_files, ft_lstnew(new_file));
+	(*input) = (*input)->next;
 }

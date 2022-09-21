@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 01:53:32 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 03:01:43 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,15 @@ static void	display_export(t_hash_table *table)
 	}
 }
 
-static void	invalid_identifier(
-	t_minishell *data, char *key, char *value, t_bool is_child)
+static void	invalid_identifier(char *key)
 {
 	ft_putstr_fd("minishell: export: `", STDERR);
 	ft_putstr_fd(key, STDERR);
 	ft_putendl_fd("': not a valid identifier", STDERR);
-	if (is_child)
-	{
-		ft_memfree((void *)&key);
-		ft_memfree((void *)&value);
-		exit_free(data, EXIT_FAILURE);
-	}
 	g_exit_value = EXIT_FAILURE;
 }
 
-static void	set_variable(t_minishell *data, int index, t_bool is_child)
+static void	set_variable(t_data *data, char **argv)
 {
 	char	*key;
 	char	*value;
@@ -56,11 +49,11 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 	size_t	i;
 
 	i = 0;
-	while (data->cmd.args[index][++i])
+	while (argv[++i])
 	{
-		key = ft_strdup(data->cmd.args[index][i]);
+		key = ft_strdup(argv[i]);
 		value = NULL;
-		aux = ft_strchr(data->cmd.args[index][i], '=');
+		aux = ft_strchr(argv[i], '=');
 		if (aux)
 		{
 			value = ft_strdup(aux + 1);
@@ -68,7 +61,7 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 		}
 		g_exit_value = EXIT_SUCCESS;
 		if (!is_word_str(key))
-			invalid_identifier(data, key, value, is_child);
+			invalid_identifier(key);
 		else
 			ht_insert(&data->env, key, value);
 		ft_memfree((void *)&key);
@@ -76,12 +69,13 @@ static void	set_variable(t_minishell *data, int index, t_bool is_child)
 	}
 }
 
-t_bool	builtin_export(t_minishell *data, int index, t_bool is_child)
+t_bool	builtin_export(t_data *data, char **argv, t_bool is_child)
 {
-	if (!data->cmd.args[index][1])
+	if (!argv[1])
 		display_export(&data->env);
-	set_variable(data, index, is_child);
+	set_variable(data, argv);
+	ft_free_matrix((void *)&argv);
 	if (is_child)
-		exit_free(data, EXIT_SUCCESS);
+		exit_free(data, g_exit_value);
 	return (TRUE);
 }

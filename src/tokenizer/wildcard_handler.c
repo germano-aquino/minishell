@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:11:23 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/17 14:49:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_bool	is_a_valid_obj(char **filters, char *obj, char *exp)
 }
 
 static t_node	*delete_wildcard_token(
-	t_minishell *data, t_node *input, t_node **last)
+	t_data *data, t_node *input, t_node **last)
 {
 	t_node	*ret;
 
@@ -61,7 +61,7 @@ static t_node	*delete_wildcard_token(
 	return (ret);
 }
 
-static t_node	*wildcard_handler(t_minishell *data, t_node *input, char *exp)
+static t_node	*wildcard_handler(t_data *data, t_node *input, char *exp)
 {
 	char	**filters;
 	char	**objs;
@@ -86,7 +86,7 @@ static t_node	*wildcard_handler(t_minishell *data, t_node *input, char *exp)
 	return (input);
 }
 
-void	wildcard_expansion(t_minishell *data)
+void	wildcard_expansion(t_data *data)
 {
 	t_node	*input;
 

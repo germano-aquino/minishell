@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_path_validation.c                              :+:      :+:    :+:   */
+/*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 16:05:14 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/15 21:31:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 03:26:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,30 @@ t_bool	is_directory(char *path)
 	return (FALSE);
 }
 
-t_bool	has_path_error(t_minishell *data, t_workspace *vars, char *cmd, int i)
+t_bool	has_path_error(t_program *program)
 {
-	if (!cmd)
+	if (!program->args)
+		return (FALSE);
+	if (!program->path)
 	{
-		vars->wstatus[i] = EXIT_NOT_FOUND;
-		return (print_error_msg(*data->cmd.args[i], "command not found"));
+		program->wstatus = EXIT_NOT_FOUND;
+		return (print_error_msg((char *)program->args->content,
+				"command not found"));
 	}
-	if (*cmd == -1)
-		return (vars->wstatus[i] = EXIT_FAILURE, TRUE);
-	if (is_directory(cmd))
+	if (is_directory(program->path))
 	{
-		vars->wstatus[i] = EXIT_NOT_EXECUTABLE;
-		return (print_error_msg(cmd, "Is a directory"));
+		program->wstatus = EXIT_NOT_EXECUTABLE;
+		return (print_error_msg(program->path, "Is a directory"));
 	}
-	if (access(cmd, F_OK) == 0 && access(cmd, X_OK) != 0)
+	if (access(program->path, F_OK) == 0 && access(program->path, X_OK) != 0)
 	{
-		vars->wstatus[i] = EXIT_NOT_EXECUTABLE;
-		return (print_perror_msg(NULL, cmd));
+		program->wstatus = EXIT_NOT_EXECUTABLE;
+		return (print_perror_msg(NULL, program->path));
 	}
-	if (!is_builtin(cmd) && access(cmd, F_OK) != 0)
+	if (!is_builtin(program->path) && access(program->path, F_OK) != 0)
 	{
-		vars->wstatus[i] = EXIT_NOT_FOUND;
-		return (print_perror_msg(NULL, cmd));
+		program->wstatus = EXIT_NOT_FOUND;
+		return (print_perror_msg(NULL, program->path));
 	}
 	return (FALSE);
 }

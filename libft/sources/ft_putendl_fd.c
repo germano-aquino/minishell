@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:12:16 by maolivei          #+#    #+#             */
-/*   Updated: 2022/04/08 17:15:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:10:23 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
+	char	*endl;
+
 	if (!s)
 		return ;
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	endl = ft_strjoin(s, "\n");
+	ft_putstr_fd(endl, fd);
+	free(endl);
 }

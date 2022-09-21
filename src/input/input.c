@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 00:22:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/08/31 13:32:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:44:46 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*create_input(const char *str, t_token tok, t_node *next, t_node *prev)
+t_node	*create_input(char *str, t_token tok, t_node *next, t_node *prev)
 {
 	t_node	*new_input;
 

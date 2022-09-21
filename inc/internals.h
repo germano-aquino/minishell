@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 02:35:05 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:34:26 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 /* access, chdir, close, dup2, dup, execve, exit, fork, pipe, read, unlink */
 # include <unistd.h>
 # include <fcntl.h>				/* open */
+# include <errno.h>				/* errno, strerror */
 # include <stdio.h>				/* printf, perror */
 # include <dirent.h>			/* readdir */
 # include <signal.h>			/* sigaction, sigemptyset */
@@ -92,22 +93,6 @@ typedef struct sigaction	t_sigaction;	/* Used for signal handling */
 typedef struct stat			t_stat;			/* Used for file checking */
 typedef struct dirent		t_dirent;		/* Used for wildcards */
 
-/* Input type identifier */
-typedef enum e_input
-{
-	IN_STDIN,
-	IN_INFILE,
-	IN_HEREDOC
-}	t_input;
-
-/* Output type identifier */
-typedef enum e_output
-{
-	OUT_STDOUT,
-	OUT_TRUNC,
-	OUT_APPEND
-}	t_output;
-
 /* Used for identifying parsing tokens */
 typedef enum e_token
 {
@@ -133,14 +118,21 @@ typedef enum e_connector
 	OR
 }	t_connector;
 
-/* Used to set I/O of every command */
-typedef struct s_files
+/* Used for identifying wether next process is a subshell or not */
+typedef enum e_node_type
 {
-	t_output	which_output;
-	t_input		which_input;
-	char		*infile;
-	char		*outfile;
-}	t_files;
+	NORMAL,
+	SUBSHELL
+}	t_node_type;
+
+/* Used for identifying  */
+typedef enum e_io_type
+{
+	IO_INFILE,
+	IO_HEREDOC,
+	IO_TRUNC,
+	IO_APPEND
+}	t_io_type;
 
 /* Basic structure of a hashtable node */
 typedef struct s_hnode
@@ -165,34 +157,37 @@ typedef struct s_node
 	struct s_node	*prev;
 }	t_node;
 
-/* Used to keep every command's I/O, status, depth and identifier (PID) */
-typedef struct s_workspace
+/* Used for storing each command's redirections */
+typedef struct s_io_file
 {
-	int		**fd;
-	int		*wstatus;
-	int		*depth;
-	pid_t	*pid;
-}	t_workspace;
+	char		*filename;
+	t_io_type	io_type;
+}	t_io_file;
 
-/* Used to store all commands with it's respective paths, arguments and I/O's */
-typedef struct s_command_table
+/* Tree-like structure, used for storing the current command execution chain */
+typedef struct s_program
 {
-	int			cmds_amount;
-	int			*depth;
-	char		**cmd_path;
-	char		***args;
-	t_files		*files;
-	t_connector	*connector;
-}	t_command_table;
+	char				*path;
+	int					pipe_fd[PIPE_SIZE];
+	int					wstatus;
+	pid_t				pid;
+	t_list				*args;
+	t_list				*io_files;
+	t_node_type			type;
+	t_connector			connector;
+	struct s_program	*left;
+	struct s_program	*right;
+}	t_program;
 
 /* Main data structure, used to contain almost all structures defined */
-typedef struct s_minishell
+typedef struct s_data
 {
-	t_command_table	cmd;
 	t_hash_table	env;
+	t_program		*programs;
+	t_program		*previous_program;
 	t_node			*input;
 	int				fd_err;
 	int				should_wait;
-}	t_minishell;
+}	t_data;
 
 #endif /* INTERNALS_H */

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:18:04 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 01:59:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	minishell(char **envp)
 {
-	t_minishell	data;
+	t_data	data;
 
 	initialize_minishell(&data);
 	populate_env_table(&data.env, envp);

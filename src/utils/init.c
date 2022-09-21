@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:17:18 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 02:26:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_minishell(t_minishell *data)
+void	initialize_minishell(t_data *data)
 {
 	int	i;
 
@@ -20,16 +20,12 @@ void	initialize_minishell(t_minishell *data)
 	while (++i < HASH_TABLE_SIZE)
 		data->env.item[i] = NULL;
 	data->input = NULL;
-	data->cmd.cmd_path = NULL;
-	data->cmd.args = NULL;
-	data->cmd.files = NULL;
-	data->cmd.connector = NULL;
-	data->cmd.depth = NULL;
-	data->cmd.cmds_amount = 0;
+	data->programs = NULL;
+	data->previous_program = NULL;
 	data->should_wait = 0;
 }
 
-void	open_fd_err(t_minishell *data)
+void	open_fd_err(t_data *data)
 {
 	int	fd_err;
 

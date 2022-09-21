@@ -6,46 +6,50 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:45 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 01:56:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 03:08:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	exec_builtin(t_minishell *data, int index, t_bool is_child)
+static void	restore_default_fds(int *std_fd, t_bool is_child)
 {
-	t_bool	status;
-
-	status = FALSE;
-	if (ft_strcmp(*data->cmd.args[index], "exit") == 0)
-		status = builtin_exit(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "echo") == 0)
-		status = builtin_echo(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "export") == 0)
-		status = builtin_export(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "env") == 0)
-		status = builtin_env(data, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "unset") == 0)
-		status = builtin_unset(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "cd") == 0)
-		status = builtin_cd(data, index, is_child);
-	else if (ft_strcmp(*data->cmd.args[index], "pwd") == 0)
-		status = builtin_pwd(data, is_child);
-	return (status);
+	if (is_child)
+		return ;
+	dup42(std_fd[IN], STDIN);
+	dup42(std_fd[OUT], STDOUT);
 }
 
-t_bool	check_builtin(t_minishell *data, int index, t_bool is_child)
+static void	save_default_fds(int *std_fd, t_bool is_child)
 {
-	t_workspace	vars;
-	t_bool		status;
-	int			std_io[PIPE_SIZE];
+	if (is_child)
+		return ;
+	std_fd[IN] = dup(STDIN);
+	std_fd[OUT] = dup(STDOUT);
+}
 
-	if (!is_builtin(data->cmd.cmd_path[index]))
-		return (FALSE);
-	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && !is_child)
-		set_io_builtin(data, &vars, std_io);
-	status = exec_builtin(data, index, is_child);
-	if (ft_strcmp(data->cmd.cmd_path[index], "exit") != 0 && !is_child)
-		reset_io_builtin(&vars, std_io);
-	return (status);
+void	exec_builtin(t_data *data, t_program *program, t_bool is_child)
+{
+	char	**argv;
+	int		std_fd[PIPE_SIZE];
+
+	save_default_fds(std_fd, is_child);
+	if (handle_redirections(data, program, is_child) != 0)
+		return (restore_default_fds(std_fd, is_child));
+	argv = arg_list_to_array(program->args);
+	if (ft_strcmp(program->path, "exit") == 0)
+		builtin_exit(data, argv, is_child);
+	else if (ft_strcmp(program->path, "echo") == 0)
+		builtin_echo(data, argv, is_child);
+	else if (ft_strcmp(program->path, "export") == 0)
+		builtin_export(data, argv, is_child);
+	else if (ft_strcmp(program->path, "env") == 0)
+		builtin_env(data, argv, is_child);
+	else if (ft_strcmp(program->path, "unset") == 0)
+		builtin_unset(data, argv, is_child);
+	else if (ft_strcmp(program->path, "cd") == 0)
+		builtin_cd(data, argv, is_child);
+	else if (ft_strcmp(program->path, "pwd") == 0)
+		builtin_pwd(data, argv, is_child);
+	restore_default_fds(std_fd, is_child);
 }

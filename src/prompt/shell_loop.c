@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 02:23:21 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/14 16:41:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_loop(t_minishell *data)
+void	shell_loop(t_data *data)
 {
 	char	*buff;
 
@@ -22,7 +22,7 @@ void	shell_loop(t_minishell *data)
 		trigger_signal(TRUE, &prompt_handler);
 		buff = readline(get_prompt_info(&data->env));
 		if (!buff)
-			builtin_exit(data, 0, FALSE);
+			builtin_exit(data, NULL, FALSE);
 		else if (*buff)
 		{
 			add_history(buff);
@@ -30,8 +30,7 @@ void	shell_loop(t_minishell *data)
 			tokenizer(data, buff);
 			ft_memfree((void *)&buff);
 			lexer(data);
-			if (data->cmd.cmds_amount != 1 || !check_builtin(data, 0, FALSE))
-				execute(data);
+			execute(data, data->programs);
 			print_error_file(data);
 			free_minishell(data);
 		}

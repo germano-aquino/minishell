@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 13:32:37 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/31 13:32:48 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:48:55 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	add_input(t_node **begin, t_node *new)
 	}
 }
 
-int	buff_to_input(t_minishell *data, const char *str, t_token tok)
+int	buff_to_input(t_data *data, char *str, t_token tok)
 {
 	t_node	*input;
 	t_node	**begin;

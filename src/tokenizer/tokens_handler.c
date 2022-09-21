@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:58:31 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 13:19:39 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*handle_single_quote(char *buff, size_t *i)
 	return (str);
 }
 
-static char	*handle_double_quote(t_minishell *data, char *buff, size_t *i)
+static char	*handle_double_quote(t_data *data, char *buff, size_t *i)
 {
 	size_t	begin;
 	char	*str;
@@ -76,7 +76,7 @@ static char	*handle_double_quote(t_minishell *data, char *buff, size_t *i)
 	return (str);
 }
 
-void	handle_parser(t_minishell *data, char *buff, size_t *i)
+void	handle_parser(t_data *data, char *buff, size_t *i)
 {
 	char	*str;
 

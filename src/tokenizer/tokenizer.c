@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 14:04:02 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	handle_token(t_minishell *data, char *buff, size_t *i)
+static void	handle_token(t_data *data, char *buff, size_t *i)
 {
 	if (ft_strncmp((buff + *i), "&&", 2) == 0)
 		*i += buff_to_input(data, "&&", TOK_AND);
@@ -85,7 +85,7 @@ static t_bool	has_unclosed_quotes(char *buff)
 	return (quotes_amount % 2);
 }
 
-void	tokenizer(t_minishell *data, char *buff)
+void	tokenizer(t_data *data, char *buff)
 {
 	size_t	i;
 
