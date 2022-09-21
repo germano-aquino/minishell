@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 20:15:41 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ typedef struct s_program
 	int					pipe_fd[PIPE_SIZE];
 	int					wstatus;
 	pid_t				pid;
-	t_list				*args;
+	t_list				*arguments;
 	t_list				*io_files;
 	t_bool				is_subshell;
 	t_connector			connector;

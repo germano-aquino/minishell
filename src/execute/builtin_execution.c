@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:45 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 03:08:21 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_builtin(t_data *data, t_program *program, t_bool is_child)
 	save_default_fds(std_fd, is_child);
 	if (handle_redirections(data, program, is_child) != 0)
 		return (restore_default_fds(std_fd, is_child));
-	argv = arg_list_to_array(program->args);
+	argv = arg_list_to_array(program->arguments);
 	if (ft_strcmp(program->path, "exit") == 0)
 		builtin_exit(data, argv, is_child);
 	else if (ft_strcmp(program->path, "echo") == 0)

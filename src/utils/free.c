@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 14:15:29 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_programs(t_program **programs)
 	free_programs(&(*programs)->right);
 	free_programs(&(*programs)->left);
 	ft_memfree((void *)&(*programs)->path);
-	ft_lstclear(&(*programs)->args, free);
+	ft_lstclear(&(*programs)->arguments, free);
 	ft_lstclear(&(*programs)->io_files, clear_program_file);
 	ft_memfree((void *)programs);
 }

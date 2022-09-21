@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 16:05:14 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 03:26:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_bool	is_directory(char *path)
 
 t_bool	has_path_error(t_program *program)
 {
-	if (!program->args)
+	if (!program->arguments)
 		return (FALSE);
 	if (!program->path)
 	{
 		program->wstatus = EXIT_NOT_FOUND;
-		return (print_error_msg((char *)program->args->content,
+		return (print_error_msg((char *)program->arguments->content,
 				"command not found"));
 	}
 	if (is_directory(program->path))

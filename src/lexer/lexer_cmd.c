@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 15:45:23 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:24:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,15 @@ static char	*get_cmd_path(t_data *data, char *cmd_base)
 
 void	handle_word_tok(t_data *data, t_program *program, t_node **input)
 {
-	if (!program->args)
+	t_list	*new_argument;
+
+	new_argument = ft_lstnew(ft_strdup((*input)->data));
+	if (!program->arguments)
 	{
 		program->path = get_cmd_path(data, (*input)->data);
-		program->args = ft_lstnew(ft_strdup((*input)->data));
+		program->arguments = new_argument;
 	}
 	else
-		ft_lstadd_back(&program->args, ft_lstnew(ft_strdup((*input)->data)));
+		ft_lstadd_back(&program->arguments, new_argument);
 	(*input) = (*input)->next;
 }
