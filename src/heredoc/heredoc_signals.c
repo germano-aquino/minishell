@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 13:13:52 by maolivei          #+#    #+#             */
-/*   Updated: 2022/08/12 13:31:45 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:19:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	*init_heredoc_signal(void)
 
 	rl_event_hook = event;
 	should_interrupt = heredoc_interruptor(FALSE);
-	trigger_signal(TRUE, &heredoc_handler);
+	trigger_signal(TRUE, heredoc_handler);
 	return (should_interrupt);
 }
