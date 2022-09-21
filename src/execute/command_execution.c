@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 20:45:49 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 13:21:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:19:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execute(t_data *data, t_program *root)
 	if (!root)
 		return ;
 	trigger_signal(FALSE, cmd_handler);
-	if (!root->right && root->type == NORMAL && is_builtin(root->path))
+	if (!root->right && !root->is_subshell && is_builtin(root->path))
 	{
 		exec_builtin(data, root, FALSE);
 		return ;

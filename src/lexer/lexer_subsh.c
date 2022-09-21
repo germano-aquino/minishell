@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:43:05 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 16:41:57 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:12:58 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	handle_subsh_tok(t_data *data, t_program *program, t_node **input)
 		syntax_error(data, (*input));
 	}
 	(*input) = (*input)->next;
-	program->type = SUBSHELL;
+	program->is_subshell = TRUE;
 	program->left = create_program(data, input, TRUE);
 	tmp = program->left;
 	while ((*input) && is_connector_tok((*input)->tok) \

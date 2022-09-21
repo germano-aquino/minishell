@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 00:28:41 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 15:52:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:13:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	child_routine(t_data *data, t_program *program)
 	handle_redirections(data, program, TRUE);
 	if (has_path_error(program))
 		exit_free(data, program->wstatus);
-	if (program->type == SUBSHELL)
+	if (program->is_subshell == TRUE)
 		handle_subshell(data, program);
 	if (is_builtin(program->path))
 		exec_builtin(data, program, TRUE);

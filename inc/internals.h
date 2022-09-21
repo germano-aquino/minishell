@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 15:34:26 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:15:41 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct dirent		t_dirent;		/* Used for wildcards */
 /* Used for identifying parsing tokens */
 typedef enum e_token
 {
-	TOK_WORD,
+	TOK_WORD = TRUE,
 	TOK_PIPE,
 	TOK_AND,
 	TOK_OR,
@@ -118,17 +118,10 @@ typedef enum e_connector
 	OR
 }	t_connector;
 
-/* Used for identifying wether next process is a subshell or not */
-typedef enum e_node_type
-{
-	NORMAL,
-	SUBSHELL
-}	t_node_type;
-
-/* Used for identifying  */
+/* Used for identifying different kinds of redirection */
 typedef enum e_io_type
 {
-	IO_INFILE,
+	IO_INFILE = TRUE,
 	IO_HEREDOC,
 	IO_TRUNC,
 	IO_APPEND
@@ -173,7 +166,7 @@ typedef struct s_program
 	pid_t				pid;
 	t_list				*args;
 	t_list				*io_files;
-	t_node_type			type;
+	t_bool				is_subshell;
 	t_connector			connector;
 	struct s_program	*left;
 	struct s_program	*right;
