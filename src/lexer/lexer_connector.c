@@ -6,17 +6,41 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:46:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 16:35:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:26:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static t_bool	has_syntax_error(t_node **input)
+{
+	if (!(*input)->prev)
+		return (TRUE);
+	else if (!(*input)->next)
+	{
+		if ((*input)->prev)
+			(*input) = (*input)->next;
+		return (TRUE);
+	}
+	else if (((*input)->next->tok == TOK_CLOSE_PARENTHESIS))
+	{
+		if ((*input)->prev)
+			(*input) = (*input)->next;
+		return (TRUE);
+	}
+	else if (is_connector_tok(((*input)->next->tok)))
+	{
+		if ((*input)->prev)
+			(*input) = (*input)->next;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 void	handle_connector(t_data *data, t_program *program, t_node **input)
 {
-	if (!(*input)->prev || !(*input)->next || ((*input)->prev->tok != TOK_WORD \
-	&& !is_parenthesis_tok((*input)->prev->tok)))
-		syntax_error(data, *input);
+	if (has_syntax_error(input))
+		syntax_error(data, (*input));
 	if ((*input)-> tok == TOK_PIPE)
 		program->connector = PIPE;
 	else if ((*input)-> tok == TOK_OR)

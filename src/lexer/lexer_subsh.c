@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:43:05 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 20:12:58 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:17:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 static t_bool	has_syntax_error(t_node **input)
 {
-	if ((*input)->tok == TOK_OPEN_PARENTHESIS && (*input)->prev \
-	&& !is_connector_tok((*input)->prev->tok) \
-	&& (*input)->prev->tok != TOK_OPEN_PARENTHESIS)
-		return (TRUE);
-	if ((*input)->tok == TOK_OPEN_PARENTHESIS && (*input)->next \
-	&& (*input)->next->tok != TOK_WORD \
-	&& (*input)->next->tok != TOK_OPEN_PARENTHESIS)
-		return ((*input) = (*input)->next, TRUE);
-	if ((*input)->tok == TOK_CLOSE_PARENTHESIS && (*input)->next \
-	&& (*input)->next->tok == TOK_WORD \
-	&& !is_parenthesis_tok((*input)->next->tok))
-		return ((*input) = (*input)->next, TRUE);
-	if ((*input)->tok == TOK_CLOSE_PARENTHESIS && (!(*input)->prev \
-	|| ((*input)->prev->tok != TOK_WORD \
-	&& !is_parenthesis_tok((*input)->prev->tok))))
-		return (TRUE);
+	if ((*input)->tok == TOK_OPEN_PARENTHESIS)
+	{
+		if (!(*input)->next)
+			return ((*input) = (*input)->next, TRUE);
+		else if (is_connector_tok((*input)->next->tok))
+			return ((*input) = (*input)->next, TRUE);
+		else if ((*input)->next->tok == TOK_CLOSE_PARENTHESIS)
+			return ((*input) = (*input)->next, TRUE);
+	}
+	else if ((*input)->tok == TOK_CLOSE_PARENTHESIS)
+	{
+		if ((*input)->next && (*input)->next->tok == TOK_WORD)
+			return ((*input) = (*input)->next, TRUE);
+		else if ((*input)->next && (*input)->next->tok == TOK_OPEN_PARENTHESIS)
+		{
+			if ((*input)->prev)
+				(*input) = (*input)->next;
+			return (TRUE);
+		}
+	}
 	return (FALSE);
 }
 

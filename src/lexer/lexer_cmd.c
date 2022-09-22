@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:45:37 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 20:24:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:22:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void	handle_word_tok(t_data *data, t_program *program, t_node **input)
 {
 	t_list	*new_argument;
 
+	if ((*input)->next && (*input)->next->tok == TOK_OPEN_PARENTHESIS)
+	{
+		free_programs(&program);
+		syntax_error(data, (*input)->next);
+	}
 	new_argument = ft_lstnew(ft_strdup((*input)->data));
 	if (!program->arguments)
 	{
