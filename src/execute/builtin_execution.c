@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:45 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ static void	restore_default_fds(int *std_fd, t_bool is_child)
 {
 	if (is_child)
 		return ;
-	dup42(std_fd[IN], STDIN);
-	dup42(std_fd[OUT], STDOUT);
+	dup42(std_fd[READ], STDIN);
+	dup42(std_fd[WRITE], STDOUT);
 }
 
 static void	save_default_fds(int *std_fd, t_bool is_child)
 {
 	if (is_child)
 		return ;
-	std_fd[IN] = dup(STDIN);
-	std_fd[OUT] = dup(STDOUT);
+	std_fd[READ] = dup(STDIN);
+	std_fd[WRITE] = dup(STDOUT);
 }
 
 void	exec_builtin(t_data *data, t_program *program, t_bool is_child)

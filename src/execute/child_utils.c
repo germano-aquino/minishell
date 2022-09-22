@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 01:12:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/22 13:55:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ void	handle_pipes(t_program *previous_program, t_program *program)
 {
 	if (previous_program && previous_program->connector == PIPE)
 	{
-		dup42(previous_program->pipe_fd[IN], STDIN);
-		close(previous_program->pipe_fd[OUT]);
+		dup42(previous_program->pipe_fd[READ], STDIN);
+		close(previous_program->pipe_fd[WRITE]);
 	}
 	if (program->connector == PIPE)
 	{
-		dup42(program->pipe_fd[OUT], STDOUT);
-		close(program->pipe_fd[IN]);
+		dup42(program->pipe_fd[WRITE], STDOUT);
+		close(program->pipe_fd[READ]);
 	}
 }

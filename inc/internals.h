@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/22 13:55:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:15 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@
 # define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */
 
 /* Pipe */
-# define IN 0			/* Pipe read end */
-# define OUT 1			/* Pipe write end */
+# define READ 0			/* Pipe read end */
+# define WRITE 1		/* Pipe write end */
 # define PIPE_SIZE 2	/* Pipe total size */
 
 /* Exit code */

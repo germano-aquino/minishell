@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 01:32:15 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	parent_routine(t_data *data, t_program *program)
 {
 	if (data->previous_program && data->previous_program->connector == PIPE)
 	{
-		close(data->previous_program->pipe_fd[IN]);
-		close(data->previous_program->pipe_fd[OUT]);
+		close(data->previous_program->pipe_fd[READ]);
+		close(data->previous_program->pipe_fd[WRITE]);
 	}
 	if (program->connector == AND || program->connector == OR)
 		wait_conditional_child(program);
