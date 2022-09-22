@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:55:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@
 
 /* Temporary files */
 # define TMP_HEREDOC_PATH "/tmp/mini_heredoc"	/* Heredoc temporary file */
-# define TMP_ERROR_PATH "/tmp/mini_error"		/* STDERR temporary file */
 
 /* Pipe */
 # define IN 0			/* Pipe read end */
@@ -179,7 +178,6 @@ typedef struct s_data
 	t_program		*programs;
 	t_program		*previous_program;
 	t_node			*input;
-	int				fd_err;
 	int				should_wait;
 }	t_data;
 

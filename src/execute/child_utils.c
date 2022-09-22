@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 01:12:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 03:28:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:55:19 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_bool	handle_redirections(t_data *data, t_program *program, t_bool is_child)
 		}
 		io_list = io_list->next;
 	}
-	dup42(data->fd_err, STDERR);
 	return (EXIT_SUCCESS);
 }
 

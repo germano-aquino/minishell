@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 02:23:21 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 20:19:29 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:40:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ void	shell_loop(t_data *data)
 		else if (*buff)
 		{
 			add_history(buff);
-			open_fd_err(data);
 			tokenizer(data, buff);
 			ft_memfree((void *)&buff);
 			lexer(data);
 			execute(data, data->programs);
-			print_error_file(data);
 			free_minishell(data);
 		}
 		ft_memfree((void *)&buff);

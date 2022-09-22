@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 16:35:57 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:52:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ t_bool		filter_is_obj_suffix(char *obj, char *filter);
 
 /* Error handling */
 void		exit_perror(t_data *data, char *cmd, char *perr, int exit_code);
-void		open_fd_err(t_data *data);
-void		close_fd_err(t_data *data);
 void		syntax_error(t_data *data, t_node *input);
-void		print_error_file(t_data *data);
 t_bool		print_error_msg(char *cmd, char *msg);
 t_bool		print_perror_msg(char *cmd, char *perror_msg);
 

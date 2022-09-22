@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:26:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static void	numeric_argument_required(t_data *data, char **argv)
 	ft_putstr_fd("minishell: exit: ", STDERR);
 	ft_putstr_fd(argv[1], STDERR);
 	ft_putendl_fd(": numeric argument required", STDERR);
-	print_error_file(data);
-	close(data->fd_err);
 	exit_free(data, EXIT_BAD_USAGE);
 }
 

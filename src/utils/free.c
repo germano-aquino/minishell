@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 00:16:50 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 20:22:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:39:59 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,7 @@ void	exit_free(t_data *data, int exit_code)
 	free_programs(&data->programs);
 	free_input(&data->input);
 	ht_free(&data->env);
-	close(data->fd_err);
 	exit(exit_code);
-}
-
-void	close_fd_err(t_data *data)
-{
-	dup2(data->fd_err, STDERR);
-	close(data->fd_err);
-	if (!access(TMP_ERROR_PATH, F_OK))
-		unlink(TMP_ERROR_PATH);
 }
 
 void	clear_program_file(void *content)
@@ -57,5 +48,4 @@ void	free_minishell(t_data *data)
 	data->previous_program = NULL;
 	free_programs(&data->programs);
 	free_input(&data->input);
-	close_fd_err(data);
 }
