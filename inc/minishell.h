@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/22 13:52:49 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:00:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_bool		print_error_msg(char *cmd, char *msg);
 t_bool		print_perror_msg(char *cmd, char *perror_msg);
 
 /* Utils */
-int			get_connectors_amount(t_node *input);
 void		initialize_minishell(t_data *data);
 void		dup42(int fd_1, int fd_2);
 t_bool		is_number_str(const char *str);

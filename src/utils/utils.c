@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 01:33:45 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/16 13:37:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 14:00:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,4 @@ t_bool	is_word_str(const char *str)
 		index++;
 	}
 	return (TRUE);
-}
-
-int	get_connectors_amount(t_node *input)
-{
-	int	connectors_amount;
-
-	connectors_amount = 0;
-	while (input)
-	{
-		if (is_connector_tok(input->tok))
-			++connectors_amount;
-		input = input->next;
-	}
-	return (connectors_amount);
 }
