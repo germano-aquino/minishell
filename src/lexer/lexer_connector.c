@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_connector.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:46:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 21:26:52 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 05:54:41 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_bool	has_syntax_error(t_node **input)
 			(*input) = (*input)->next;
 		return (TRUE);
 	}
-	else if (((*input)->next->tok == TOK_CLOSE_PARENTHESIS))
+	else if ((*input)->next->tok == TOK_CLOSE_PARENTHESIS)
 	{
 		if ((*input)->prev)
 			(*input) = (*input)->next;
