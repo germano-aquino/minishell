@@ -6,14 +6,14 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/22 13:57:15 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:34:58 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INTERNALS_H
 # define INTERNALS_H
 
-# include "../libft/libft.h" /* libft, ft_* */
+# include "../libft/includes/libft.h" /* libft, ft_* */
 
 /* External libraries */
 /* access, chdir, close, dup2, dup, execve, exit, fork, pipe, read, unlink */
