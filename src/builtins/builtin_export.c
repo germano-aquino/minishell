@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 20:18:10 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 03:01:43 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:46:05 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ static void	display_export(t_hash_table *table)
 
 static void	invalid_identifier(char *key)
 {
-	ft_putstr_fd("minishell: export: `", STDERR);
-	ft_putstr_fd(key, STDERR);
-	ft_putendl_fd("': not a valid identifier", STDERR);
+	ft_dprintf(STDERR, "minishell: export `%s': not a valid identifier\n", key);
 	g_exit_value = EXIT_FAILURE;
 }
 

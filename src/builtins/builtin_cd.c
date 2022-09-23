@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 09:29:02 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:49:50 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 static void	cd_error(t_data *data, t_bool is_child, char *msg, char *dir)
 {
-	ft_putstr_fd("minishell: cd: ", STDERR);
 	if (msg)
-		ft_putendl_fd(msg, STDERR);
+		ft_dprintf(STDERR, "minishell: cd: %s\n", msg);
 	else
-		perror(dir);
+		ft_dprintf(STDERR, "minishell: cd: %s: %s\n", dir, strerror(errno));
 	set_exit_value(data, is_child, EXIT_FAILURE);
 }
 

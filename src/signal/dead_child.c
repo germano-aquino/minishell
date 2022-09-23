@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:45:15 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/22 21:47:14 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:44:52 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	handle_dead_child(t_program *program, pid_t process_id, int status)
 		sig = WTERMSIG(status);
 		description = get_signal_description(sig);
 		if (description)
-			ft_putstr_fd(description, STDERR);
+			ft_dprintf(STDERR, description);
 		if (WCOREDUMP(status))
-			ft_putstr_fd(" (core dumped)", STDERR);
+			ft_dprintf(STDERR, " (core dumped)");
 		if (description != NULL)
-			ft_putendl_fd("", STDERR);
+			ft_dprintf(STDERR, "\n");
 		set_child_wstatus(program, process_id, (sig + EXIT_OFFSET));
 	}
 	else

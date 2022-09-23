@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 20:47:52 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/12 15:56:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:43:49 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	heredoc_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_exit_value = EXIT_SIGINT;
-		ft_putendl_fd("", STDERR);
+		ft_dprintf(STDERR, "\n");
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
 		heredoc_interruptor(TRUE);
@@ -38,7 +38,7 @@ void	cmd_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_exit_value = EXIT_SIGINT;
-		ft_putendl_fd("", STDERR);
+		ft_dprintf(STDERR, "\n");
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
 	}
@@ -56,7 +56,7 @@ void	prompt_handler(int sig, t_hash_table *env)
 	if (sig == SIGINT)
 	{
 		g_exit_value = EXIT_SIGINT;
-		ft_putendl_fd("", STDERR);
+		ft_dprintf(STDERR, "\n");
 		rl_replace_line("", TRUE);
 		rl_on_new_line();
 		rl_set_prompt(get_prompt_info(env_reference));

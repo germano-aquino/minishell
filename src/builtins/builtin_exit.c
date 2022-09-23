@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:20:53 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/22 13:26:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:48:06 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,15 @@ static t_bool	out_llong_range(char *str)
 
 static void	too_many_arguments(t_data *data, char **argv, t_bool is_child)
 {
-	ft_putendl_fd("minishell: exit: too many arguments", STDERR);
+	ft_dprintf(STDERR, "minishell: exit: too many arguments\n");
 	ft_free_matrix((void *)&argv);
 	set_exit_value(data, is_child, EXIT_FAILURE);
 }
 
 static void	numeric_argument_required(t_data *data, char **argv)
 {
-	ft_putstr_fd("minishell: exit: ", STDERR);
-	ft_putstr_fd(argv[1], STDERR);
-	ft_putendl_fd(": numeric argument required", STDERR);
+	ft_dprintf(STDERR, "minishell: exit: %s: numeric argument required\n", \
+	argv[1]);
 	exit_free(data, EXIT_BAD_USAGE);
 }
 
