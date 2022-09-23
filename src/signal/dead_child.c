@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:45:15 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/21 01:23:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/22 21:47:14 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 static char	*get_signal_description(int sig)
 {
-	char		*description;
 	static char	*descriptions[EXIT_OFFSET] = {
-	[SIGILL] = "Illegal instruction",
-	[SIGABRT] = "Abort",
-	[SIGSEGV] = "Segmentation fault",
-	[SIGTERM] = "Terminated",
 	[SIGHUP] = "Hangup",
 	[SIGQUIT] = "Quit",
+	[SIGILL] = "Illegal instruction",
+	[SIGTRAP] = "Trace/breakpoint trap",
+	[SIGABRT] = "Aborted",
+	[SIGFPE] = "Floating point exception",
 	[SIGKILL] = "Killed",
+	[SIGSEGV] = "Segmentation fault",
 	[SIGALRM] = "Alarm clock",
+	[SIGTERM] = "Terminated",
 	};
 
-	description = descriptions[sig];
-	return (description);
+	return (descriptions[sig]);
 }
 
 void	handle_dead_child(t_program *program, pid_t process_id, int status)
@@ -40,11 +40,11 @@ void	handle_dead_child(t_program *program, pid_t process_id, int status)
 		sig = WTERMSIG(status);
 		description = get_signal_description(sig);
 		if (description)
-			printf("%s", description);
+			ft_putstr_fd(description, STDERR);
 		if (WCOREDUMP(status))
-			printf(" (core dumped)");
+			ft_putstr_fd(" (core dumped)", STDERR);
 		if (description != NULL)
-			printf("\n");
+			ft_putendl_fd("", STDERR);
 		set_child_wstatus(program, process_id, (sig + EXIT_OFFSET));
 	}
 	else
