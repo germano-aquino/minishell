@@ -6,38 +6,35 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:16:36 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/17 02:26:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:33:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#define DFL_PROMPT "%s%s%s@%s%s%s \001📁\002 %s%s \001✓\002 %s"
+#define ERR_PROMPT "%s%s%s@%s%s%s \001📁\002 %s%s %d \001✗\002 %s"
+
 static char	*build_prompt(char *user, char *hostname, char *pwd)
 {
 	static char	prompt[PROMPT_MAX_LENGTH];
+	int			asprintf_return;
 	char		*aux;
 
-	aux = ft_strdup(MAGENTA);
-	aux = ft_strjoin_free(aux, user);
-	aux = ft_strjoin_free(aux, ft_strdup(CYAN "@"));
-	aux = ft_strjoin_free(aux, ft_strdup(MAGENTA));
-	aux = ft_strjoin_free(aux, hostname);
-	aux = ft_strjoin_free(aux, ft_strdup(CYAN " \001📁\002 "));
-	aux = ft_strjoin_free(aux, pwd);
 	if (g_exit_value == 0)
-		aux = ft_strjoin_free(aux, ft_strdup(GREEN " \001✓\002 "));
+		asprintf_return = ft_asprintf(&aux, DFL_PROMPT, \
+		PINK, user, CYAN, PINK, hostname, CYAN, pwd, GREEN, RESET);
 	else
-	{
-		aux = ft_strjoin_free(aux, ft_strdup(RED " "));
-		aux = ft_strjoin_free(aux, ft_itoa(g_exit_value));
-		aux = ft_strjoin_free(aux, ft_strdup(" \001✗\002 "));
-	}
-	aux = ft_strjoin_free(aux, ft_strdup(RESET));
-	if (!aux || ft_strlen(aux) >= PROMPT_MAX_LENGTH)
+		asprintf_return = ft_asprintf(&aux, ERR_PROMPT, \
+		PINK, user, CYAN, PINK, hostname, CYAN, pwd, RED, g_exit_value, RESET);
+	if (asprintf_return < 0 || ft_strlen(aux) >= PROMPT_MAX_LENGTH)
 		ft_strlcpy(prompt, "[unable to generate prompt]$> ", 32);
 	else
 		ft_strlcpy(prompt, aux, (ft_strlen(aux) + 1));
 	ft_memfree((void *)&aux);
+	ft_memfree((void *)&user);
+	ft_memfree((void *)&hostname);
+	ft_memfree((void *)&pwd);
 	return (prompt);
 }
 
@@ -66,12 +63,11 @@ static char	*get_hostname_prompt(void)
 
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd < 0)
-		return (ft_strdup("(unknown"));
-	hostname = ft_gnl(fd);
+		return (ft_strdup("(unknown)"));
+	hostname = ft_gnl(fd, FALSE);
 	close(fd);
 	if (!hostname)
-		return (ft_strdup("(unknown"));
-	hostname = ft_strtrim_free(&hostname, "\n");
+		return (ft_strdup("(unknown)"));
 	return (hostname);
 }
 

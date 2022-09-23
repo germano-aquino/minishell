@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 03:34:58 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/23 03:37:12 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@
 # define RESET		"\001\x1b[0m\002"	/* ANSI code for reseting colors */
 # define RED		"\001\x1b[31m\002"	/* ANSI color code for red */
 # define GREEN		"\001\x1b[32m\002"	/* ANSI color code for green */
-# define MAGENTA	"\001\x1b[35m\002"	/* ANSI color code for magenta */
+# define PINK		"\001\x1b[35m\002"	/* ANSI color code for pink */
 # define CYAN		"\001\x1b[36m\002"	/* ANSI color code for cyan */
 
 # define PROMPT_MAX_LENGTH 4096	/* Max length allowed for custom prompt */
