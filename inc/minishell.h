@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:31:51 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/22 14:00:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:48:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int			minishell(char **envp);
 void		shell_loop(t_data *data);
 void		redisplay_prompt(t_data *data, char *msg, char *buff, int status);
 char		*get_prompt_info(t_hash_table *env);
+char		*exit_value_to_string(int status);
 
 /* Input */
 int			buff_to_input(t_data *data, char *str, t_token tok);

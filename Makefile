@@ -6,7 +6,7 @@
 #    By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/09/21 15:47:36 by maolivei         ###   ########.fr        #
+#    Updated: 2022/09/25 18:48:42 by maolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SOURCE_FILES		+= buff_to_input.c input.c input_utils.c
 SOURCE_FILES		+= lexer.c lexer_cmd.c lexer_io.c lexer_subsh.c
 SOURCE_FILES		+= lexer_connector.c create_program.c
 SOURCE_FILES		+= minishell.c prompt.c redisplay.c shell_loop.c
+SOURCE_FILES		+= exit_value_to_string.c
 SOURCE_FILES		+= dead_child.c signal.c
 SOURCE_FILES		+= dollar_handler.c tokenizer.c tokens_handler.c
 SOURCE_FILES		+= wildcard_dir_objs.c wildcard_handler.c

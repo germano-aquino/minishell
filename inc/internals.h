@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:54:38 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 03:37:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:44:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,21 @@
 # define HASH_LEFT_OFFSET 4			/* Left bit-shifting offset */
 # define HASH_LIMITER 0xf0000000	/* Hashing limiter */
 
-/* Colors */
-# define RESET		"\001\x1b[0m\002"	/* ANSI code for reseting colors */
+/* Colors and prompt formatting */
+# define RESET		"\001\x1b[0m\002"	/* ANSI code for resetting colors */
 # define RED		"\001\x1b[31m\002"	/* ANSI color code for red */
 # define GREEN		"\001\x1b[32m\002"	/* ANSI color code for green */
 # define PINK		"\001\x1b[35m\002"	/* ANSI color code for pink */
 # define CYAN		"\001\x1b[36m\002"	/* ANSI color code for cyan */
 
 # define PROMPT_MAX_LENGTH 4096	/* Max length allowed for custom prompt */
+# define DFL_PROMPT "%s%s%s@%s%s%s \001📁\002 %s%s"
+# define DESCRIPTIONS "\
+HUP INT QUIT ILL TRAP ABRT BUS FPE KILL USR1 SEGV USR2 \
+PIPE ALRM TERM STKFLT CHLD CONT STOP TSTP TTIN TTOU URG \
+XCPU XFSZ VTALRM PROF WINCH POLL PWR SYS ZERR DEBUG"
+# define STATUS_MIN 129
+# define STATUS_MAX 161
 
 extern int					g_exit_value;	/* Global exit code variable */
 
