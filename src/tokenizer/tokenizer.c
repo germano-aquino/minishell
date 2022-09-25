@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 22:08:30 by grenato-          #+#    #+#             */
-/*   Updated: 2022/09/21 02:48:59 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:39:41 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	handle_token(t_data *data, char *buff, size_t *i)
 	else if (ft_strncmp((buff + *i), ")", 1) == 0)
 		*i += buff_to_input(data, ")", TOK_CLOSE_PARENTHESIS);
 	else if (ft_strncmp((buff + *i), "&", 1) == 0)
-		redisplay_prompt(data, "unrecognized token `&'", NULL, EXIT_BAD_USAGE);
+		redisplay_prompt(data, "unrecognized token `&'", buff, EXIT_BAD_USAGE);
 }
 
 static t_bool	has_unclosed_parenthesis(char *buff)
