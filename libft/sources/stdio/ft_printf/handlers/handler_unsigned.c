@@ -6,50 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 18:18:07 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:27:46 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	handle_zero(t_flags *flags)
-{
-	if (flags->str[0] == '0')
-	{
-		free(flags->str);
-		flags->str = ft_strdup("");
-		flags->str_len = 0;
-	}
-	return (flags->precision);
-}
-
-static int	fill_precision(t_flags *flags)
-{
-	int		i;
-	int		str_len;
-	char	*new_str;
-
-	if (flags->precision == 0)
-		return (handle_zero(flags));
-	str_len = ft_strlen(flags->str);
-	if (str_len >= flags->precision)
-		return (str_len);
-	new_str = (char *)malloc(sizeof(char) * (flags->precision + 1));
-	if (new_str)
-		return (-1);
-	i = 0;
-	new_str[flags->precision] = '\0';
-	while (i < (flags->precision - str_len))
-		new_str[i++] = '0';
-	new_str[i] = '\0';
-	ft_strlcat(new_str, flags->str, (flags->precision + 1));
-	free(flags->str);
-	flags->str = new_str;
-	flags->str_len = flags->precision;
-	return (flags->precision);
-}
-
-int	print_intu(t_flags *flags)
+int	handle_flags_unsigned(t_flags *flags)
 {
 	if (flags->has_precision)
 		fill_precision(flags);
@@ -66,5 +29,5 @@ void	handle_unsigned(t_flags *flags, va_list ap)
 		flags->zero = 0;
 	flags->str = ft_utoa(va_arg(ap, int));
 	flags->str_len = ft_strlen(flags->str);
-	print_intu(flags);
+	handle_flags_unsigned(flags);
 }

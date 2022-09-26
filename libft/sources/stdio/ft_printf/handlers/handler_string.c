@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 22:36:21 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:38:21 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	handle_flags(t_flags *flags)
+static int	handle_string_flags(t_flags *flags)
 {
 	if (flags->str_len < flags->width)
 		if (fill_width(flags) < 0)
@@ -33,5 +33,5 @@ void	handle_string(t_flags *flags, va_list ap)
 	else
 		flags->str = ft_strdup(str_param);
 	flags->str_len = ft_strlen(flags->str);
-	handle_flags(flags);
+	handle_string_flags(flags);
 }

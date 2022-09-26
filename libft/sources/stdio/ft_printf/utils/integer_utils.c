@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   int_utils.c                                        :+:      :+:    :+:   */
+/*   integer_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:42:26 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:27:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	handle_zero(t_flags *flags)
+int	handle_zero(t_flags *flags)
 {
 	if (flags->str[0] == '0')
 	{
@@ -23,7 +23,7 @@ static int	handle_zero(t_flags *flags)
 	return (flags->precision);
 }
 
-int	fill_precision(t_flags *flags)
+int	fill_int_precision(t_flags *flags)
 {
 	int		i;
 	int		str_len;
@@ -92,10 +92,10 @@ void	prefix_positive(t_flags *flags)
 	free(tmp);
 }
 
-int	handle_flags_int(t_flags *flags)
+int	handle_flags_integer(t_flags *flags)
 {
 	if (flags->has_precision)
-		if (fill_precision(flags) < 0)
+		if (fill_int_precision(flags) < 0)
 			return (-1);
 	if ((flags->plus || flags->space) && flags->str[0] != '-')
 		prefix_positive(flags);

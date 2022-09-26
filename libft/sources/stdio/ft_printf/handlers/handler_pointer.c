@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 22:57:31 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:38:05 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*get_pointer_address(size_t number)
 	return (address);
 }
 
-static int	handle_flags(t_flags *flags)
+static int	handle_pointer_flags(t_flags *flags)
 {
 	if (flags->str_len < flags->width)
 		if (fill_width(flags) < 0)
@@ -41,6 +41,6 @@ void	handle_pointer(t_flags *flags, va_list ap)
 	flags->specifier = POINTER;
 	flags->str = get_pointer_address(va_arg(ap, size_t));
 	flags->str_len = ft_strlen(flags->str);
-	if (handle_flags(flags) < 0)
+	if (handle_pointer_flags(flags) < 0)
 		flags->has_error = TRUE;
 }

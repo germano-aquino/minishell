@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:43:19 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 02:50:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:08:44 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # include "ft_internals.h"
-# include "libftprintf.h"
+# include "ft_printf.h"
 
 /******************************************************************************/
 /*                                                                            */

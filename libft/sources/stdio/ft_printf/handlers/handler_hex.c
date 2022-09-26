@@ -6,48 +6,11 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 23:30:59 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:37:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	handle_zero(t_flags *flags)
-{
-	if (flags->str[0] == '0')
-	{
-		free(flags->str);
-		flags->str = ft_strdup("");
-		flags->str_len = 0;
-	}
-	return (flags->precision);
-}
-
-static int	fill_precision(t_flags *flags)
-{
-	int		i;
-	int		str_len;
-	char	*new_str;
-
-	if (flags->precision == 0)
-		return (handle_zero(flags));
-	str_len = ft_strlen(flags->str);
-	if (str_len >= flags->precision)
-		return (str_len);
-	new_str = (char *)malloc(sizeof(char) * (flags->precision + 1));
-	if (!new_str)
-		return (-1);
-	i = 0;
-	new_str[flags->precision] = '\0';
-	while (i < (flags->precision - str_len))
-		new_str[i++] = '0';
-	new_str[i] = '\0';
-	ft_strlcat(new_str, flags->str, (flags->precision + 1));
-	free(flags->str);
-	flags->str = new_str;
-	flags->str_len = flags->precision;
-	return (flags->precision);
-}
 
 static int	fill_hex_width(t_flags *flags)
 {
@@ -77,7 +40,7 @@ static int	fill_hex_width(t_flags *flags)
 	return (1);
 }
 
-static int	handle_flags(t_flags *flags)
+static int	handle_hex_flags(t_flags *flags)
 {
 	char	*tmp;
 
@@ -108,6 +71,6 @@ void	handle_hex(t_flags *flags, va_list ap)
 		flags->hash = 0;
 	flags->str = ft_itoa_base(number, HEX_BASE);
 	flags->str_len = ft_strlen(flags->str);
-	if (handle_flags(flags) < 0)
+	if (handle_hex_flags(flags) < 0)
 		flags->has_error = TRUE;
 }

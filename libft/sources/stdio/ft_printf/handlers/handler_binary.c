@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 23:53:02 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:24:11 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	handle_binary(t_flags *flags, va_list ap)
 		flags->hash = 0;
 	flags->str = ft_itoa_base(number, BINARY_BASE);
 	flags->str_len = ft_strlen(flags->str);
-	handle_flags_int(flags);
+	handle_flags_integer(flags);
 }

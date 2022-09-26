@@ -2,7 +2,7 @@ NAME				:= libft.a
 SO					:= $(NAME:.a=.so)
 
 HEADER_PATH			:= ./includes
-HEADER_FILES		:= libft.h ft_internals.h libftprintf.h
+HEADER_FILES		:= libft.h ft_internals.h ft_printf.h
 
 PRINTF_DIRS			:= core handlers utils
 PRINTF_PATH			:= $(addprefix stdio/ft_printf/, $(PRINTF_DIRS))
@@ -12,7 +12,7 @@ PRINTF_FILES		+= ft_snprintf.c ft_sprintf.c handler_percentage.c
 PRINTF_FILES		+= handler_unsigned.c handler_integer.c handler_char.c
 PRINTF_FILES		+= handler_hex_upper.c handler_hex.c handler_pointer.c
 PRINTF_FILES		+= handler_string.c handler_binary.c specifiers.c
-PRINTF_FILES		+= int_utils.c output.c parsers.c
+PRINTF_FILES		+= integer_utils.c unsigned_utils.c output.c parsers.c
 
 SOURCE_DIRS			:= ctype string stdio stdlib
 SOURCE_DIRS			+= custom non_standard linked_list hash_table

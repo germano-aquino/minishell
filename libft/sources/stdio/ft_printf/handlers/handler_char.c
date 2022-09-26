@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 22:52:39 by maolivei          #+#    #+#             */
-/*   Updated: 2022/09/23 00:29:47 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:37:01 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	fill_char_width(t_flags *flags)
 	return (1);
 }
 
-static int	handle_flags(t_flags *flags)
+static int	handle_char_flags(t_flags *flags)
 {
 	flags->str_len = 1;
 	if (flags->width > 1)
@@ -61,6 +61,6 @@ void	handle_char(t_flags *flags, va_list ap)
 {
 	flags->specifier = CHAR;
 	flags->str = char_to_str(va_arg(ap, int));
-	if (handle_flags(flags) < 0)
+	if (handle_char_flags(flags) < 0)
 		flags->has_error = TRUE;
 }
